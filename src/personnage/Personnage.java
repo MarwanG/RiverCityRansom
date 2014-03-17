@@ -1,6 +1,6 @@
 package personnage;
 
-public class Personnage {
+public class Personnage implements PersonnageI {
 	
 	private String nom;
 	private int largeur;
