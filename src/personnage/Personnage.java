@@ -72,25 +72,65 @@ public class Personnage implements PersonnageI {
 	public boolean equiped(){
 		return (this.object != null);
 	}
-	
+
+
 	public String getNom() {
 		return nom;
 	}
+
+
+	public void setNom(String nom) {
+		this.nom = nom;
+	}
+
+
 	public int getLargeur() {
 		return largeur;
 	}
+
+
+	public void setLargeur(int largeur) {
+		this.largeur = largeur;
+	}
+
+
 	public int getHauter() {
 		return hauter;
 	}
+
+
+	public void setHauter(int hauter) {
+		this.hauter = hauter;
+	}
+
+
 	public int getProfonder() {
 		return profonder;
 	}
+
+
+	public void setProfonder(int profonder) {
+		this.profonder = profonder;
+	}
+
+
 	public int getForce() {
 		return force;
 	}
 
+
+	public void setForce(int force) {
+		this.force = force;
+	}
+
+
 	public int getHp() {
 		return hp;
+	}
+
+
+	public void setHp(int hp) {
+		this.hp = hp;
 	}
 
 
@@ -99,13 +139,31 @@ public class Personnage implements PersonnageI {
 	}
 
 
+	public void setMoney(int money) {
+		this.money = money;
+	}
+
+
 	public boolean isAlive() {
 		return alive;
 	}
 
+
+	public void setAlive(boolean alive) {
+		this.alive = alive;
+	}
+
+
 	public Object getObject() {
 		return object;
 	}
+
+
+	public void setObject(Object object) {
+		this.object = object;
+	}
+	
+	
 	
 	
 	
