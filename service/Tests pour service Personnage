@@ -1,0 +1,86 @@
+Tests pour service Personnage
+
+Tests pour l'init
+
+Test: 	p = init("m",10,10,10,10)
+oracle:	nom(p) = "m"
+		largeur(p) = 10
+		hauter(p) = 10
+		profonder(p) = 10
+		force(p) = 10
+		hp(p) = ?? /SHOULD FIX A CONSTANT
+		money(p) = 0
+		alive(p) = true
+		equiped(p) = false
+		object?(p) = null
+
+
+Test: p = init("",10,10,10,10)
+oracle: p = null
+
+Test: p = init("m",10,10,10,-1)
+oracle: p = null
+
+
+Test pour le depotsHP
+
+Intial: p = init("m",10,10,10,10)
+Test: p1 = depotsHP(p,10)
+oracle: hp(p1) = hp(p) + 10
+
+
+Intial: p = init("m",10,10,10,10)
+Test: p1 = depotsHP(p,-10)
+oracle: hp(p1) != hp(p) + 10
+
+Test pour le retraitHP
+
+
+Intial: p = init("m",10,10,10,10)
+Test: p1 = retraitHP(p,10)
+oracle: hp(p1) = hp(p) - 10
+
+
+Intial: p = init("m",10,10,10,10)
+Test: p1 = retraitHP(p,-10)
+oracle: hp(p1) != hp(p) - 10
+
+Test pour le depotMoney
+
+Intial: p = init("m",10,10,10,10)
+Test: p1 = depotMoney(p,10)
+oracle: money(p1) = money(p) + 10
+
+
+Intial: p = init("m",10,10,10,10)
+Test: p1 = depotMoney(p,-10)
+oracle: money(p1) != money(p) - 10
+
+
+Test pour le retraitMoney
+
+Intial: p = init("m",10,10,10,10)
+Test: p1 = retraitMoney(p,10)
+oracle: money(p1) = money(p) + 10
+
+
+Intial: p = init("m",10,10,10,10)
+Test: p1 = retraitMoney(p,-10)
+oracle: money(p1) != money(p) - 10
+
+
+Test pour le jeter
+Intial: p = init("m",10,10,10,10)
+		rammaser(p,obj)
+Test: p = jeter(p)
+oracle: object?(p) = null
+
+//NOT SURE FOR A NEGITIVE 
+
+
+Test pour le rammaser
+Intial: p = init("m",10,10,10,10)
+Test: p = rammaser(p,obj)
+oracle: object?(p) = obj
+
+
