@@ -3,58 +3,62 @@
 ## types : String,int,boolean 
 ## observators:
 	- const nom: [Personnage] -> String
-	- const largeur: [Personnage] -> int
-	- const hauteur: [Personnage] -> int
-	- const profonder: [Personnage] -> int
+	- const width: [Personnage] -> int
+	- const height: [Personnage] -> int
+	- const depth: [Personnage] -> int
 	- const force: [Personnage] -> int
 	- hp:[Personnage] -> int
 	- money:[Personnage] -> int
-	- alive:[Personnage] -> boolean
-	- equiped:[Personnage] -> boolean
-	- object?:[Personnage] -> Object
-	
+	- youDeadMan:[Personnage] -> boolean
+	- isEquiped:[Personnage] -> boolean
+	- getObject:[Personnage] -> Object
+	- leftPocket: [Personnage] -> Object
+	- rightPocket: [Personnage] -> Object
+
 ##Constructors:
 	init: String * int * int * int * int -> Personnage
-	 pre init(nom,largeur,hauter,profondeur,force) require nom != "" AND force > 0
+	 pre init(nom,width,height,depth,force) require nom != "" AND force > 0
 	Operators:
-		depotsHP: [Personnage] * int -> Personnage
-			pre depotsHP(P,s) require s > 0 & alive(P)
-		retraitHP: [Personnage] * int -> Personnage
-			pre retraitHP(P,s) require s> 0 & alive(P)
-		depotMoney: [Personnage] * int -> Personnage
-			pre depotMoney(P,s) require s>0 & alive(P)
-		retraitMoney: [Personnage] * int -> Personnage
-			pre depoitMoney(P,s) require s>0 & money(p)-s >= 0 & alive(p)
-		jeter: [Personnage] -> Personnage
-			pre jeter(p) require !equiped(p)
-		rammaser: [Personnage] * Object -> Personnage
+		addHp: [Personnage] * int -> Personnage
+			pre addHp(P,s) require s > 0 & !youDeadMan(P)
+		removeHp: [Personnage] * int -> Personnage
+			pre removeHp(P,s) require s> 0 & !youDeadMan(P)
+		addMoney: [Personnage] * int -> Personnage
+			pre addMoney(P,s) require s>0 & !youDeadMan(P)
+		removeMoney: [Personnage] * int -> Personnage
+			pre removeMoney(P,s) require s>0 & money(p)-s >= 0 & !youDeadMan(p)
+		throw: [Personnage] -> Personnage
+			pre throw(p) require isEquiped(p)
+		pickUp: [Personnage] * Object -> Personnage
+
+
+
 ##Observation:
 	[invariant]
-		alive(p) min= hp(p) > 0
-		equiped(p) min= object?(p) != null
+		youDeadMan(p) min= hp(p) <= 0
+		isEquiped(p) min= getObject(p) != null
 	[init]
 		nom(init(n,l,h,p,f))=n
-		larguer(init(n,l,h,p,f))=l
-		hauter(init(n,l,h,p,f))=h
-		profonder(init(n,l,h,p,f))=p
+		width(init(n,l,h,p,f))=l
+		height(init(n,l,h,p,f))=h
+		depth(init(n,l,h,p,f))=p
 		force(init(n,l,h,p,f))=f
 		hp(init(n,l,h,p,f))=100
 		money(init(n,l,h,p,f))=0
-		equiped(init(n,l,h,p,f))=false
-		object?(init(n,l,h,p,f))=null
-	[depotsHP]
-		hp(depotsHP(p,s))=hp(p)+s
-	[retraitHP]
-		hp(retraitHP(p,s))=hp(p)-s
-	[depotMoney]
-		money(depotMoney(p,s))=money(p)+s
-	[retraitMoney]
-		money(retraitMoney(p,s))=money(p)-s
-	[jeter]
-		equiped(jeter(p))=false
-	[rammaser]
-		equiped(rammaser(p,o))=true
-		object?(rammaser(p,o))=o
-
+		isEquiped(init(n,l,h,p,f))=false
+		getObject(init(n,l,h,p,f))=null
+	[addHp]
+		hp(addHp(p,s))=hp(p)+s
+	[removeHp]
+		hp(removeHp(p,s))=min(hp(p)-s,0)
+	[addMoney]
+		money(addMoney(p,s))=money(p)+s
+	[removeMoney]
+		money(removeMoney(p,s))=min(money(p)-s,0)
+	[throw]
+		isEquiped(throw(p))=false
+	[pickUp]
+		isEquiped(pickUp(p,o))=true
+		getObject(pickUp(p,o))=o
 
 	

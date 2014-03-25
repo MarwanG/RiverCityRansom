@@ -4,15 +4,17 @@ Tests pour l'init
 
 Test: 	p = init("m",10,10,10,10)
 oracle:	nom(p) = "m"
-		largeur(p) = 10
-		hauter(p) = 10
-		profonder(p) = 10
+		width(p) = 10
+		height(p) = 10
+		depth(p) = 10
 		force(p) = 10
 		hp(p) = ?? /SHOULD FIX A CONSTANT
 		money(p) = 0
-		alive(p) = true
-		equiped(p) = false
+		youDeadMan(p) = true
+		isEquiped(p) = false
 		object?(p) = null
+		leftPocket(p) = null
+		rightPocket(p) = null
 
 
 Test: p = init("",10,10,10,10)
@@ -21,66 +23,75 @@ oracle: p = null
 Test: p = init("m",10,10,10,-1)
 oracle: p = null
 
+Test: p = init("",10,10,10,-1)
+oracle: p = null
 
-Test pour le depotsHP
 
-Intial: p = init("m",10,10,10,10)
-Test: p1 = depotsHP(p,10)
+Test pour le addHP
+
+Initial: p = init("m",10,10,10,10)
+Test: p1 = addHP(p,10)
 oracle: hp(p1) = hp(p) + 10
 
 
-Intial: p = init("m",10,10,10,10)
-Test: p1 = depotsHP(p,-10)
-oracle: hp(p1) != hp(p) + 10
+Initial: p = init("m",10,10,10,10)
+Test: p1 = addHP(p,-10)
+oracle: hp(p1) throws exception
 
-Test pour le retraitHP
+Test pour le removeHP
 
 
-Intial: p = init("m",10,10,10,10)
-Test: p1 = retraitHP(p,10)
+Initial: p = init("m",10,10,10,10)
+Test: p1 = removeHP(p,10)
 oracle: hp(p1) = hp(p) - 10
 
 
-Intial: p = init("m",10,10,10,10)
-Test: p1 = retraitHP(p,-10)
-oracle: hp(p1) != hp(p) - 10
+Initial: p = init("m",10,10,10,10)
+Test: p1 = removeHP(p,-10)
+oracle: hp(p1) throws exception
 
-Test pour le depotMoney
+Test pour le addMoney
 
-Intial: p = init("m",10,10,10,10)
-Test: p1 = depotMoney(p,10)
+Initial: p = init("m",10,10,10,10)
+Test: p1 = addMoney(p,10)
 oracle: money(p1) = money(p) + 10
 
+Initial: p = init("m",10,10,10,10)
+Test: p1 = addMoney(p,-10)
+oracle: throws exception
 
-Intial: p = init("m",10,10,10,10)
-Test: p1 = depotMoney(p,-10)
-oracle: money(p1) != money(p) - 10
+Test pour le pickUp
 
-
-Test pour le retraitMoney
-
-Intial: p = init("m",10,10,10,10)
-Test: p1 = retraitMoney(p,10)
-oracle: money(p1) = money(p) + 10
+Initial: p = init("m",10,10,10,10)
+Test: p = pickUp(p,obj)
+oracle: object?(p) = obj
 
 
-Intial: p = init("m",10,10,10,10)
-Test: p1 = retraitMoney(p,-10)
-oracle: money(p1) != money(p) - 10
+Test pour le removeMoney
+
+Initial: p = init("m",10,10,10,10)
+Test: p1 = removeMoney(p,10)
+oracle: money(p1) = Min(money(p) - 10),0)
 
 
-Test pour le jeter
-Intial: p = init("m",10,10,10,10)
-		rammaser(p,obj)
+Initial: p = init("m",10,10,10,10)
+Test: p1 = removeMoney(p,-10)
+oracle: throws exception
+
+
+Test pour le throw
+
+Initial: p = init("m",10,10,10,10)
+		pickUp(p,obj)
 Test: p = jeter(p)
 oracle: object?(p) = null
 
 //NOT SURE FOR A NEGITIVE 
 
 
-Test pour le rammaser
-Intial: p = init("m",10,10,10,10)
-Test: p = rammaser(p,obj)
+Test pour le pickUp
+Initial: p = init("m",10,10,10,10)
+Test: p = pickUp(p,obj)
 oracle: object?(p) = obj
 
 

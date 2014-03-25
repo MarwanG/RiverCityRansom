@@ -1,6 +1,9 @@
 package personnage;
 
 public interface PersonnageI {
+	
+	public void init( String nom, int largeur, int hauteur, int profondeur,int force);
+	
 	public void depotsHP(int health);
 	
 	public void retraitHP(int dmg);
@@ -11,7 +14,7 @@ public interface PersonnageI {
 	
 	public void  jeter();
 	
-	public void rammaser(Object o);
+	public void ramasser(Object o);
 	
 	public boolean equiped();
 	
@@ -19,19 +22,17 @@ public interface PersonnageI {
 	
 	public int getLargeur();
 	
-	public int getHauter();
+	public int getHauteur();
 	
-	public int getProfonder();
+	public int getProfondeur();
 	
 	public int getForce();
 	
-
 	public int getHp();
 
 	public int getMoney();
 
-
-	public boolean isAlive();
+	public boolean youDeadMan();
 	
 	public Object getObject();
 	
