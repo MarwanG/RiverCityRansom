@@ -137,7 +137,7 @@ public class PersonnageImpl implements PersonnageI {
 
 
 	public boolean youDeadMan() {
-		return alive;
+		return !alive;
 	}
 
 
