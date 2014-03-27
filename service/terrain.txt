@@ -1,0 +1,16 @@
+service: Terrain
+use: Object, Bloc
+types : String,int,boolean 
+
+observators:
+	- const width: [Terrain] -> int
+	- const height: [Terrain] -> int
+	- const depth: [Terrain] -> int
+	- const bloc_list [Terrain] -> <List>Bloc
+
+constructors:
+	- init: int * int * int * <List>Bloc -> [Terrain]
+
+operators:
+	- getBlocCoord: int * int * int -> Bloc
+	- setBlocCoord: int * int * int * Bloc -> [Terrain]
