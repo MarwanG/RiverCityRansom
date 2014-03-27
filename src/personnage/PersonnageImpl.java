@@ -59,7 +59,7 @@ public class PersonnageImpl implements PersonnageI {
 	}
 	
 	public void retraitHP(int dmg){
-			hp-=dmg;
+			this.hp = Math.max(0, this.hp-dmg);
 			if(hp <= 0){
 				alive = false;
 			}
@@ -70,11 +70,7 @@ public class PersonnageImpl implements PersonnageI {
 	}
 	
 	public void retraitMoney(int s){
-		if(s > money){
-			money = 0;
-		}else{
-			money-=s;
-		}
+		this.money = Math.max(0, this.money-s);
 	}
 	
 	public void  jeter(){
