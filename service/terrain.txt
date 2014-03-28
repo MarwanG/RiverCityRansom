@@ -1,6 +1,6 @@
 service: Terrain
-use: Object, Bloc
-types : int,boolean 
+use: Bloc
+types : int
 
 observators:
 	- const width: [Terrain] -> int
@@ -9,8 +9,9 @@ observators:
 	- bloc_pos [Terrain] * int * int * int -> Bloc
 
 constructors:
-	- init: int * int * int -> [Terrain]
+	- init: int * int * int * Bloc[][][]-> [Terrain]
+		pre: init(x,y,z,b[a][b][c]) require x>0 AND y>0 AND z>0 AND x=a AND y=b AND z=C AND b[i{0->a}][j{0->b}][k{0->c}] != NULL AND b[i{0->a}][j{0->b}][k{0->c}] != b[i+1][j+1][k+1]
 
 operators:
-	- setBloc: int * int * int * Bloc -> [Terrain]
+	- setBloc: [Terrain] * int * int * int * Bloc -> [Terrain]
 		pre: setBloc(x,y,z,b) require x<width AND x>=0 AND y<height AND y>=0 AND z<depth AND z>=0 AND b != NULL
