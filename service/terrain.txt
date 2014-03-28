@@ -1,5 +1,5 @@
 service: Terrain
-use: Object, Bloc
+use: Object, Bloc, List
 types : String,int,boolean 
 
 observators:
