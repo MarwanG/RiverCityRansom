@@ -1,0 +1,3 @@
+service: Bloc
+use: enum Type{VIDE,FOSSE}
+type: String

@@ -1,16 +1,16 @@
 service: Terrain
-use: Object, Bloc, List
-types : String,int,boolean 
+use: Object, Bloc
+types : int,boolean 
 
 observators:
 	- const width: [Terrain] -> int
 	- const height: [Terrain] -> int
 	- const depth: [Terrain] -> int
-	- const bloc_list [Terrain] -> <List>Bloc
+	- bloc_pos [Terrain] * int * int * int -> Bloc
 
 constructors:
-	- init: int * int * int * <List>Bloc -> [Terrain]
+	- init: int * int * int -> [Terrain]
 
 operators:
-	- getBlocCoord: int * int * int -> Bloc
-	- setBlocCoord: int * int * int * Bloc -> [Terrain]
+	- setBloc: int * int * int * Bloc -> [Terrain]
+		pre: setBloc(x,y,z,b) require x<width AND x>=0 AND y<height AND y>=0 AND z<depth AND z>=0 AND b != NULL
