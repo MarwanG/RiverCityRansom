@@ -19,6 +19,7 @@ Operators:
 Observations:
 	[invariants]
 		hasTreasure(b) min= getTreasure(b) != null
+		isPit(b) min= !isEmpty(b)
 	[init]
 		isEmpty(init(true,null)) = true
 		isPit(init(true,null)) = false
