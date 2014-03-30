@@ -7,12 +7,13 @@ observators:
 	isPit: [Bloc] -> boolean
 	hasTreasure: [Bloc] -> boolean
 	getTreasure: [Bloc] -> object
+	 pre getTreasure(b) require hasTreasure(b)
 	
 Constructors:
 	init: boolean * object -> [Bloc]
 	
 Operators:
-	removeTreasure:[Bloc] -> [Bloc]
+	removeTreasure:[Bloc] -> object
 	  pre: removeTreasure(b) require hasTreasure(b)
 
 Observations:
