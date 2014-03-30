@@ -1,0 +1,34 @@
+service: Bloc
+use : object
+types: boolean
+
+observators:
+	isEmpty: [Bloc] -> boolean
+	isPit: [Bloc] -> boolean
+	hasTreasure: [Bloc] -> boolean
+	getTreasure: [Bloc] -> object
+	
+Constructors:
+	init: boolean * object -> [Bloc]
+	
+Operators:
+	removeTreasure:[Bloc] -> [Bloc]
+	  pre: removeTreasure(b) require hasTreasure(b)
+
+Observations:
+	[invariants]
+		hasTreasure(b) min= getTreasure(b) != null
+	[init]
+		isEmpty(init(true,null)) = true
+		isPit(init(true,null)) = false
+		hasTreasure(init(true,null)) = false
+		hasTreasure(init(true,obj) = true
+		getTreasure(init(true,obj) = obj
+	[removeTreasure]
+		getTreasure(removeTreasure(init(p,obj)) = obj
+		hasTreasure(removeTreasure(init(p,obj)) = false
+
+		
+		
+	
+	
