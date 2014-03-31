@@ -27,7 +27,7 @@ Observations:
 		hasTreasure(init(true,obj) = true
 		getTreasure(init(true,obj) = obj
 	[removeTreasure]
-		getTreasure(removeTreasure(init(p,obj)) = obj
+		getTreasure(removeTreasure(init(p,obj)) = null
 		hasTreasure(removeTreasure(init(p,obj)) = false
 
 		
