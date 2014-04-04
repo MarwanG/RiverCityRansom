@@ -1,0 +1,41 @@
+Tests pour le service Bloc
+
+
+Test pour init:
+
+Test: b= init(true,null)
+oracle: 
+	isEmpty(b) = true
+	isPit(b) = false
+	hasTreasure(b) = false
+	getTreasure(b) = null
+
+
+Test: b = init(false,null)
+oracle: 
+	isEmpty(b) = false
+	isPit(b) = true
+	hasTreasure(b) = false
+	getTreasure(b) = null
+
+Test: b = init(true,obj)
+oracle: 
+	isEmpty(b) = true
+	isPit(b) = false
+	hasTreasure(b) = true
+	getTreasure(b) = obj
+
+Test pour removeTreasure:
+
+Initial: b = init(true,null)
+Test :	removeTreasure(b)
+oracle:
+	hasTreasure(b) = false
+	getTreasure(b) = null
+
+Initial: b = init(true,obj)
+Test :	removeTreasure(b)
+oracle:
+	hasTreasure(b) = false
+	getTreasure(b) = null
+
