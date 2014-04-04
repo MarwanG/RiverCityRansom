@@ -1,4 +1,4 @@
-package Terrain;
+package terrain;
 
 import java.util.ArrayList;
 import java.util.Iterator;
