@@ -1,7 +1,6 @@
 service: Terrain
 use: Object, Bloc
-types : String,int,boolean 
-
+types : String,int
 observators:
 	- const width: [Terrain] -> int
 	- const height: [Terrain] -> int
