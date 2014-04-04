@@ -1,11 +1,12 @@
 service: Terrain
 use: Bloc,List
 types : int
+
 observators:
 	- const width: [Terrain] -> int
 	- const height: [Terrain] -> int
 	- const depth: [Terrain] -> int
-	- const bloc_list [Terrain] -> <List>Bloc
+	- bloc_pos [Terrain] * int * int * int -> Bloc
 
 constructors:
 	- init: int * int * int * <List>Bloc -> [Terrain]
@@ -16,3 +17,4 @@ operators:
 		pre: getBlocCoord(w,h,d) require w>=0 AND w<width AND h>=0 AND h<height AND d>=0 AND d<depth
 	- setBlocCoord: int * int * int * Bloc -> [Terrain]
 		pre: setBlocCoord(w,h,d,b) require w>=0 AND w<width AND h>=0 AND h<height AND d>=0 AND d<depth AND b !=null
+
