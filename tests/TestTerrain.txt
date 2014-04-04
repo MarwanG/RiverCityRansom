@@ -1,0 +1,123 @@
+Tests pour le service Terrain
+
+Test init:
+	
+	testOk:
+		test: t = init(1,1,1,{B1,B2,B3})
+
+		oracle: width(t) = 1
+				height(t) = 1
+				length(t) = 1
+				#On ne peut pas tester les blocs...
+
+	testPbm1:
+		test: t = init(-1,1,1,{B1,B2,B3})
+
+		oracle: t = null
+
+	testPbm2:
+		test: t = init(1,-1,1,{B1,B2,B3})
+
+		oracle: t = null
+	
+	testPbm3:
+		test: t = init(1,1,-1,{B1,B2,B3})
+
+		oracle: t = null	
+
+	testPbm4:
+		test: t = init(-1,-1,1,{B1,B2,B3})
+
+		oracle: t = null
+
+	testPbm5:
+		test: t = init(1,-1,-1,{B1,B2,B3})
+
+		oracle: t = null
+
+	testPbm6:
+		test: t = init(-1,1,-1,{B1,B2,B3})
+
+		oracle: t = null
+
+	testPbm7:
+		test: t = init(-1,-1,-1,{B1,B2,B3})
+
+		oracle: t = null
+
+TestSetBloc:
+	
+	testOK:
+		init: t = init(1,1,1,{B1,B2,B3})
+		test t2 = setBloc(t,1,1,1,{B4})
+		oracle t2 != null 
+
+	testPbm1:
+		init: t = init(1,1,1,{B1,B2,B3})
+		test t2 = setBloc(t,-1,1,1,{B4})
+		oracle t2 = null
+
+	testPbm2:
+		init: t = init(1,1,1,{B1,B2,B3})
+		test t2 = setBloc(t,1,-1,1,{B4})
+		oracle t2 = null
+
+	testPbm3:
+		init: t = init(1,1,1,{B1,B2,B3})
+		test t2 = setBloc(t,1,1,-1,{B4})
+		oracle t2 = null
+
+	testPbm4:
+		init: t = init(1,1,1,{B1,B2,B3})
+		test t2 = setBloc(t,-1,-1,1,{B4})
+		oracle t2 = null
+
+	testPbm5:
+		init: t = init(1,1,1,{B1,B2,B3})
+		test t2 = setBloc(t,1,-1,-1,{B4})
+		oracle t2 = null
+
+	testPbm6:
+		init: t = init(1,1,1,{B1,B2,B3})
+		test t2 = setBloc(t,-1,1,-1,{B4})
+		oracle t2 = null
+
+	testPbm7:
+		init: t = init(1,1,1,{B1,B2,B3})
+		test t2 = setBloc(t,-1,-1,-1,{B4})
+		oracle t2 = null
+
+	testPbm21:
+		init: t = init(1,1,1,{B1,B2,B3})
+		test t2 = setBloc(t,2,1,1,{B4})
+		oracle t2 = null
+
+	testPbm22:
+		init: t = init(1,1,1,{B1,B2,B3})
+		test t2 = setBloc(t,1,2,1,{B4})
+		oracle t2 = null
+
+	testPbm23:
+		init: t = init(1,1,1,{B1,B2,B3})
+		test t2 = setBloc(t,1,1,2,{B4})
+		oracle t2 = null
+
+	testPbm24:
+		init: t = init(1,1,1,{B1,B2,B3})
+		test t2 = setBloc(t,2,2,1,{B4})
+		oracle t2 = null
+
+	testPbm25:
+		init: t = init(1,1,1,{B1,B2,B3})
+		test t2 = setBloc(t,1,2,2,{B4})
+		oracle t2 = null
+
+	testPbm26:
+		init: t = init(1,1,1,{B1,B2,B3})
+		test t2 = setBloc(t,2,1,2,{B4})
+		oracle t2 = null
+
+	testPbm27:
+		init: t = init(1,1,1,{B1,B2,B3})
+		test t2 = setBloc(t,2,2,2,{B4})
+		oracle t2 = null
