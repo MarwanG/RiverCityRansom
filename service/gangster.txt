@@ -1,0 +1,20 @@
+Service: Gangster
+Refine: Personnage
+Constructors:
+	init: String * int * int * int * int -> Gangster
+    	  pre init(nom,width,height,depth,force) require nom != “” AND force > 0
+
+##Observation:
+  [init]
+	getObject(init(n,l,h,p,f))= o
+  [addHp]
+	hp(addHp(p,s))=hp(p)	
+  [addMoney]
+	money(addMoney(p,s))=0
+  [removeMoney]
+	money(removeMoney(p,s))=0
+  [throw]
+	isEquiped(throw(p))=isEquiped(p)
+  [pickUp]
+	isEquiped(pickUp(p,o))=true  //CAN THEY PICK OU PAS.
+	getObject(pickUp(p,o))=o	
