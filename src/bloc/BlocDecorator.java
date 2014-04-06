@@ -1,5 +1,7 @@
 package bloc;
 
+import object.ObjectI;
+
 public class BlocDecorator implements  BlocI {
 	public BlocI delegate;
 
@@ -11,7 +13,7 @@ public class BlocDecorator implements  BlocI {
 		this.delegate = delegate;
 	}
 
-	public void init(boolean b, Object obj) {
+	public void init(boolean b, ObjectI obj) {
 		delegate.init(b, obj);
 	}
 
@@ -27,11 +29,11 @@ public class BlocDecorator implements  BlocI {
 		return delegate.hasTreasure();
 	}
 
-	public Object getTreasure() {
+	public ObjectI getTreasure() {
 		return delegate.getTreasure();
 	}
 
-	public Object removeTreasure() {
+	public ObjectI removeTreasure() {
 		return delegate.removeTreasure();
 	}
 	
