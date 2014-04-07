@@ -6,7 +6,6 @@ observators:
 	- const width: [Terrain] -> int
 	- const height: [Terrain] -> int
 	- const depth: [Terrain] -> int
-	- bloc_pos [Terrain] * int * int * int -> Bloc
 
 constructors:
 	- init: int * int * int * <List>Bloc -> [Terrain]
