@@ -1,5 +1,7 @@
 package personnage;
 
+import object.ObjectI;
+
 public interface PersonnageI {
 	
 	public void init( String nom, int largeur, int hauteur, int profondeur,int force);
@@ -14,7 +16,7 @@ public interface PersonnageI {
 	
 	public void  jeter();
 	
-	public void ramasser(Object o);
+	public void ramasser(ObjectI o);
 	
 	public boolean equiped();
 	
@@ -34,6 +36,6 @@ public interface PersonnageI {
 
 	public boolean youDeadMan();
 	
-	public Object getObject();
+	public ObjectI getObject();
 	
 }

@@ -1,5 +1,6 @@
 package personnage;
 
+import object.ObjectI;
 import contract.Contractor;
 
 
@@ -47,13 +48,13 @@ public class PersonnageContrat extends PersonnageDecorator {
 			Contractor.defaultContractor().postconditionError("PersonnageContrat", "init", "profondeur");
 		if(this.getForce() != force)
 			Contractor.defaultContractor().postconditionError("PersonnageContrat", "init", "force");
-		if(this.getHp() == 100)
+		if(this.getHp() != 100)
 			Contractor.defaultContractor().postconditionError("PersonnageContrat", "init", "hp");
-		if(this.getMoney() == 0)
+		if(this.getMoney() != 0)
 			Contractor.defaultContractor().postconditionError("PersonnageContrat", "init", "Money");
-		if(!this.equiped())
+		if(this.equiped())
 			Contractor.defaultContractor().postconditionError("PersonnageContrat", "init", "equiped");
-		if(this.getObject() == null)
+		if(this.getObject() != null)
 			Contractor.defaultContractor().postconditionError("PersonnageContrat", "init", "getObject");
 	}
 	@Override
@@ -136,14 +137,14 @@ public class PersonnageContrat extends PersonnageDecorator {
 	
 
 	@Override
-	public void ramasser(Object o) {
+	public void ramasser(ObjectI o) {
 		checkInvariant();
 		super.ramasser(o);
 		checkInvariant();
 		if(!this.equiped()){
 			Contractor.defaultContractor().postconditionError("PersonnageContrat", "rammaser", "equiped");
 		}
-		if(this.getObject() == o){
+		if(!(this.getObject() == o)){
 			Contractor.defaultContractor().postconditionError("PersonnageContrat", "rammaser", "object");
 		}
 		

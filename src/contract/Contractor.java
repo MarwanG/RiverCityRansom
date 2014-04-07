@@ -23,7 +23,9 @@ public class Contractor {
 		if(count==abortCount) {
 			count = 0;
 			throw new ContractError("Too many contracts failed");
-		}		
+		}
+		throw new ContractError("An Exception just happened");
+		
 	}
 	
 	public void invariantError(String service, String message) {

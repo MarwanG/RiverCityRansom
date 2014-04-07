@@ -1,5 +1,7 @@
 package personnage;
 
+import object.ObjectI;
+
 public class PersonnageDecorator implements PersonnageI {
 
 	public PersonnageI delegate;
@@ -84,7 +86,7 @@ public class PersonnageDecorator implements PersonnageI {
 	}
 
 
-	public Object getObject() {
+	public ObjectI getObject() {
 		return delegate.getObject();
 	}
 
@@ -94,7 +96,7 @@ public class PersonnageDecorator implements PersonnageI {
 
 
 	@Override
-	public void ramasser(Object o) {
+	public void ramasser(ObjectI o) {
 		delegate.ramasser(o);
 		
 	}

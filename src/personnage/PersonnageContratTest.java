@@ -5,19 +5,34 @@ import object.ObjectI;
 import object.ObjectImpl;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
-public class PersonnageImplTest {
+import contract.ContractError;
 
-	PersonnageI p;
+public class PersonnageContratTest {
+
+	PersonnageContrat p;
+	
+	@Rule
+    public ExpectedException exception = ExpectedException.none();
+
 	
 	@Before
 	public void setUp() throws Exception {
-		p = new PersonnageImpl("m",10,10,10,10);
+		p = new PersonnageContrat(new PersonnageImpl("m",10,10,10,10));
 	}
+	
 
 	@Test
-	public void initPositive(){
+	public void test1(){
+		exception.expect(ContractError.class);
+		p.init("", 1, 1, 1, 1);			
+	}
+	
+	@Test
+	public void test2() {
 		assertTrue(p.getNom().equals("m"));
 		assertTrue(p.getForce() == 10);
 		assertTrue(p.getLargeur() == 10);
@@ -30,16 +45,28 @@ public class PersonnageImplTest {
 		assertTrue(p.getObject() == null);		
 	}
 
+
+	@Test
+	public void test3(){
+		exception.expect(ContractError.class);
+		p.init("m", 1, 1, 1, 0);			
+	}
 	
 	@Test
-	public void  addHp(){
+	public void test4(){
+		exception.expect(ContractError.class);
+		p.init("m", 1, 1, 1, -1);			
+	}
+	@Test
+	public void  test5(){
+		exception.expect(ContractError.class);
 		int hpAvant = p.getHp();
 		p.depotsHP(5);
 		assertTrue(100 == p.getHp());
 	}
 	
 	@Test
-	public void  addHp2(){
+	public void  test6(){
 		p.retraitHP(50);
 		int hpAvant = p.getHp();
 		p.depotsHP(5);
@@ -47,59 +74,76 @@ public class PersonnageImplTest {
 	}
 	
 	@Test
-	public void  addHpNeg(){
+	public void  test7(){
 		int hpAvant = p.getHp();
+		exception.expect(ContractError.class);
 		p.depotsHP(-5);
-		assertFalse(hpAvant+5 == p.getHp());
 	}
 	
 	@Test
-	public void  removeHp(){
+	public void  test8(){
+		exception.expect(ContractError.class);
+		int hpAvant = p.getHp();
+		p.depotsHP(5);
+		assertTrue((hpAvant+5) == p.getHp());
+	}
+	
+	@Test
+	public void  test9(){
 		int hpAvant = p.getHp();
 		p.retraitHP(5);
 		assert(hpAvant == p.getHp()+5);
 	}
 	
 	@Test
-	public void  removeHpNeg(){
-		int hpAvant = p.getHp();
+	public void  test10(){
+		exception.expect(ContractError.class);
 		p.retraitHP(-5);
-		assert(hpAvant == p.getHp());
 	}
 	
 	
 	
 	@Test
-	public 	void depotMoney(){
+	public 	void test11(){
 		int money = p.getMoney();
 		p.depotsMoney(5);
 		assert(money+5 == p.getMoney());
 	}
 	
 	@Test
-	public 	void depotMoneyNeg(){
+	public 	void test12(){
 		int money = p.getMoney();
+		exception.expect(ContractError.class);
 		p.depotsMoney(-5);
-		assertFalse(money+5 == p.getMoney());
 	}
 	
 	@Test
-	public 	void retraitMoney(){
+	public 	void test13(){
+		exception.expect(ContractError.class);
 		int money = p.getMoney();
 		p.retraitMoney(5);
-		assert(money+5 == p.getMoney());
+		assert(money-5 == p.getMoney());
 	}
 	
 	@Test
-	public 	void retraitMoneyNeg(){
+	public 	void test14(){
+		p.depotsMoney(50);
 		int money = p.getMoney();
+		p.retraitMoney(5);
+		assert(money-5 == p.getMoney());
+	}
+	
+	@Test
+	public 	void test15(){
+		int money = p.getMoney();
+		exception.expect(ContractError.class);
 		p.retraitMoney(-5);
 		assertFalse(money == p.getMoney());
 	}
 	
 	
 	@Test
-	public void jeter(){
+	public void test16(){
 		p.ramasser(new ObjectImpl(null, null, 0, 0));
 		p.jeter();
 		assert(p.getObject() == null);
@@ -108,7 +152,7 @@ public class PersonnageImplTest {
 	
 	
 	@Test
-	public void ramasser(){
+	public void test17(){
 		ObjectI o = new ObjectImpl(null, null, 0, 0);
 		p.ramasser(o);
 		assert(p.getObject() == o);

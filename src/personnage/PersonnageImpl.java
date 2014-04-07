@@ -1,5 +1,7 @@
 package personnage;
 
+import object.ObjectI;
+
 public class PersonnageImpl implements PersonnageI {
 	
 	private String nom;
@@ -10,7 +12,7 @@ public class PersonnageImpl implements PersonnageI {
 	private int hp;
 	private int money;
 	private boolean alive;
-	private Object object;				//TO be modified when service object is created;
+	private ObjectI object;				//TO be modified when service object is created;
 	
 	
 	
@@ -55,7 +57,7 @@ public class PersonnageImpl implements PersonnageI {
 
 
 	public void depotsHP(int health){
-			hp+=health;
+			this.hp = Math.min(this.hp+health, 100);
 	}
 	
 	public void retraitHP(int dmg){
@@ -69,8 +71,10 @@ public class PersonnageImpl implements PersonnageI {
 			money+=s;
 	}
 	
+
 	public void retraitMoney(int s){
-		this.money = Math.max(0, this.money-s);
+		if(money >= s)
+			this.money = Math.max(0, this.money-s);
 	}
 	
 	public void  jeter(){
@@ -142,18 +146,13 @@ public class PersonnageImpl implements PersonnageI {
 	}
 
 
-	public Object getObject() {
+	public ObjectI getObject() {
 		return object;
 	}
 
 
-	public void setObject(Object object) {
-		this.object = object;
-	}
-
-
 	@Override
-	public void ramasser(Object o) {
+	public void ramasser(ObjectI o) {
 		this.object = o;
 		
 	}
