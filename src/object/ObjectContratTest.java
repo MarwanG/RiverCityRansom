@@ -46,4 +46,11 @@ public class ObjectContratTest {
 		ObjectContrat obj = new ObjectContrat(new ObjectImpl("l",Type.Usable,-10));
 		obj.init("m", Type.Usable, -10);
 	}
+	
+	@Test
+	public void test5(){
+		exception.expect(ContractError.class);
+		ObjectContrat obj = new ObjectContrat(new ObjectImpl("l",Type.Usable,0));
+		obj.init("m", Type.Usable, 0);
+	}
 }

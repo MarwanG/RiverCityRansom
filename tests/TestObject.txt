@@ -19,3 +19,10 @@ oracle: nom(p) = "m"
 	power(p) = 0
 
 
+Test: p = init("m",sellable,-10)
+oracle: p = null
+
+
+
+Test: p = init("m",sellable,0)
+oracle: p = null
