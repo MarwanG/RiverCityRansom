@@ -92,7 +92,7 @@ public class PersonnageContratTest {
 	public void  test9(){
 		int hpAvant = p.getHp();
 		p.retraitHP(5);
-		assert(hpAvant == p.getHp()+5);
+		assertTrue(hpAvant == p.getHp()+5);
 	}
 	
 	@Test
