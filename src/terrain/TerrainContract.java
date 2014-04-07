@@ -18,7 +18,7 @@ public class TerrainContract extends TerrainDecorator {
 		for(int i=0;i<getWidth();i++){
 			for(int j=0;j<getHeight();j++){
 				for(int k=0;k<getDepth();k++){
-					if(getBlocCoord(i, j, k) == null)
+					if(delegate.getBlocCoord(i, j, k) == null)
 						Contractor.defaultContractor().invariantError("TerrainContract", "A bloc isn't defined");
 				}
 			}	
