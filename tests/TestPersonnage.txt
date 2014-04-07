@@ -22,16 +22,24 @@ Test: p = init("m",10,10,10,-1)
 oracle: p = null
 
 
+Test: p = init("m",10,10,10,0)
+oracle: p = null
+
 Test pour le depotsHP
 
 Intial: p = init("m",10,10,10,10)
 Test: p1 = depotsHP(p,10)
-oracle: hp(p1) = hp(p) + 10
+oracle: hp(p1) = 100
 
+
+Intial: p = init("m",10,10,10,10) 
+	retraitHp(p,50)
+Test: p1 = depotsHP(p,10)
+oracle: hp(p1) = hp(p) + 10
 
 Intial: p = init("m",10,10,10,10)
 Test: p1 = depotsHP(p,-10)
-oracle: hp(p1) != hp(p) + 10
+oracle: hp(p1) == hp(p)
 
 Test pour le retraitHP
 
@@ -43,7 +51,7 @@ oracle: hp(p1) = hp(p) - 10
 
 Intial: p = init("m",10,10,10,10)
 Test: p1 = retraitHP(p,-10)
-oracle: hp(p1) != hp(p) - 10
+oracle: hp(p1) == hp(p) 
 
 Test pour le depotMoney
 
@@ -61,12 +69,15 @@ Test pour le retraitMoney
 
 Intial: p = init("m",10,10,10,10)
 Test: p1 = retraitMoney(p,10)
-oracle: money(p1) = money(p) + 10
+oracle: money(p1) = money(p)
 
+Intial: p = init("m",10,10,10,10)depotMoney(p,50)
+Test: p1 = retraitMoney(p,10)
+oracle: money(p1) = money(p) - 10
 
 Intial: p = init("m",10,10,10,10)
 Test: p1 = retraitMoney(p,-10)
-oracle: money(p1) != money(p) - 10
+oracle: money(p1) == money(p)
 
 
 Test pour le jeter
