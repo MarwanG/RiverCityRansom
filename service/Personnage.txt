@@ -1,0 +1,61 @@
+service: Personnage
+use: Object
+types : String,int,boolean 
+observators:
+	const nom: [Personnage] -> String
+	const width: [Personnage] -> int
+	const height: [Personnage] -> int
+	const depth: [Personnage] -> int
+	const force: [Personnage] -> int
+	hp:[Personnage] -> int
+	money:[Personnage] -> int
+	youDeadMan:[Personnage] -> boolean
+	isEquiped:[Personnage] -> boolean
+	getObject:[Personnage] -> Object
+	
+Constructors:
+	init: String * int * int * int * int -> Personnage
+	 pre init(nom,width,height,depth,force) require nom != "" AND force > 0
+
+Operators:
+	addHp: [Personnage] * int -> Personnage	
+		pre addHp(P,s) require s > 0 & !youDeadMan(P)
+	removeHp: [Personnage] * int -> Personnage
+		pre removeHp(P,s) require s> 0 & !youDeadMan(P)
+	addMoney: [Personnage] * int -> Personnage
+		pre addMoney(P,s) require s>0 & !youDeadMan(P)
+	removeMoney: [Personnage] * int -> Personnage
+		pre removeMoney(P,s) require s>0 & money(p)-s >= 0 & !youDeadMan(p)
+	throw: [Personnage] -> Personnage
+		pre throw(p) require isEquiped(p)
+	pickUp: [Personnage] * Object -> Personnage
+
+Observation:
+	[invariant]
+		youDeadMan(p) min= hp(p) <= 0
+		isEquiped(p) min= getObject(p) != null
+	[init]
+		nom(init(n,l,h,p,f))=n
+		width(init(n,l,h,p,f))=l
+		height(init(n,l,h,p,f))=h
+		depth(init(n,l,h,p,f))=p
+		force(init(n,l,h,p,f))=f
+		hp(init(n,l,h,p,f))=100
+		money(init(n,l,h,p,f))=0
+		isEquiped(init(n,l,h,p,f))=false
+		getObject(init(n,l,h,p,f))=null
+	[addHp]
+		hp(addHp(p,s))=hp(p)+s
+	[removeHp]
+		hp(removeHp(p,s))=min(hp(p)-s,0)
+	[addMoney]
+		money(addMoney(p,s))=money(p)+s
+	[removeMoney]
+		money(removeMoney(p,s))=min(money(p)-s,0)
+	[throw]
+		isEquiped(throw(p))=false
+	[pickUp]
+		isEquiped(pickUp(p,o))=true
+		getObject(pickUp(p,o))=o
+
+	
