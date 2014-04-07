@@ -1,32 +1,34 @@
 package bloc;
 
 import static org.junit.Assert.*;
-
 import object.ObjectI;
 import object.ObjectImpl;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
-import personnage.PersonnageI;
-import personnage.PersonnageImpl;
+import contract.ContractError;
 
-public class BlocImplTest {
+public class BlocContratTest {
 
-	
+	@Rule
+    public ExpectedException exception = ExpectedException.none();
+
 	
 	@Test
 	public void test1() {
-		BlocI b = new BlocImpl(true,null);
+		BlocI b = new BlocContract(new BlocImpl(true,null));
 		assertTrue(b.isEmpty());
 		assertFalse(b.isPit());
 		assertFalse(b.hasTreasure());
-		assertTrue(b.getTreasure() == null);
+		assert(b.getTreasure() == null);
 	}
 	
 	@Test
 	public void test2() {
-		BlocI b = new BlocImpl(false,null);
+		BlocI b = new BlocContract(new BlocImpl(false,null));
 		assertFalse(b.isEmpty());
 		assert(b.isPit());
 		assertFalse(b.hasTreasure());
@@ -36,7 +38,7 @@ public class BlocImplTest {
 	@Test
 	public void test3() {
 		ObjectI obj = new ObjectImpl(null, null, 0, 0); //TODO
-		BlocI b = new BlocImpl(true,obj);
+		BlocI b = new BlocContract(new BlocImpl(true,obj));
 		assert(b.hasTreasure());
 		assertFalse(b.getTreasure() == null);
 		assert(b.getTreasure() == obj);
@@ -44,7 +46,8 @@ public class BlocImplTest {
 	
 	@Test
 	public void test4() {
-		BlocI b = new BlocImpl(true,null);
+		exception.expect(ContractError.class);
+		BlocI b = new BlocContract(new BlocImpl(true,null));
 		b.removeTreasure();
 		assertFalse(b.hasTreasure());
 		assert(b.getTreasure() == null);
@@ -52,12 +55,15 @@ public class BlocImplTest {
 	
 	@Test
 	public void test5() {
+		exception.expect(ContractError.class);
 		ObjectI obj = new ObjectImpl(null, null, 0, 0);//TODO
-		BlocI b = new BlocImpl(true,obj);
+		BlocI b = new BlocContract(new BlocImpl(true,obj));
 		Object tmp = b.removeTreasure();
 		assert(tmp == obj);
 		assertFalse(b.hasTreasure());
 		assert(b.getTreasure() == null);
 	}
+
 	
+
 }

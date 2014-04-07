@@ -35,7 +35,7 @@ public class BlocImpl implements BlocI {
 
 	@Override
 	public boolean hasTreasure() {
-		return (Treasure == null);
+		return !(Treasure == null);
 	}
 
 	@Override
