@@ -1,26 +1,25 @@
 package bloc;
 
+import object.ObjectI;
+
 public class BlocImpl implements BlocI {
 	
 	private boolean empty;
-	private boolean hasTreasure;
-	private Object Treasure;
+	private ObjectI Treasure;
 	
 	
 	
-	public BlocImpl(boolean b,Object obj){
+	public BlocImpl(boolean b,ObjectI obj){
 		init(b,obj);
 	}
 	
 	@Override
-	public void init(boolean b, Object obj) {
+	public void init(boolean b, ObjectI obj) {
 		empty = b;
 		if(obj != null){
 			Treasure = obj;
-			hasTreasure = true;
 		}else{
 			Treasure = null;
-			hasTreasure = false;	
 		}
 	}
 
@@ -36,18 +35,17 @@ public class BlocImpl implements BlocI {
 
 	@Override
 	public boolean hasTreasure() {
-		return hasTreasure;
+		return (Treasure == null);
 	}
 
 	@Override
-	public Object getTreasure() {
+	public ObjectI getTreasure() {
 		return Treasure;
 	}
 
 	@Override
-	public Object removeTreasure() {
-		hasTreasure = false;
-		Object obj = Treasure;
+	public ObjectI removeTreasure() {
+		ObjectI obj = Treasure;
 		Treasure = null;
 		return obj;
 	}

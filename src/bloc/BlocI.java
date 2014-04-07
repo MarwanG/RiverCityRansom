@@ -1,8 +1,10 @@
 package bloc;
 
+import object.ObjectI;
+
 public interface BlocI {
 
-	public void init(boolean b,Object obj);		//object needs to be converted once we create our service obj.
+	public void init(boolean b,ObjectI obj);		//object needs to be converted once we create our service obj.
 	
 	public boolean isEmpty();
 	
@@ -10,8 +12,8 @@ public interface BlocI {
 	
 	public boolean hasTreasure();
 	
-	public Object getTreasure();
+	public ObjectI getTreasure();
 	
-	public Object removeTreasure();
+	public ObjectI removeTreasure();
 	
 }

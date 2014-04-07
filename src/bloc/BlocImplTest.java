@@ -2,6 +2,9 @@ package bloc;
 
 import static org.junit.Assert.*;
 
+import object.ObjectI;
+import object.ObjectImpl;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -32,7 +35,7 @@ public class BlocImplTest {
 	
 	@Test
 	public void test3() {
-		Object obj = new Object();
+		ObjectI obj = new ObjectImpl(null, null, 0, 0); //TODO
 		BlocI b = new BlocImpl(true,obj);
 		assert(b.hasTreasure());
 		assertFalse(b.getTreasure() == null);
@@ -49,7 +52,7 @@ public class BlocImplTest {
 	
 	@Test
 	public void test5() {
-		Object obj = new Object();
+		ObjectI obj = new ObjectImpl(null, null, 0, 0);//TODO
 		BlocI b = new BlocImpl(true,obj);
 		Object tmp = b.removeTreasure();
 		assert(tmp == obj);

@@ -1,0 +1,23 @@
+service: Object
+types: String,int,enum Type{usable,sellable}
+observators:
+	- const nom : [Object] -> String
+	- const type : [Object] -> Type
+	- const power : [Object] -> int
+	- const value : [Object] -> int
+Constructors:
+	init: String * Type * int
+	      pre init(nom,Type,i) require nom != "" AND i > 0
+Operators:
+	// we have none
+
+Observations:
+
+	[init]
+	  nom(init(m,usable,10))=m
+	  type(init(m,usable,10))=usable
+	  power(init(m,usable,10))=10
+	  value(init(m,usable,10))=0
+	  power(init(m,sellable,10))=0
+	  value(init(m,sellable,10))=10
+	

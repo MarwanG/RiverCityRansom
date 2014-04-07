@@ -1,5 +1,6 @@
 package bloc;
 
+import object.ObjectI;
 import contract.Contractor;
 
 public class BlocContract extends BlocDecorator {
@@ -22,7 +23,7 @@ public class BlocContract extends BlocDecorator {
 		}
 	}
 	
-	public void init(boolean b, Object obj){
+	public void init(boolean b, ObjectI obj){
 		super.init(b, obj);
 		checkInvariant();
 		if(b && !this.isEmpty())
@@ -35,7 +36,7 @@ public class BlocContract extends BlocDecorator {
 			Contractor.defaultContractor().postconditionError("BlocContract", "init", "treasure not properly defined");
 	}
 	
-	public Object getTreasure(){
+	public ObjectI getTreasure(){
 		if(!delegate.hasTreasure()){
 			Contractor.defaultContractor().preconditionError("BlocContract", "getTreasure", "doesnt has treasure");
 			return null;
@@ -45,13 +46,13 @@ public class BlocContract extends BlocDecorator {
 	}
 	
 	
-	public Object removeTreasure(){
+	public ObjectI removeTreasure(){
 		if(!delegate.hasTreasure()){
 			Contractor.defaultContractor().preconditionError("BlocContract", "removeTreasure", "doesnt has treasure");
 			return null;
 		}else{
 			checkInvariant();
-			Object obj =  delegate.removeTreasure();
+			ObjectI obj =  delegate.removeTreasure();
 			checkInvariant();
 			if(this.getTreasure() != null)
 				Contractor.defaultContractor().postconditionError("BlocContract", "removeTreasure", "treasure not removed");
