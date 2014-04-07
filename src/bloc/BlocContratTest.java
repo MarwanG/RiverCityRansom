@@ -39,6 +39,8 @@ public class BlocContratTest {
 	public void test3() {
 		ObjectI obj = new ObjectImpl(null, null, 0); //TODO
 		BlocI b = new BlocContract(new BlocImpl(true,obj));
+		assert(b.isEmpty());
+		assertFalse(b.isPit());
 		assert(b.hasTreasure());
 		assertFalse(b.getTreasure() == null);
 		assert(b.getTreasure() == obj);
