@@ -28,18 +28,18 @@ public class BlocImplTest {
 	public void test2() {
 		BlocI b = new BlocImpl(false,null);
 		assertFalse(b.isEmpty());
-		assert(b.isPit());
+		assertTrue(b.isPit());
 		assertFalse(b.hasTreasure());
 		assert(b.getTreasure() == null);
 	}
 	
 	@Test
 	public void test3() {
-		ObjectI obj = new ObjectImpl(null, null, 0); //TODO
+		ObjectI obj = new ObjectImpl(null, null, 0); //TODO //DO WHAT ?
 		BlocI b = new BlocImpl(true,obj);
-		assert(b.hasTreasure());
+		assertTrue(b.hasTreasure());
 		assertFalse(b.getTreasure() == null);
-		assert(b.getTreasure() == obj);
+		assertTrue(b.getTreasure() == obj);
 	}
 	
 	@Test
@@ -47,17 +47,17 @@ public class BlocImplTest {
 		BlocI b = new BlocImpl(true,null);
 		b.removeTreasure();
 		assertFalse(b.hasTreasure());
-		assert(b.getTreasure() == null);
+		assertTrue(b.getTreasure() == null);
 	}
 	
 	@Test
 	public void test5() {
-		ObjectI obj = new ObjectImpl(null, null, 0);//TODO
+		ObjectI obj = new ObjectImpl(null, null, 0);//TODO	// DO WHAT ?
 		BlocI b = new BlocImpl(true,obj);
 		Object tmp = b.removeTreasure();
-		assert(tmp == obj);
+		assertTrue(tmp == obj);
 		assertFalse(b.hasTreasure());
-		assert(b.getTreasure() == null);
+		assertTrue(b.getTreasure() == null);
 	}
 	
 }

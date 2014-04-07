@@ -57,14 +57,14 @@ public class PersonnageImplTest {
 	public void  removeHp(){
 		int hpAvant = p.getHp();
 		p.retraitHP(5);
-		assert(hpAvant == p.getHp()+5);
+		assertTrue(hpAvant == p.getHp()+5);
 	}
 	
 	@Test
 	public void  removeHpNeg(){
 		int hpAvant = p.getHp();
 		p.retraitHP(-5);
-		assert(hpAvant == p.getHp());
+		assertTrue(hpAvant == p.getHp());
 	}
 	
 	
@@ -73,7 +73,7 @@ public class PersonnageImplTest {
 	public 	void depotMoney(){
 		int money = p.getMoney();
 		p.depotsMoney(5);
-		assert(money+5 == p.getMoney());
+		assertTrue(money+5 == p.getMoney());
 	}
 	
 	@Test
@@ -87,7 +87,7 @@ public class PersonnageImplTest {
 	public 	void retraitMoney(){
 		int money = p.getMoney();
 		p.retraitMoney(5);
-		assert(money+5 == p.getMoney());
+		assertTrue(money+5 == p.getMoney());
 	}
 	
 	@Test
@@ -102,8 +102,8 @@ public class PersonnageImplTest {
 	public void jeter(){
 		p.ramasser(new ObjectImpl(null, null, 0));
 		p.jeter();
-		assert(p.getObject() == null);
-		assert(p.equiped());
+		assertTrue(p.getObject() == null);
+		assertTrue(p.equiped());
 	}
 	
 	
@@ -111,8 +111,8 @@ public class PersonnageImplTest {
 	public void ramasser(){
 		ObjectI o = new ObjectImpl(null, null, 0);
 		p.ramasser(o);
-		assert(p.getObject() == o);
-		assert(p.equiped());
+		assertTrue(p.getObject() == o);
+		assertTrue(p.equiped());
 	}
 	
 }

@@ -107,7 +107,7 @@ public class PersonnageContratTest {
 	public 	void test11(){
 		int money = p.getMoney();
 		p.depotsMoney(5);
-		assert(money+5 == p.getMoney());
+		assertTrue(money+5 == p.getMoney());
 	}
 	
 	@Test
@@ -122,7 +122,7 @@ public class PersonnageContratTest {
 		exception.expect(ContractError.class);
 		int money = p.getMoney();
 		p.retraitMoney(5);
-		assert(money-5 == p.getMoney());
+		assertTrue(money-5 == p.getMoney());
 	}
 	
 	@Test
@@ -130,7 +130,7 @@ public class PersonnageContratTest {
 		p.depotsMoney(50);
 		int money = p.getMoney();
 		p.retraitMoney(5);
-		assert(money-5 == p.getMoney());
+		assertTrue(money-5 == p.getMoney());
 	}
 	
 	@Test
@@ -146,8 +146,8 @@ public class PersonnageContratTest {
 	public void test16(){
 		p.ramasser(new ObjectImpl(null, null, 0));
 		p.jeter();
-		assert(p.getObject() == null);
-		assert(p.equiped());
+		assertTrue(p.getObject() == null);
+		assertTrue(p.equiped());
 	}
 	
 	
@@ -155,8 +155,8 @@ public class PersonnageContratTest {
 	public void test17(){
 		ObjectI o = new ObjectImpl(null, null, 0);
 		p.ramasser(o);
-		assert(p.getObject() == o);
-		assert(p.equiped());
+		assertTrue(p.getObject() == o);
+		assertTrue(p.equiped());
 	}
 	
 }

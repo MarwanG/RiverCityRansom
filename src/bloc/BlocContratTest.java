@@ -23,27 +23,27 @@ public class BlocContratTest {
 		assertTrue(b.isEmpty());
 		assertFalse(b.isPit());
 		assertFalse(b.hasTreasure());
-		assert(b.getTreasure() == null);
+		assertTrue(b.getTreasure() == null);
 	}
 	
 	@Test
 	public void test2() {
 		BlocI b = new BlocContract(new BlocImpl(false,null));
 		assertFalse(b.isEmpty());
-		assert(b.isPit());
+		assertTrue(b.isPit());
 		assertFalse(b.hasTreasure());
-		assert(b.getTreasure() == null);
+		assertTrue(b.getTreasure() == null);
 	}
 	
 	@Test
 	public void test3() {
 		ObjectI obj = new ObjectImpl(null, null, 0); //TODO
 		BlocI b = new BlocContract(new BlocImpl(true,obj));
-		assert(b.isEmpty());
+		assertTrue(b.isEmpty());
 		assertFalse(b.isPit());
-		assert(b.hasTreasure());
+		assertTrue(b.hasTreasure());
 		assertFalse(b.getTreasure() == null);
-		assert(b.getTreasure() == obj);
+		assertTrue(b.getTreasure() == obj);
 	}
 	
 	@Test
@@ -52,7 +52,7 @@ public class BlocContratTest {
 		BlocI b = new BlocContract(new BlocImpl(true,null));
 		b.removeTreasure();
 		assertFalse(b.hasTreasure());
-		assert(b.getTreasure() == null);
+		assertTrue(b.getTreasure() == null);
 	}
 	
 	@Test
@@ -61,9 +61,9 @@ public class BlocContratTest {
 		ObjectI obj = new ObjectImpl(null, null, 0);//TODO
 		BlocI b = new BlocContract(new BlocImpl(true,obj));
 		Object tmp = b.removeTreasure();
-		assert(tmp == obj);
+		assertTrue(tmp == obj);
 		assertFalse(b.hasTreasure());
-		assert(b.getTreasure() == null);
+		assertTrue(b.getTreasure() == null);
 	}
 
 	
