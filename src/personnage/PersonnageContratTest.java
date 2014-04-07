@@ -144,7 +144,7 @@ public class PersonnageContratTest {
 	
 	@Test
 	public void test16(){
-		p.ramasser(new ObjectImpl(null, null, 0, 0));
+		p.ramasser(new ObjectImpl(null, null, 0));
 		p.jeter();
 		assert(p.getObject() == null);
 		assert(p.equiped());
@@ -153,7 +153,7 @@ public class PersonnageContratTest {
 	
 	@Test
 	public void test17(){
-		ObjectI o = new ObjectImpl(null, null, 0, 0);
+		ObjectI o = new ObjectImpl(null, null, 0);
 		p.ramasser(o);
 		assert(p.getObject() == o);
 		assert(p.equiped());

@@ -10,7 +10,7 @@ public class ObjectContrat extends ObjectDecorator {
 	
 	
 	public void init(String s,Type t,int i){
-		if(s != ""){
+		if(s == ""){
 			Contractor.defaultContractor().preconditionError("ObjectContrat", "init","Nom est vide");
 		}
 		if(i <= 0){

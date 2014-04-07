@@ -100,7 +100,7 @@ public class PersonnageImplTest {
 	
 	@Test
 	public void jeter(){
-		p.ramasser(new ObjectImpl(null, null, 0, 0));
+		p.ramasser(new ObjectImpl(null, null, 0));
 		p.jeter();
 		assert(p.getObject() == null);
 		assert(p.equiped());
@@ -109,7 +109,7 @@ public class PersonnageImplTest {
 	
 	@Test
 	public void ramasser(){
-		ObjectI o = new ObjectImpl(null, null, 0, 0);
+		ObjectI o = new ObjectImpl(null, null, 0);
 		p.ramasser(o);
 		assert(p.getObject() == o);
 		assert(p.equiped());

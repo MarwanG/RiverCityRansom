@@ -37,7 +37,7 @@ public class BlocContratTest {
 	
 	@Test
 	public void test3() {
-		ObjectI obj = new ObjectImpl(null, null, 0, 0); //TODO
+		ObjectI obj = new ObjectImpl(null, null, 0); //TODO
 		BlocI b = new BlocContract(new BlocImpl(true,obj));
 		assert(b.hasTreasure());
 		assertFalse(b.getTreasure() == null);
@@ -56,7 +56,7 @@ public class BlocContratTest {
 	@Test
 	public void test5() {
 		exception.expect(ContractError.class);
-		ObjectI obj = new ObjectImpl(null, null, 0, 0);//TODO
+		ObjectI obj = new ObjectImpl(null, null, 0);//TODO
 		BlocI b = new BlocContract(new BlocImpl(true,obj));
 		Object tmp = b.removeTreasure();
 		assert(tmp == obj);

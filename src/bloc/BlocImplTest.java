@@ -35,7 +35,7 @@ public class BlocImplTest {
 	
 	@Test
 	public void test3() {
-		ObjectI obj = new ObjectImpl(null, null, 0, 0); //TODO
+		ObjectI obj = new ObjectImpl(null, null, 0); //TODO
 		BlocI b = new BlocImpl(true,obj);
 		assert(b.hasTreasure());
 		assertFalse(b.getTreasure() == null);
@@ -52,7 +52,7 @@ public class BlocImplTest {
 	
 	@Test
 	public void test5() {
-		ObjectI obj = new ObjectImpl(null, null, 0, 0);//TODO
+		ObjectI obj = new ObjectImpl(null, null, 0);//TODO
 		BlocI b = new BlocImpl(true,obj);
 		Object tmp = b.removeTreasure();
 		assert(tmp == obj);

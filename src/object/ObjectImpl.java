@@ -6,9 +6,9 @@ public class ObjectImpl implements ObjectI {
 	Type type;
 	int power;
 	int value;
-	public ObjectImpl(String nom, Type type, int power, int value) {
+	public ObjectImpl(String nom, Type type, int i) {
 		super();
-		
+		init(nom,type,i);
 	}
 	@Override
 	public void init(String s, Type t, int i) {
