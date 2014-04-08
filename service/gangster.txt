@@ -14,8 +14,7 @@ Constructors:
 	force(init(n))=20
 	hp(init(n))=100
 	money(init(n))=0
-	isEquiped(init(n))=true
-	getObject(init(n))=null
+	isEquiped(init(n))=false
   [addHp]
 	hp(addHp(p,s))=hp(p)	
   [addMoney]
@@ -24,6 +23,8 @@ Constructors:
 	money(removeMoney(p,s))=0
   [throw]
 	isEquiped(throw(p))=isEquiped(p)
+	//DOES NOTHING
   [pickUp]
 	isEquiped(pickUp(p,o))=isEquiped(p) 
-	getObject(pickUp(p,o))=getObject(p)	
+	getObject(pickUp(p,o))=getObject(p)
+	//DOES NOTHING	
