@@ -1,0 +1,62 @@
+Service: GestionCombat
+uses: Personnage , Terrain , Gangster
+types: boolean , int , String , enum COMMANDE{RIEN,GAUCHE,DROITE,FRAPPE}
+observators:
+	const length: [GestionCombat] -> int
+	const depth : [GestionCombat] -> int
+	const width : [GestionCombat] -> int
+	
+	Terrain: [GestionCombat] -> Terrain
+	ArrayList de Terrain
+	alex: [GestionCombat] -> Personnage
+	ryan: [GestionCombat] -> Personnage
+	slick: [GestionCombat] -> Gangster
+	ArrayList of gangsters
+	
+	PosXAlex: [GestionCombat] -> int
+	PosYAlex: [GestionCombat] -> int
+	PosZAlex: [GestionCombat] -> int
+
+	PosXryan: [GestionCombat] -> int
+	PosYryan: [GestionCombat] -> int	
+	PosZryan: [GestionCombat] -> int
+
+	PosXslick: [GestionCombat] -> int
+	PosYslick: [GestionCombat] -> int
+	PosZslick: [GestionCombat] -> int
+
+	
+	estGele: [GestionCombat] * String -> int
+		// precondtion depends on the arrayList
+		// and players names.
+Constructors:
+	init: int * int * int -> [GestionCombat]
+	      pre init(x,y) require x > 0 && y > 0
+Operators:
+	gerer: [GestionCombat] * COMMANDE * COMMANDE -> [GestionCombat]
+	    
+Observations:
+
+[Invariant] // DONT KNOW ANY
+
+[init]
+  width(init(w,l,d))=w	
+  length(init(w,l,d))=l
+  depth(init(w,l,d))=d
+  alex(init(w,l,d)))=Personnage::init("alex",4,5,5,50)
+  ryan(init(w,l,d)))=Personnage::init("ryan",5,6,5,50)
+  slick(init(w,l,d))=Gangster::init("slick")
+  Terrain(init(w,l,d))=Terrain::init(w,l,d,"DONT KNOW WHAT TO PUT ")
+  estGele(init(w,l,d),alex)= false
+  estGele(init(w,l,d),ryan)= false
+  estGele(init(w,l,d),slick)= false
+  PosXAlex(init(w,l,d))= (w * 1/10)
+  PosYAlex(init(w,l,d))= (l * 1/10)
+  PosZAlex(init(w,l,d))= (d * 0.5)
+  PosXRyan(init(w,l,d))= (w * 1/10)
+  PosYRyan(init(w,l,d))= (l * 1/10)
+  PosZRyan(init(w,l,d))= (d * 0.5 + 1)
+  PosXSlick(init(w,l,d))= (w - (w * 1/10))
+  PosYSlick(init(w,l,d))= (l -  l * 1/10)
+  PosZSlick(init(w,l,d))= (d * 0.5)
+  
