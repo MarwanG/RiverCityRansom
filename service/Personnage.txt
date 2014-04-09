@@ -12,6 +12,7 @@ observators:
 	youDeadMan:[Personnage] -> boolean
 	isEquiped:[Personnage] -> boolean
 	getObject:[Personnage] -> Object
+	getCarried: [Personnage] -> Personnage
 	
 Constructors:
 	init: String * int * int * int * int -> Personnage
@@ -30,6 +31,8 @@ Operators:
 		pre throw(p) require isEquiped(p) & !youDeadMan(P)
 	pickUp: [Personnage] * Object -> Personnage
 		pre pickUp(p,o) require !youDeadMan(p)
+	pickUpPersonnage: [Personnage] * [Personnage] -> Personnage
+		pre pickUp(p,p1) require !youDeadMan(p)
 
 Observation:
 	[invariant]
@@ -61,4 +64,9 @@ Observation:
 		isEquiped(pickUp(p,Object::init("o",sellabe,10)))=false
 		getObject(pickUp(p,Object::init("o",usable,10))))=Object::init("o",usable,10))
 		money(pickUp(p,Object::init("o",sellable,10))))=money(p)+10
+		getCarried(pickUp(p,o)) = null
+	[pickUpPersonnage]
+		isEquiped(pickUpPersonnage(p,p1)) = true
+		getObject(pickUpPersonnage(p,p1)) = null
+		getCarried(pickUpPersonnage(p,p1)) = p1
 	
