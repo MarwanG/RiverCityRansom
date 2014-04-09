@@ -15,7 +15,7 @@ observators:
 	
 Constructors:
 	init: String * int * int * int * int -> Personnage
-	 pre init(nom,width,height,depth,force) require nom != "" AND force > 0
+	 pre init(nom,width,height,depth,force) require nom != "" AND force > 0 AND width > 0 AND height > 0 AND depth > 0
 
 Operators:
 	addHp: [Personnage] * int -> Personnage	
@@ -27,8 +27,9 @@ Operators:
 	removeMoney: [Personnage] * int -> Personnage
 		pre removeMoney(P,s) require s>0 & money(p)-s >= 0 & !youDeadMan(p)
 	throw: [Personnage] -> Personnage
-		pre throw(p) require isEquiped(p)
+		pre throw(p) require isEquiped(p) & !youDeadMan(P)
 	pickUp: [Personnage] * Object -> Personnage
+		pre pickUp(p,o) require !youDeadMan(p)
 
 Observation:
 	[invariant]
@@ -48,6 +49,7 @@ Observation:
 		hp(addHp(p,s))=hp(p)+s
 	[removeHp]
 		hp(removeHp(p,s))=min(hp(p)-s,0)
+		youDeadMan(remove(p,hp(p)))=true
 	[addMoney]
 		money(addMoney(p,s))=money(p)+s
 	[removeMoney]
@@ -55,7 +57,8 @@ Observation:
 	[throw]
 		isEquiped(throw(p))=false
 	[pickUp]
-		isEquiped(pickUp(p,o))=true
-		getObject(pickUp(p,o))=o
-
+		isEquiped(pickUp(p,Object::init("o",usable,10)))=true
+		isEquiped(pickUp(p,Object::init("o",sellabe,10)))=false
+		getObject(pickUp(p,Object::init("o",usable,10))))=Object::init("o",usable,10))
+		money(pickUp(p,Object::init("o",sellable,10))))=money(p)+10
 	
