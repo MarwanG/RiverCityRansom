@@ -1,62 +1,138 @@
 Service: GestionCombat
 uses: Personnage , Terrain , Gangster
-types: boolean , int , String , enum COMMANDE{RIEN,GAUCHE,DROITE,FRAPPE}
+types: boolean , int , String , num COMMAND{UP,DOWN,LEFT,RIGHT, JUMP_UP,JUMP_DOWN,JUMP_LEFT,JUMP_RIGHT}
+
 observators:
+
 	const length: [GestionCombat] -> int
 	const depth : [GestionCombat] -> int
 	const width : [GestionCombat] -> int
-	
-	Terrain: [GestionCombat] -> Terrain
-	ArrayList de Terrain
+	const nbGangsters: [GestionCombat] -> int
+
+	const Terrain: [GestionCombat] -> Terrain
+
 	alex: [GestionCombat] -> Personnage
 	ryan: [GestionCombat] -> Personnage
 	slick: [GestionCombat] -> Gangster
-	ArrayList of gangsters
+	gangsters: [GestionCombat] -> Gangster[]
+
+	recupPersonnage: [GestionCombat] * String -> [Personnage]
+		pre: recupPersonnage(C,s) require s in  {"Alex","Ryan","Slick" "Gangster_i"} WHERE i is String::int} AND 0<i<nbGangsters-1
+
+	position: [GestionCombat] * [Personnage] * string -> int
+		pre: position(C,p,s) require s in {"x","y","z"}
 	
-	PosXAlex: [GestionCombat] -> int
-	PosYAlex: [GestionCombat] -> int
-	PosZAlex: [GestionCombat] -> int
+	freeze: [GestionCombat] * [Personnage] -> int
 
-	PosXryan: [GestionCombat] -> int
-	PosYryan: [GestionCombat] -> int	
-	PosZryan: [GestionCombat] -> int
+	inRange: [GestionCombat] * [Personnage] * [Personnage] -> boolean
+		pre: inRange(C,p1,p2) require p1 != p2 =! NULL
+			AND p1 is {slick,alex,ryan, gangster[0:nbGangsters-1]}
+			AND p2 is {slick,alex,ryan, gangster[0:nbGangsters-1]}
 
-	PosXslick: [GestionCombat] -> int
-	PosYslick: [GestionCombat] -> int
-	PosZslick: [GestionCombat] -> int
 
-	
-	estGele: [GestionCombat] * String -> int
-		// precondtion depends on the arrayList
-		// and players names.
 Constructors:
 	init: int * int * int -> [GestionCombat]
 	      pre init(x,y) require x > 0 && y > 0
+
 Operators:
-	gerer: [GestionCombat] * COMMANDE * COMMANDE -> [GestionCombat]
+	step: [GestionCombat] * COMMANDE * COMMANDE -> [GestionCombat]
+		pre: step(C,CR,CA) require CR != Null AND CA != Null
 	    
 Observations:
 
-[Invariant] // DONT KNOW ANY
+[Invariant] 
+	
+	Freeze(C,p) >= 0;
+	Position(C,p,s) >=0;
+	Position(C,p,"x") < l;
+	Position(C,p,"y") < w;
+	Position(C,p,"z") < d;
+
+	recupPersonnage(C,p) =min= 
+		alex(C) SI p is "alex"
+		ryan(C) SI p is "ryan"
+		slick(C) SI p is "slick"
+		gangsters[i](C): SI p is "Gangster_i"
+
+
+	inRange(C,p1,p2) =min=  
+		Position(C,recupPersonnage(C,p),DIM) = Position(C,recupPersonnage(C,p2),DIM)+1
+		OR
+		Position(C,recupPersonnage(C,p),DIM) = Position(C,recupPersonnage(C,p2),DIM)-1
+
 
 [init]
+
   width(init(w,l,d))=w	
   length(init(w,l,d))=l
   depth(init(w,l,d))=d
-  alex(init(w,l,d)))=Personnage::init("alex",4,5,5,50)
-  ryan(init(w,l,d)))=Personnage::init("ryan",5,6,5,50)
-  slick(init(w,l,d))=Gangster::init("slick")
-  Terrain(init(w,l,d))=Terrain::init(w,l,d,"DONT KNOW WHAT TO PUT ")
-  estGele(init(w,l,d),alex)= false
-  estGele(init(w,l,d),ryan)= false
-  estGele(init(w,l,d),slick)= false
-  PosXAlex(init(w,l,d))= (w * 1/10)
-  PosYAlex(init(w,l,d))= (l * 1/10)
-  PosZAlex(init(w,l,d))= (d * 0.5)
-  PosXRyan(init(w,l,d))= (w * 1/10)
-  PosYRyan(init(w,l,d))= (l * 1/10)
-  PosZRyan(init(w,l,d))= (d * 0.5 + 1)
-  PosXSlick(init(w,l,d))= (w - (w * 1/10))
-  PosYSlick(init(w,l,d))= (l -  l * 1/10)
-  PosZSlick(init(w,l,d))= (d * 0.5)
-  
+  nbGangsters(init(w,l,d)) = w*l*0.30 //30 du territoire est peuplé de vil méchants
+
+  alex(init(w,l,d))) = Personnage::init("alex",5,5,5,50)
+  ryan(init(w,l,d))) = Personnage::init("ryan",5,6,5,50)
+  slick(init(w,l,d)) = Gangster::init("slick")
+  Terrain(init(w,l,d)) = Terrain::init(w,l,d)
+
+
+  [FOR ALL( i=[5:w-1] , j=[0:h-1] , k=[0,d-1])
+   WHERE Bloc::IsEmpty(Terrain::getBlocCoord(i,j,k)
+   AND Random::True
+   AND Index < nbGangster
+   ]:index 
+    ==> {
+    	Gangster[index](init(w,l,d)) = Gangster::init("Scumbag");
+    	position(C,"Gangster_"+index,"x") = i;
+    	position(C,"Gangster_"+index,"y") = j;
+    	position(C,"Gangster_"+index,"z") = k; 
+   		}
+
+   freeze(C,p) = 0
+   position(C,"Ryan","x") = 0;
+   position(C,"Alex","x") = 0;
+   position(C,"Ryan","y") = 0;
+   position(C,"Alex","y") = 1;
+   position(C,"Slick","x") = l-1;
+   position(C,"Slick","y") = 0;
+   position(C,"Slick","z") = 0;
+
+[step]
+	
+	
+	alex(step(C,CR,CA)) = Personnage::removeHP(alex(C),Gangster::force(p)
+		require: p is Gangster 
+			AND inRange(C,p, Alex(C))
+			AND CA != COMMAND.KICK
+			AND freeze(Alex(C)) != 0
+			AND freeze(p) = 0;
+
+	ryan(step(C,CR,CA)) = Personnage::removeHP(ryan(C),Gangster::force(p)
+		require: p is Gangster 
+			AND inRange(C,p, ryan(C))
+			AND CR != COMMAND.KICK
+			AND freeze(ryan(C)) != 1
+			AND freeze(p) != 1;
+
+	slick(step(C,CR,CA)) =
+		Personnage::removeHP(slick(C),Personnage::force(p)
+		require:p is Alex(C) AND CA == COMMAND.KICK OR p is Ryan(C) AND CR == COMMAND.KICK
+			AND inRange(C,p,slick(C))
+			AND freeze(p) = 0
+
+	gangsters[i](step(C,CR,CA))
+		Personnage::removeHP(Gangster[i](C),Personnage::force(p)
+		require: p is Alex(C) AND CA == COMMAND.KICK OR p is Ryan(C) AND CR == COMMAND.KICK
+			AND inRange(C,p,Gangster[i](C))
+			AND freeze(p) = 0
+
+	
+	position(step(C,CR,CA),Alex(C)) = 
+	position(step(C,CR,CA),Ryan(C)) = 
+	position(step(C,CR,CA),Slick(C)) = 
+	position(step(C,CR,CA),Gangster[i](C)) =
+
+	freeze(step(C,CR,CA),Alex(C)) = 
+	freeze(step(C,CR,CA),Ryan(C)) = 
+	freeze(step(C,CR,CA),Slick(C)) = 
+	freeze(step(C,CR,CA),Gangster[i](C)) =
+	
+	

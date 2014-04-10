@@ -15,16 +15,21 @@ Constructors:
 	hp(init(n))=100
 	money(init(n))=0
 	isEquiped(init(n))=false
+
   [addHp]
-	hp(addHp(p,s))=hp(p)	
+	hp(addHp(p,s))=hp(p)
+
   [addMoney]
 	money(addMoney(p,s))=0
+
   [removeMoney]
 	money(removeMoney(p,s))=0
+
   [throw]
 	isEquiped(throw(p))=isEquiped(p)
-	//DOES NOTHING
+
   [pickUp]
 	isEquiped(pickUp(p,o))=isEquiped(p) 
 	getObject(pickUp(p,o))=getObject(p)
-	//DOES NOTHING	
+	
+	
