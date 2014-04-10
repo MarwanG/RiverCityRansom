@@ -93,10 +93,12 @@ Observations:
    freeze(C,p) = 0
    position(C,"Ryan","x") = 0;
    position(C,"Alex","x") = 0;
+   position(C,"Slick","x") = l-1;
    position(C,"Ryan","y") = 0;
    position(C,"Alex","y") = 1;
-   position(C,"Slick","x") = l-1;
    position(C,"Slick","y") = 0;
+   position(C,"Ryan”,”z”) = 0;
+   position(C,"Alex”,”z”) = 0;
    position(C,"Slick","z") = 0;
 
 [step]
