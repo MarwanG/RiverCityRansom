@@ -153,10 +153,40 @@ Observations:
 			[freeze(C,Alex(C)) = 0 AND inRange(C,Alex(C),Slick(C))
 			AND lastCommand(C,Alex(C)) = COMMAND.LEFT OR COMMAND.JUMP_LEFT;
 			AND CR = COMMAND.KICK]
+
+		min(position(C,"slick","y")+3,w)
+			SI: 
+			[freeze(C,Ryan(C)) = 0 AND inRange(C,Ryan(C),Slick(C))
+			AND lastCommand(C,Ryan(C)) = COMMAND.UP OR COMMAND.JUMP_UP;
+			AND CR = COMMAND.KICK]
+			OR 
+			[freeze(C,Alex(C)) = 0 AND inRange(C,Alex(C),Slick(C))
+			AND lastCommand(C,Alex(C)) = COMMAND.UP OR COMMAND.JUMP_UP;
+			AND CR = COMMAND.KICK]
+
+		max(position(C,"slick","x")-3,0)
+			SI: 
+			[freeze(C,Ryan(C)) = 0 AND inRange(C,Ryan(C),Slick(C))
+			AND lastCommand(C,Ryan(C)) = COMMAND.RIGHT OR COMMAND.JUMP_RIGHT;
+			AND CR = COMMAND.KICK]
+			OR 
+			[freeze(C,Alex(C)) = 0 AND inRange(C,Alex(C),Slick(C))
+			AND lastCommand(C,Alex(C)) = COMMAND.RIGHT OR COMMAND.JUMP_RIGHT;
+			AND CR = COMMAND.KICK]
+
+		max(position(C,"slick","y")-3,0)
+			SI: 
+			[freeze(C,Ryan(C)) = 0 AND inRange(C,Ryan(C),Slick(C))
+			AND lastCommand(C,Ryan(C)) = COMMAND.DOWN OR COMMAND.JUMP_DOWN;
+			AND CR = COMMAND.KICK]
+			OR 
+			[freeze(C,Alex(C)) = 0 AND inRange(C,Alex(C),Slick(C))
+			AND lastCommand(C,Alex(C)) = COMMAND.DOWN OR COMMAND.JUMP_DOWN;
+			AND CR = COMMAND.KICK]
 		
 
 	position(step(C,CR,CA),Gangster[i](C)) =
-		min(position(C,"Gangster_I","x")+3,l)
+		min(position(C,"Gangster_i","x")+3,l)
 			SI: 
 			[freeze(C,Ryan(C)) = 0 AND inRange(C,Ryan(C),Gangster[i](C))
 			AND lastCommand(C,Ryan(C)) = COMMAND.LEFT OR COMMAND.JUMP_LEFT;
@@ -164,6 +194,36 @@ Observations:
 			OR 
 			[freeze(C,Alex(C)) = 0 AND inRange(C,Alex(C),Gangster[i](C))
 			AND lastCommand(C,Alex(C)) = COMMAND.LEFT OR COMMAND.JUMP_LEFT;
+			AND CR = COMMAND.KICK]
+
+		min(position(C,"Gangster_i","y")+3,w)
+			SI: 
+			[freeze(C,Ryan(C)) = 0 AND inRange(C,Ryan(C),Gangster[i](C))
+			AND lastCommand(C,Ryan(C)) = COMMAND.UP OR COMMAND.JUMP_UP;
+			AND CR = COMMAND.KICK]
+			OR 
+			[freeze(C,Alex(C)) = 0 AND inRange(C,Alex(C),Gangster[i](C))
+			AND lastCommand(C,Alex(C)) = COMMAND.UP OR COMMAND.JUMP_UP;
+			AND CR = COMMAND.KICK]
+
+		max(position(C,"Gangster_i","x")-3,0)
+			SI: 
+			[freeze(C,Ryan(C)) = 0 AND inRange(C,Ryan(C),Gangster[i](C))
+			AND lastCommand(C,Ryan(C)) = COMMAND.RIGHT OR COMMAND.JUMP_RIGHT;
+			AND CR = COMMAND.KICK]
+			OR 
+			[freeze(C,Alex(C)) = 0 AND inRange(C,Alex(C),Gangster[i](C))
+			AND lastCommand(C,Alex(C)) = COMMAND.RIGHT OR COMMAND.JUMP_RIGHT;
+			AND CR = COMMAND.KICK]
+
+		max(position(C,"Gangster_i","y")-3,0)
+			SI: 
+			[freeze(C,Ryan(C)) = 0 AND inRange(C,Ryan(C),Gangster[i](C))
+			AND lastCommand(C,Ryan(C)) = COMMAND.DOWN OR COMMAND.JUMP_DOWN;
+			AND CR = COMMAND.KICK]
+			OR 
+			[freeze(C,Alex(C)) = 0 AND inRange(C,Alex(C),Gangster[i](C))
+			AND lastCommand(C,Alex(C)) = COMMAND.DOWN OR COMMAND.JUMP_DOWN;
 			AND CR = COMMAND.KICK]
 
 	freeze(step(C,CR,CA),Alex(C)) = 
