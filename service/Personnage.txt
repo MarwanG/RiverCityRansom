@@ -59,6 +59,9 @@ Observation:
 		money(removeMoney(p,s))=min(money(p)-s,0)
 	[throw]
 		isEquiped(throw(p))=false
+		getObject(throw(p))= false
+		getCarried(throw(p))=false
+		
 	[pickUp]
 		isEquiped(pickUp(p,Object::init("o",usable,10)))=true
 		isEquiped(pickUp(p,Object::init("o",sellabe,10)))=false

@@ -254,4 +254,10 @@ Observations:
 			SI: CR = COMMAND.KICK AND inRange(C,Gangster[i](C), ryan(C)) AND freeze(ryan(c)) = 0
 				OR CA = COMMAND.KICK AND inRange(C,Gangster[i](C), Alex(C)) AND freeze(alex(c)) = 0
 	
+	freeze(step(C,CR,CA),Gangster[i](C))=
+		freeze(C,Gangster[i](C)) = freeze(C,Gangster[i](C))+3
+			SI: CR = COMMAND.CARRY
+	freeze(step(C,CR,CA),Gangster[i](C))= !freeze(C,Gangster[i](C))
+				SI CR = COMMAND.THROW AND alex::getCarried=Gangster[i](C)
+	
 	
