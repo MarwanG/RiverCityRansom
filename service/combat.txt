@@ -110,6 +110,9 @@ Observations:
 				AND freeze(Alex(C)) != 0
 				AND freeze(p) = 0;
 
+		Personnage::addMoney(Alex(C),Object::Value(Bloc::RemoveTreasure(Terrain::GetBlocCoord(Position(C,"Alex","x"),y,z))));
+			SI: CA = COMMAND.PICKUP AND BLOC::HasTreasure And Terrain::isEmpty;
+
 	ryan(step(C,CR,CA)) = 
 		Personnage::removeHP(ryan(C),Gangster::force(p)
 			SI: p is Gangster 
@@ -117,6 +120,9 @@ Observations:
 				AND CR != COMMAND.KICK
 				AND freeze(ryan(C)) != 1
 				AND freeze(p) != 1;
+
+		Personnage::addMoney(Ryan(C),Object::Value(Bloc::RemoveTreasure(Terrain::GetBlocCoord(Position(C,"ryan","x"),y,z))));
+			SI: CA = COMMAND.PICKUP AND BLOC::HasTreasure And Terrain::isEmpty;
 
 	slick(step(C,CR,CA)) =
 		Personnage::removeHP(slick(C),Personnage::force(p)
@@ -136,6 +142,8 @@ Observations:
 		position(C,"alex","y")+1 SI CA = COMMAND.UP AND COMMAND.JUMP_UP;
 		position(C,"alex","x")-1 SI CA = COMMAND.LEFT AND COMMAND.JUMP_LEFT;
 		position(C,"alex","y")-1 SI CA = COMMAND.DOWN AND COMMAND.JUMP_DOWN;
+
+
 
 	position(step(C,CR,CA),Ryan(C)) = 
 		position(C,"ryan","x")+1 SI CR = COMMAND.RIGHT AND COMMAND.JUMP_RIGHT;
