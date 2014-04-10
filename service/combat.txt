@@ -35,7 +35,7 @@ observators:
 
 Constructors:
 	init: int * int * int -> [GestionCombat]
-	      pre init(x,y) require x > 0 && y > 0
+	      pre init(x,y,z) require x > 0 && y > 0 && z > 0
 
 Operators:
 	step: [GestionCombat] * COMMANDE * COMMANDE -> [GestionCombat]
