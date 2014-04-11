@@ -1,0 +1,127 @@
+Test init
+
+	Test: p = init(5,5,5)
+	Oracle: p != null
+			length = 5
+			depth = 5
+			width = 5
+			nbGangsters = 3
+			alex = Personnage::init("alex",5,5,5,50)
+			ryan = Personnage::init("ryan",5,6,5,50)
+			slick = Gangster::init("slick")
+			Terrain = Terrain::init(w,l,d)
+			lastCommand = null
+			//on peut pas teste les bloc pour les terrain
+			freeze(C,p) = 0 pour p appartient a {ryan,alex,slick} et gangsters
+	   
+	   		position(C,"Ryan","x") = 0;
+	  		position(C,"Alex","x") = 0;
+		    position(C,"Slick","x") = 4;
+		    position(C,"Ryan","y") = 0;
+		    position(C,"Alex","y") = 1;
+		    position(C,"Slick","y") = 0;
+		    position(C,"Ryan”,”z”) = 0;
+		    position(C,"Alex”,”z”) = 0;
+		    position(C,"Slick","z") = 0;
+
+
+	Test: p = init(5,0,5)
+	Oracle: p = null
+
+	Test: p  = init(0,5,5)
+	Oracle: p =  null
+
+	Test: p = init(5,5,0)
+	Oracle: p = null
+
+	Test: p = init(5,0,0)
+	Oracle: p = null
+
+	Test: p = init(0,0,5)
+	Oracle: p = null
+
+
+
+
+Test LastCommand 
+
+	initial: c = init(10,10,10)
+	Test:	 command = lastCommand(c,ryan(c))
+	Oracle: command = null
+	Test:	 command = lastCommand(c,alex(c))
+	Oracle: command = null
+
+	initial: c = init(10,10,10)
+			 c = step(c,COMMAND.UP,COMMAND.UP)
+	Test:	 command = lastCommand(c,ryan(c))
+	Oracle:  command =  COMMAND.UP
+	Test:	 command = lastCommand(c,alex(c))
+	Oracle:  command =  COMMAND.UP
+	Test:	 command = lastCommand(c,batman(c))
+	Oracle:  command =  null
+
+
+Test recupPersonnage
+
+initial: c = init(10,10,10)
+Test: p = recupPersonnage(c,"Alex")
+Oracle: p = alex(c)
+Test: p = recupPersonnage(c,"Ryan")
+Oracle: p = ryan(c)
+Test: p = recupPersonnage(c,"Slick")
+Oracle: p = slick(c)
+Test: p = recupPersonnage(c,"Gangster_i")
+Oracle: p = Gangster[i](c) //faire pour tous les 0<=i<nbGangsters
+
+
+
+initial: c = init(10,10,10)
+Test: p = recupPersonnage(c,"batman")
+Oracle: p = null
+
+
+
+Test pour position:
+
+initial: c = init(10,10,10)
+Test: i = position(c,alex(c),"x")
+Oracle: i = 0
+
+initial: c = init(10,10,10)
+Test: i = position(c,alex(c),"y")
+Oracle: i = null
+
+initial: c = init(10,10,10)
+Test: i = position(c,alex(c),"z")
+Oracle: i = null
+
+initial: c = init(10,10,10)
+Test: i = position(c,batman(c),p)
+Oracle: i = null
+
+Test pour freeze
+
+initial: c = init(10,10,10)
+Test: i = freeze(c,alex(c))
+Oracle: i = 0
+
+initial: c = init(10,10,10)
+Test: i = freeze(c,batman(c))
+Oracle: i = null
+
+//il faut teste avec tous les personnage .
+
+Test inRange
+
+initial: c = init(10,10,10)
+Test:  b = inRange(c,alex(c),ryan(c))
+Oracle: b = true
+
+initial: c = init(10,10,10)
+Test:  b = inRange(c,ryan(c),ryan(c))
+Oracle: b = null
+
+initial: c = init(10,10,10)
+Test:  b = inRange(c,slick(c),ryan(c))
+Oracle: b = true.
+

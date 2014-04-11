@@ -22,11 +22,14 @@ observators:
 	recupPersonnage: [GestionCombat] * String -> [Personnage]
 		pre: recupPersonnage(C,s) require s in  {"Alex","Ryan","Slick" "Gangster_i"} WHERE i is String::int} AND 0<i<nbGangsters-1
 
+		//on peut faire union entre le deux liste ? does this language support union ??
+
 	position: [GestionCombat] * [Personnage] * string -> int
-		pre: position(C,p,s) require s in {"x","y","z"}
+		pre: position(C,p,s) require s in {"x","y","z"} AND  
+			p in {Alex,Ryan,Slick} ou  Personnage in gangsters
 	
 	freeze: [GestionCombat] * [Personnage] -> int
-
+		pre: freeze(c,p) require  p in {"Alex","Ryan","Slick"} ou  Personnage in gangsters
 	inRange: [GestionCombat] * [Personnage] * [Personnage] -> boolean
 		pre: inRange(C,p1,p2) require p1 != p2 =! NULL
 			AND p1 is {slick,alex,ryan, gangster[0:nbGangsters-1]}
@@ -35,7 +38,7 @@ observators:
 
 Constructors:
 	init: int * int * int -> [GestionCombat]
-	      pre init(x,y,z) require x > 0 && y > 0 && z > 0
+	      pre init(x,y,z) require x > 50 && y > 50 && z > 50
 
 Operators:
 	step: [GestionCombat] * COMMANDE * COMMANDE -> [GestionCombat]
@@ -69,7 +72,7 @@ Observations:
   width(init(w,l,d))=w	
   length(init(w,l,d))=l
   depth(init(w,l,d))=d
-  nbGangsters(init(w,l,d)) = w*l*0.30 //30 du territoire est peuplé de vil méchants
+  nbGangsters(init(w,l,d)) = w*l*0.30 //30 % du territoire est peuplé de vil méchants
 
   alex(init(w,l,d))) = Personnage::init("alex",5,5,5,50)
   ryan(init(w,l,d))) = Personnage::init("ryan",5,6,5,50)
@@ -103,7 +106,8 @@ Observations:
 
 [step]
 	
-	
+	lastCommand(step(C,CA,CR)) = (lastCommand(Alex(C)) == CA AND lastCommand(Ryan(c)) == CR)
+
 	alex(step(C,CR,CA)) = 
 		Personnage::removeHP(alex(C),Gangster::force(p))
 			SI: p is Gangster 
@@ -259,5 +263,6 @@ Observations:
 			SI: CR = COMMAND.CARRY
 	freeze(step(C,CR,CA),Gangster[i](C))= !freeze(C,Gangster[i](C))
 				SI CR = COMMAND.THROW AND alex::getCarried=Gangster[i](C)
-	
+	 
+
 	
