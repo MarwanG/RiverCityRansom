@@ -59,6 +59,14 @@ Test LastCommand
 	Oracle:  command =  COMMAND.UP
 	Test:	 command = lastCommand(c,batman(c))
 	Oracle:  command =  null
+			c2 = step(c,COMMAND.DOWN,COMMAND.LEFT);
+	Test:	 command = lastCommand(c2,ryan(c))
+	Oracle:  command =  COMMAND.DOWN
+	Test:	 command = lastCommand(c2,alex(c))
+	Oracle:  command =  COMMAND.LEFT
+	Test:	 command = lastCommand(c2,batman(c))
+	Oracle:  command =  null
+
 
 
 Test recupPersonnage
@@ -89,11 +97,11 @@ Oracle: i = 0
 
 initial: c = init(10,10,10)
 Test: i = position(c,alex(c),"y")
-Oracle: i = null
+Oracle: i = 1
 
 initial: c = init(10,10,10)
 Test: i = position(c,alex(c),"z")
-Oracle: i = null
+Oracle: i = 0
 
 initial: c = init(10,10,10)
 Test: i = position(c,batman(c),p)

@@ -82,7 +82,7 @@ Observations:
 
 
   [FOR ALL( i=[5:w-1] , j=[0:h-1] , k=[0,d-1])
-   WHERE Bloc::IsEmpty(Terrain::getBlocCoord(i,j,k)
+   WHERE Bloc::IsEmpty(Terrain::BlocCoord(i,j,k)
    AND Random::True
    AND Index < nbGangster
    ]:index 
