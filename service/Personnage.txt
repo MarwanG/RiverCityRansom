@@ -7,6 +7,7 @@ observators:
 	const height: [Personnage] -> int
 	const depth: [Personnage] -> int
 	const force: [Personnage] -> int
+	currentForce: [Personnage] -> int
 	hp:[Personnage] -> int
 	money:[Personnage] -> int
 	youDeadMan:[Personnage] -> boolean
@@ -37,7 +38,8 @@ Operators:
 Observation:
 	[invariant]
 		youDeadMan(p) min= hp(p) <= 0
-		isEquiped(p) min= getObject(p) != null
+		isEquiped(p) min= getObject(p) != null OR getCarried(p) != null
+		currentForce(p) min= Force(p) + getObject(p)::power 
 	[init]
 		nom(init(n,l,h,p,f))=n
 		width(init(n,l,h,p,f))=l
@@ -48,6 +50,7 @@ Observation:
 		money(init(n,l,h,p,f))=0
 		isEquiped(init(n,l,h,p,f))=false
 		getObject(init(n,l,h,p,f))=null
+		currentForce((init(n,l,h,p,f)) = f
 	[addHp]
 		hp(addHp(p,s))=hp(p)+s
 	[removeHp]
@@ -61,13 +64,15 @@ Observation:
 		isEquiped(throw(p))=false
 		getObject(throw(p))= false
 		getCarried(throw(p))=false
-		
+		currentForce(throw(p))=force(p)
+
 	[pickUp]
 		isEquiped(pickUp(p,Object::init("o",usable,10)))=true
 		isEquiped(pickUp(p,Object::init("o",sellabe,10)))=false
 		getObject(pickUp(p,Object::init("o",usable,10))))=Object::init("o",usable,10))
 		money(pickUp(p,Object::init("o",sellable,10))))=money(p)+10
 		getCarried(pickUp(p,o)) = null
+		currentForce(pickUp(p,Object::init("o",usable,10))) = currentForce(p) +10
 	[pickUpPersonnage]
 		isEquiped(pickUpPersonnage(p,p1)) = true
 		getObject(pickUpPersonnage(p,p1)) = null

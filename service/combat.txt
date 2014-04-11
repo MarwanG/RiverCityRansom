@@ -62,9 +62,11 @@ Observations:
 
 
 	inRange(C,p1,p2) =min=  
+	DIM:["x","y","z"]: AND{ 
 		Position(C,recupPersonnage(C,p),DIM) = Position(C,recupPersonnage(C,p2),DIM)+1
 		OR
 		Position(C,recupPersonnage(C,p),DIM) = Position(C,recupPersonnage(C,p2),DIM)-1
+	}
 
 
 [init]
