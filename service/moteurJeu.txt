@@ -1,0 +1,58 @@
+service: MoteurJeu
+use: GestionCombat
+types: boolean, enum COMMAND{NONE,UP,DOWN,LEFT,RIGHT, JUMP_UP,JUMP_DOWN,JUMP_LEFT,JUMP_RIGHT,KICK,THROW, PICKUP}, enum RESULT{WON,LOST,TIED}
+
+Observators:
+
+	isFinished: [MoteurJeu] -> boolean
+	finalResult : [MoteurJeu] -> RESULT
+		pre finalResult(M) require isFinished(M)
+	combat : [MoteurJeu] -> GestionCombat
+
+Constructor:
+	
+	init: int*int*int -> [MoteurJeu]
+		pre init(w,h,d) require w >= h >= d > 0
+
+Operators:
+	
+	gameStep: [MoteurJeu] * COMMAND * COMMAND -> [MoteurJeu]
+		gameStep(M,CR,CA) require M != null ^ !isFinished(M)
+
+Observations:
+	
+	[invariants]
+
+		isFinished(M) =min= 
+			(Personnage::youDeadMan(GestionCombat::Slick(combat(M))) = true)
+			OR
+			(
+			Personnage::youDeadMan(GestionCombat::Alex(combat(M))) = true
+			AND 
+			Personnage::youDeadMan(GestionCombat::Ryan(combat(M))) = true
+			)
+
+		finalResult(M) =min=
+			1-	if (Gangster::youDeadMan(GestionCombat::Slick(combat(M))) = true)
+				AND	[(Personnage::youDeadMan(GestionCombat::Alex(combat(M))) = false)
+					OR (Personnage::youDeadMan(GestionCombat::Ryan(combat(M))) = false)]
+				WON
+
+			2- if (Gangster::youDeadMan(GestionCombat::Slick(combat(M))) = false)
+				AND	[(Personnage::youDeadMan(GestionCombat::Alex(combat(M))) = true)
+					AND (Personnage::youDeadMan(GestionCombat::Ryan(combat(M))) = true)]
+				LOST
+
+			3- if (Gangster::youDeadMan(GestionCombat::Slick(combat(M))) = true)
+				AND	[(Personnage::youDeadMan(GestionCombat::Alex(combat(M))) = true)
+					AND (Personnage::youDeadMan(GestionCombat::Ryan(combat(M))) = true)]
+				TIED
+
+	[init]
+
+		combat(init(w,h,d)) = GestionCombat::init(w,h,d);
+
+	[gameStep]
+
+		combat(gamestep(M,CR,CA)) = GestionCombat::step(Combat(M),CR,CA);
+

@@ -113,6 +113,12 @@ Initial: p = init("m",10,10,10,10)
 Test: p = jeter(p)
 oracle: object?(p) = null
 
+
+Initial: p = init("m",10,10,10,10)
+		pickUpPersonnage(p,p1)
+Test: p = jeter(p)
+oracle: getCarried(p) = null
+
 Initial: p = init("m",10,10,10,10)
 		pickUp(p,obj)
 		youDeadMan(p) = true
