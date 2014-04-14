@@ -130,7 +130,7 @@ Observations:
 				AND freeze(p) != 1;
 
 		Personnage::addMoney(Ryan(C),Object::Value(Bloc::RemoveTreasure(Terrain::GetBlocCoord(Position(C,"ryan","x"),y,z))));
-			SI: CA = COMMAND.PICKUP AND BLOC::HasTreasure And Terrain::isEmpty;
+			SI: CA = COMMAND.PICKUP AND BLOC::HasTreasure And Terrain::isEmpty;s
 
 	slick(step(C,CR,CA)) =
 		Personnage::removeHP(slick(C),Personnage::force(p)
