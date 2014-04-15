@@ -3,14 +3,14 @@ use: Bloc,List,Object
 types : int
 
 observators:
-	- const width: [Terrain] -> int
+	- const length: [Terrain] -> int
 	- const height: [Terrain] -> int
 	- const depth: [Terrain] -> int
 	- const nbBloc: [Terrain] -> int
 
 	- BlocCoord: [Terrain] *int * int * int -> Bloc
 		pre: getBlocCoord(w,h,d) require w>=0 AND w<width AND h>=0 AND h<height AND d>=0 AND d<depth
-	
+
 
 constructors:
 	- init: int * int * int  -> [Terrain]
@@ -22,7 +22,7 @@ operators:
 
 Observations:
 
-[Invariant] 
+[Invariant]
 	width > 0
 	height > 0
 	depth > 0

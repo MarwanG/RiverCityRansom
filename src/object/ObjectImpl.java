@@ -1,7 +1,9 @@
 package object;
 
+import java.util.Random;
+
 public class ObjectImpl implements ObjectI {
-	
+
 	String nom;
 	Type type;
 	int power;
@@ -28,7 +30,7 @@ public class ObjectImpl implements ObjectI {
 	}
 	@Override
 	public Type getType() {
-		
+
 		return type;
 	}
 	@Override
@@ -39,7 +41,14 @@ public class ObjectImpl implements ObjectI {
 	public int getValue() {
 		return value;
 	}
-	
-	
-	
+
+	public static ObjectImpl randomObjectCreator(){
+		Random r = new Random();
+		Type t = (r.nextDouble()>0.5)?Type.Sellable:Type.Usable;
+		int val = (int) ((r.nextGaussian()+10)+(r.nextDouble()*r.nextInt(10)));
+		return new ObjectImpl("Object", t, val);
+	}
+
+
+
 }
