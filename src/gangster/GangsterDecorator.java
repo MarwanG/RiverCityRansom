@@ -1,5 +1,7 @@
 package gangster;
 
+import object.ObjectI;
+
 public class GangsterDecorator implements GangsterI {
 
 	GangsterI delgate;
@@ -41,7 +43,7 @@ public class GangsterDecorator implements GangsterI {
 		delgate.jeter();
 	}
 
-	public void ramasser(Object o) {
+	public void ramasser(ObjectI o) {
 		delgate.ramasser(o);
 	}
 
@@ -81,7 +83,7 @@ public class GangsterDecorator implements GangsterI {
 		return delgate.youDeadMan();
 	}
 
-	public Object getObject() {
+	public ObjectI getObject() {
 		return delgate.getObject();
 	}
 	

@@ -1,4 +1,4 @@
-service: MoteurJeu
+Tservice: MoteurJeu
 use: GestionCombat
 types: boolean, enum COMMAND{NONE,UP,DOWN,LEFT,RIGHT, JUMP_UP,JUMP_DOWN,JUMP_LEFT,JUMP_RIGHT,KICK,THROW, PICKUP}, enum RESULT{WON,LOST,TIED}
 

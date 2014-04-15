@@ -66,6 +66,10 @@ public class CombatImpl implements CombatI {
 		ryan = new PersonnageImpl("ryan",5,5,5,50);
 		slick =  new GangsterImpl("slick");
 		gang = new ArrayList<GangsterI>();
+		gangF = new ArrayList<Integer>();
+		gangX = new ArrayList<Integer>();
+		gangY = new ArrayList<Integer>();
+		gangZ = new ArrayList<Integer>();
 
 		for(int i = 0 ; i < nbGangsters ; i++){
 			gang.add(new GangsterImpl("Scumbag"));

@@ -1,5 +1,7 @@
 package gangster;
 
+import object.ObjectI;
+
 public class GangsterImpl implements GangsterI {
 
 	
@@ -62,9 +64,6 @@ public class GangsterImpl implements GangsterI {
 	public void jeter() {
 	}
 
-	@Override
-	public void ramasser(Object o) {
-	}
 
 	@Override
 	public boolean equiped() {
@@ -112,8 +111,15 @@ public class GangsterImpl implements GangsterI {
 	}
 
 	@Override
-	public Object getObject() {
-		return object;
+	public void ramasser(ObjectI o) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public ObjectI getObject() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 
