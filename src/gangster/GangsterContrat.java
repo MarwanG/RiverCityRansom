@@ -1,5 +1,6 @@
 package gangster;
 
+import object.ObjectI;
 import contract.Contractor;
 
 public class GangsterContrat extends GangsterDecorator {
@@ -117,7 +118,7 @@ public class GangsterContrat extends GangsterDecorator {
 	
 
 	@Override
-	public void ramasser(Object o) {
+	public void ramasser(ObjectI o) {
 		//NOT SURE WHAT TO PLACE AS WELL.
 	}
 }
