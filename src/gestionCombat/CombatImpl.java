@@ -268,7 +268,7 @@ public class CombatImpl implements CombatI {
 		if(alexF == 0){
 			switch (alex) {
 				case LEFT:
-						alexX = Math.max(alexX-1, 0); //method move.
+						alexX = Math.max(alexX-1, 0);
 					break;
 
 				case DOWN:
@@ -310,12 +310,16 @@ public class CombatImpl implements CombatI {
 		if(ryanF==0){
 			switch (ryan) {
 			case LEFT:
+				ryanX = Math.max(ryanX-1, 0);
 				break;
 			case DOWN:
+				ryanZ = Math.max(ryanZ-1, 0);
 				break;
 			case UP:
+				ryanZ = Math.min(ryanZ+1, width-1);
 				break;
 			case RIGHT:
+				ryanX = Math.min(ryanX+1, length-1);
 				break;
 
 			case JUMP_UP:
@@ -331,9 +335,12 @@ public class CombatImpl implements CombatI {
 				break;
 
 			case PICKUP:
+				if(terrain.getBlocCoord(ryanX, ryanY, ryanZ).hasTreasure())
+					this.alex.ramasser(terrain.getBlocCoord(ryanX, ryanY, ryanZ).getTreasure());
 				break;
 
 			case THROW:
+					this.ryan.jeter();
 				break;
 			}
 		}
