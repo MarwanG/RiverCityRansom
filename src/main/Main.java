@@ -6,12 +6,11 @@ import gestionCombat.Commande;
 
 public class Main {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InterruptedException {
 		MoteurDeJeuI m = new MoteurDeJeuImpl(50,50,50);
 		while(!m.isFinished()){
-			m.gameStep(Commande.randomCmd(), Commande.randomCmd());
-			System.out.println(m.combat().lastCommand(m.combat().recupPersonnage("alex")));
-			System.out.println(m.combat().position(m.combat().recupPersonnage("alex"), "x"));
+			m.gameStep(Commande.RIGHT, Commande.RIGHT);
+			Thread.sleep(1000);
 		}
 	
 	}

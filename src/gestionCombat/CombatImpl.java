@@ -3,6 +3,8 @@ package gestionCombat;
 import java.util.ArrayList;
 import java.util.Random;
 
+import object.Type;
+
 import gangster.GangsterI;
 import gangster.GangsterImpl;
 import personnage.PersonnageI;
@@ -143,36 +145,57 @@ public class CombatImpl implements CombatI {
 
 
 	@Override
-	public void step(Commande alex, Commande ryan) {
-
-		boolean slickRange = inRange(recupPersonnage("alex"), recupPersonnage("slick"));
+	public void step(Commande ca, Commande cr) {
+		printStep(ca,cr);
+		
+		boolean slickRange = inRange(alex.getPerso(), slick.getPerso());
 		boolean scumRange = false;
+		PersonnageI scum= null;
 
 		for(int i=0;i<nbGangsters && scumRange == false;i++){
-			scumRange = inRange(recupPersonnage("alex"), recupPersonnage("Gangster_"+i));
+			scumRange = inRange(alex.getPerso(), gang.get(i).getPerso());
+			scum = gang.get(i).getPerso();
 		}
 
-		if(alex.isFrozen()){
-			switch (alex) {
+		if(!alex.isFrozen()){
+			switch (ca) {
 				case LEFT:
 						if(slickRange || scumRange){
-							getKicked("alex",lastCommandAlex);
+							getKicked(alex);
+							alex.setFreeze(3);
 						}
 						else{
-							alexX = Math.max(alexX-1, 0);
+							alex.setX(Math.max(alex.getX()-1, 0));
 						}
 					break;
 
 				case DOWN:
-						alexZ = Math.max(alexZ-1, 0);
+						if(slickRange || scumRange){
+							getKicked(alex);
+							alex.setFreeze(3);
+						}
+						else{
+							alex.setZ(Math.max(alex.getZ()-1, 0));
+						}
 					break;
-
 				case UP:
-						alexZ = Math.min(alexZ+1, width-1);
+					if(slickRange || scumRange){
+						getKicked(alex);
+						alex.setFreeze(3);
+					}
+					else{
+						alex.setZ(Math.min(alex.getZ()+1, width-1));
+					}
 					break;
 
 				case RIGHT:
-						alexX = Math.min(alexX+1, length-1);
+					if(slickRange || scumRange){
+						getKicked(alex);
+						alex.setFreeze(3);
+					}
+					else{
+						alex.setX(Math.min(alex.getX()+1, length-1));
+					}
 					break;
 
 				case JUMP_UP:
@@ -186,90 +209,175 @@ public class CombatImpl implements CombatI {
 					break;
 
 				case KICK:
-						/*check if smo in range and kickit*/
+						if(slickRange)
+						{
+							slick.getPerso().retraitHP(alex.getPerso().getForce());
+							break;
+						}
+						if(scumRange)
+						{
+							scum.retraitHP(alex.getPerso().getForce());
+						}
 					break;
 
 				case PICKUP:
-					if(terrain.getBlocCoord(alexX, alexY, alexZ).hasTreasure())
-						this.alex.ramasser(terrain.getBlocCoord(alexX, alexY, alexZ).getTreasure());//check if money ...
+					if(terrain.getBlocCoord(alex.getX(), alex.getY(), alex.getZ()).hasTreasure())
+					{
+						if(terrain.getBlocCoord(alex.getX(), alex.getY(), alex.getZ()).getTreasure().getType() == Type.Usable)
+							alex.getPerso().ramasser(terrain.getBlocCoord(alex.getX(), alex.getY(), alex.getZ()).getTreasure());
+						else
+							alex.getPerso().depotsMoney(terrain.getBlocCoord(alex.getX(), alex.getY(), alex.getZ()).getTreasure().getValue());
+					}
 					break;
 
 				case THROW:
-					this.alex.jeter();
+					this.alex.getPerso().jeter();
 					break;
 			}
+		} else
+		{
+			alex.decFreeze();
+		}
+		
+		slickRange = inRange(ryan.getPerso(), slick.getPerso());
+		scumRange = false;
+		scum=null;
 
-			}else{
-
-			}
-
-		if(ryanF==0){
-			switch (ryan) {
-			case LEFT:
-				ryanX = Math.max(ryanX-1, 0);
-				break;
-			case DOWN:
-				ryanZ = Math.max(ryanZ-1, 0);
-				break;
-			case UP:
-				ryanZ = Math.min(ryanZ+1, width-1);
-				break;
-			case RIGHT:
-				ryanX = Math.min(ryanX+1, length-1);
-				break;
-
-			case JUMP_UP:
-				break;
-			case JUMP_LEFT:
-				break;
-			case JUMP_RIGHT:
-				break;
-			case JUMP_DOWN:
-				break;
-
-			case KICK:
-				break;
-
-			case PICKUP:
-				if(terrain.getBlocCoord(ryanX, ryanY, ryanZ).hasTreasure())
-					this.alex.ramasser(terrain.getBlocCoord(ryanX, ryanY, ryanZ).getTreasure());
-				break;
-
-			case THROW:
-					this.ryan.jeter();
-				break;
-			}
+		for(int i=0;i<nbGangsters && scumRange == false;i++){
+			scumRange = inRange(ryan.getPerso(), gang.get(i).getPerso());
+			scum = gang.get(i).getPerso();
 		}
 
-		//Others Moves...
+		if(!ryan.isFrozen()){
+			switch (ca) {
+				case LEFT:
+						if(slickRange || scumRange){
+							getKicked(ryan);
+							ryan.setFreeze(3);
+						}
+						else{
+							ryan.setX(Math.max(ryan.getX()-1, 0));
+						}
+					break;
+
+				case DOWN:
+						if(slickRange || scumRange){
+							getKicked(ryan);
+							ryan.setFreeze(3);
+						}
+						else{
+							ryan.setZ(Math.max(ryan.getZ()-1, 0));
+						}
+					break;
+				case UP:
+					if(slickRange || scumRange){
+						getKicked(ryan);
+						ryan.setFreeze(3);
+					}
+					else{
+						ryan.setZ(Math.min(ryan.getZ()+1, width-1));
+					}
+					break;
+
+				case RIGHT:
+					if(slickRange || scumRange){
+						getKicked(ryan);
+						ryan.setFreeze(3);
+					}
+					else{
+						ryan.setX(Math.min(ryan.getX()+1, length-1));
+					}
+					break;
+
+				case JUMP_UP:
+					break;
+				case JUMP_LEFT:
+					break;
+				case JUMP_RIGHT:
+					break;
+				case JUMP_DOWN:
+					break;
+
+				case KICK:
+						if(slickRange)
+						{
+							slick.getPerso().retraitHP(ryan.getPerso().getForce());
+							break;
+						}
+						if(scumRange)
+						{
+							scum.retraitHP(ryan.getPerso().getForce());
+						}
+					break;
+
+				case PICKUP:
+					if(terrain.getBlocCoord(ryan.getX(), ryan.getY(), ryan.getZ()).hasTreasure())
+					{
+						if(terrain.getBlocCoord(ryan.getX(), ryan.getY(), ryan.getZ()).getTreasure().getType() == Type.Usable)
+							ryan.getPerso().ramasser(terrain.getBlocCoord(ryan.getX(), ryan.getY(), ryan.getZ()).getTreasure());
+						else
+							ryan.getPerso().depotsMoney(terrain.getBlocCoord(ryan.getX(), ryan.getY(), ryan.getZ()).getTreasure().getValue());
+					}
+					break;
+
+				case THROW:
+					this.ryan.getPerso().jeter();
+					break;
+			}
+		} else
+		{
+			ryan.decFreeze();
+		}
+
 
 
 	}
 
-
-
-	@Override
-	public Commande lastCommand(PersonnageI p) {
-		// TODO Auto-generated method stub
-		return null;
+	private void printStep(Commande ca,Commande cr) {
+		
+		System.out.println(ca);
+		System.out.println("Alex: X:"+alex.getX()+" Y:"+alex.getY()+" Z:"+alex.getZ() + " HP:"+alex.getPerso().getHp());
+		
+		System.out.println(cr);
+		System.out.println("Ryan: X:"+ryan.getX()+" Y:"+ryan.getY()+" Z:"+ryan.getZ()+" HP:"+ryan.getPerso().getHp());
+		
+		System.out.println("Slick: X:"+slick.getX()+" Y:"+slick.getY()+" Z:"+slick.getZ());
+		
 	}
 
-	@Override
-	public PersonnageI recupPersonnage(String s) {
-		// TODO Auto-generated method stub
-		return null;
+	public PersonnageI getRyan(){
+		return ryan.getPerso();
+	}
+	
+	public PersonnageI getAlex(){
+		return alex.getPerso();
+	}
+	
+	public PersonnageI getSlick(){
+		return slick.getPerso();
 	}
 
-	@Override
-	public int position(PersonnageI p, String pos) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int freeze(PersonnageI p) {
-		// TODO Auto-generated method stub
-		return 0;
+	private void getKicked(StatusWrapperI perso) {
+		Commande dir = perso.getDirection();
+				
+		switch(dir){
+			case DOWN:
+				perso.setZ(Math.max(0,perso.getZ()-3));
+				break;
+			case UP:
+				perso.setZ(Math.min(width-1,perso.getZ()+3));
+				break;
+			case RIGHT:
+				perso.setX(Math.max(0, perso.getX()-3));
+				break;
+			case LEFT:
+				perso.setX(Math.min(length-1,perso.getX()-3));
+				break;
+			
+			default:
+				return;
+		}
+		
 	}
 
 }

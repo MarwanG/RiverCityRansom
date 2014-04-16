@@ -40,15 +40,15 @@ public class MoteurDeJeuImpl implements MoteurDeJeuI {
 	@Override
 	public void gameStep(Commande c1, Commande c2) {
 		gc.step(c1, c2);
-		if(gc.recupPersonnage("slick").youDeadMan()){
+		if(gc.getSlick().youDeadMan()){
 			finished = true;
 			finalResult = Result.WON;
 		}
-		if(gc.recupPersonnage("alex").youDeadMan() && gc.recupPersonnage("ryan").youDeadMan()){
+		if(gc.getAlex().youDeadMan() && gc.getRyan().youDeadMan()){
 			finished = true;
 			finalResult = Result.LOST;
 		}
-		if(gc.recupPersonnage("alex").youDeadMan() && gc.recupPersonnage("ryan").youDeadMan() && gc.recupPersonnage("slick").youDeadMan()){
+		if(gc.getAlex().youDeadMan() && gc.getRyan().youDeadMan() && gc.getSlick().youDeadMan()){
 			finished = true;
 			finalResult = Result.TIED;
 		}
