@@ -30,7 +30,7 @@ public class BlocImplTest {
 		assertFalse(b.isEmpty());
 		assertTrue(b.isPit());
 		assertFalse(b.hasTreasure());
-		assert(b.getTreasure() == null);
+		assertTrue(b.getTreasure() == null);
 	}
 	
 	@Test

@@ -2,17 +2,17 @@ Tests pour service Personnage
 
 Tests pour l'init
 
-Test: 	p = init("m",10,10,10,10)
-oracle:	nom(p) = "m"
-		largeur(p) = 10
-		hauter(p) = 10
-		profonder(p) = 10
-		force(p) = 10
-		hp(p) = 100
-		money(p) = 0
-		alive(p) = true
-		equiped(p) = false
-		object?(p) = null
+Test:   p = init("m",10,10,10,10)
+oracle: nom(p) = "m"
+        largeur(p) = 10
+        hauter(p) = 10
+        profonder(p) = 10
+        force(p) = 10
+        hp(p) = 100
+        money(p) = 0
+        alive(p) = true
+        equiped(p) = false
+        object?(p) = null
 
 
 Test: p = init("",10,10,10,10)
@@ -41,7 +41,7 @@ Test: p1 = addHp(p,10)
 oracle: hp(p1) = 100
 
 Initial: p = init("m",10,10,10,10) 
-			removeHp(p,50)
+            removeHp(p,50)
 Test: p1 = addHp(p,10)
 oracle: hp(p1) = hp(p) + 10
 
@@ -50,7 +50,7 @@ Test: p1 = addHp(p,-10)
 oracle: hp(p1) == hp(p)
 
 Initial: p = init("m",10,10,10,10)
-		 youDeadMan(p) = true
+         youDeadMan(p) = true
 Test: p1 = addHp(p)
 oracle: hp(p1) = hp(p)
 
@@ -69,7 +69,7 @@ Test: p1 = removeHp(p,-10)
 oracle: hp(p1) == hp(p) 
 
 Initial: p = init("m",10,10,10,10)
-		youDeadMan(p) = true
+        youDeadMan(p) = true
 Test: p1 = removeHp(p,10)
 oracle: hp(p1) == hp(p)
 
@@ -77,7 +77,7 @@ Test pour le addMoney
 
 
 Initial: p = init("m",10,10,10,10)
-		youDeadMan(p) = true
+        youDeadMan(p) = true
 Test: p1 = addMoney(p,10)
 oracle: money(p1) = money(p) 
 
@@ -98,7 +98,7 @@ Test: p1 = removeMoney(p,10)
 oracle: money(p1) = money(p)
 
 Initial: p = init("m",10,10,10,10)
-		addMoney(p,50)
+        addMoney(p,50)
 Test: p1 = removeMoney(p,10)
 oracle: money(p1) = money(p) - 10
 
@@ -109,61 +109,61 @@ oracle: money(p1) == money(p)
 
 Test pour le jeter
 Initial: p = init("m",10,10,10,10)
-		pickUp(p,obj)
+        pickUp(p,obj)
 Test: p = jeter(p)
 oracle: object?(p) = null
 
 
 Initial: p = init("m",10,10,10,10)
-		pickUpPersonnage(p,p1)
+        pickUpPersonnage(p,p1)
 Test: p = jeter(p)
 oracle: getCarried(p) = null
 
 Initial: p = init("m",10,10,10,10)
-		pickUp(p,obj)
-		youDeadMan(p) = true
+        pickUp(p,obj)
+        youDeadMan(p) = true
 Test: p1 = jeter(p)
 oracle: object?(p) = object?(p1)
 
 Test pour le pickUp
 Initial: p = init("m",10,10,10,10)
-		obj= init("m",usuable,10)
+        obj= init("m",usuable,10)
 Test: p = pickUp(p,obj)
 oracle: object?(p) = obj
-		isEquiped(p) = true
+        isEquiped(p) = true
 
 
 Initial: p = init("m",10,10,10,10)
-		obj= init("m",sellable,10)
+        obj= init("m",sellable,10)
 Test: p1 = pickUp(p,obj)
 oracle: object?(p1) = object?(p1)
-		isEquiped(p) = isEquiped(p1)
-		money(p1) = money(p) + 10
+        isEquiped(p) = isEquiped(p1)
+        money(p1) = money(p) + 10
 
 
 Initial: p = init("m",10,10,10,10)
-		obj= init("m",sellable,10)
-		youDeadMan(p) = true
+        obj= init("m",sellable,10)
+        youDeadMan(p) = true
 Test: p1 = pickUp(p,obj)
-Oracle:	object?(p1) = object?(p1)
-	isEquiped(p) = isEquiped(p1)
+Oracle: object?(p1) = object?(p1)
+    isEquiped(p) = isEquiped(p1)
 
 Test pour pickUpPersonnage
 
 Initial: p = init(“m”,10,10,10,10)
-	 p1 = init(“m1”,10,10,10,10)
-	 
+     p1 = init(“m1”,10,10,10,10)
+     
 Test: p2 = pickUpPersonnage(p,p1)
 Oracle: Object(p2) = null
-	isEquiped(p2) = true
-	getCarried(p2) = p1
+    isEquiped(p2) = true
+    getCarried(p2) = p1
 
 Initial: p = init(“m”,10,10,10,10)
-	 p1 = init(“m1”,10,10,10,10)
-	 youDeadMan(p) = true
+     p1 = init(“m1”,10,10,10,10)
+     youDeadMan(p) = true
 Test: p2 = pickUpPersonnage(p,p1)
 Oracle: Object(p2) = Object(p)
-	isEquiped(p2) = Object(p)
-	getCarried(p2) = getCarried(p)
+    isEquiped(p2) = Object(p)
+    getCarried(p2) = getCarried(p)
 
 

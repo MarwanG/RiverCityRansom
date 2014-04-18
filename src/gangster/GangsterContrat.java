@@ -112,13 +112,17 @@ public class GangsterContrat extends GangsterDecorator {
 	}
 	
 	public void jeter() {
-		//NOT SURE WHAT TO PLACE.
+		checkInvariant();
+		super.jeter();
+		checkInvariant();
 	
 	}
 	
 
 	@Override
 	public void ramasser(ObjectI o) {
-		//NOT SURE WHAT TO PLACE AS WELL.
+		checkInvariant();
+		super.ramasser(o);
+		checkInvariant();
 	}
 }

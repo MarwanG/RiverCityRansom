@@ -4,9 +4,9 @@ Init:
 
 Test: p = init("m",usable,10)
 oracle: nom(p) = m
-	type(p) = usable
-	power(p) = 10
-	value(p) = 0
+    type(p) = usable
+    power(p) = 10
+    value(p) = 0
 
 Test: p = init("",usable,10)
 oracle: p = null
@@ -14,9 +14,9 @@ oracle: p = null
 
 Test: p = init("m",sellable,10)
 oracle: nom(p) = "m"
-	type(p) = sellable
-	value(p) = 10
-	power(p) = 0
+    type(p) = sellable
+    value(p) = 10
+    power(p) = 0
 
 
 Test: p = init("m",sellable,-10)

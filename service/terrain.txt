@@ -3,40 +3,40 @@ use: Bloc,List,Object
 types : int
 
 observators:
-	- const length: [Terrain] -> int
-	- const height: [Terrain] -> int
-	- const depth: [Terrain] -> int
-	- const nbBloc: [Terrain] -> int
+    - const length: [Terrain] -> int
+    - const height: [Terrain] -> int
+    - const depth: [Terrain] -> int
+    - const nbBloc: [Terrain] -> int
 
-	- BlocCoord: [Terrain] *int * int * int -> Bloc
-		pre: getBlocCoord(w,h,d) require w>=0 AND w<width AND h>=0 AND h<height AND d>=0 AND d<depth
+    - BlocCoord: [Terrain] *int * int * int -> Bloc
+        pre: getBlocCoord(w,h,d) require w>=0 AND w<width AND h>=0 AND h<height AND d>=0 AND d<depth
 
 
 constructors:
-	- init: int * int * int  -> [Terrain]
-		pre: init(w,h,d) require w>0 AND h>0 AND d>0
+    - init: int * int * int  -> [Terrain]
+        pre: init(w,h,d) require w>0 AND h>0 AND d>0
 
 operators:
-	- setBlocCoord: int * int * int * Bloc -> [Terrain]
-		pre: setBlocCoord(w,h,d,b) require w>=0 AND w<width AND h>=0 AND h<height AND d>=0 AND d<depth AND b !=null
+    - setBlocCoord: int * int * int * Bloc -> [Terrain]
+        pre: setBlocCoord(w,h,d,b) require w>=0 AND w<width AND h>=0 AND h<height AND d>=0 AND d<depth AND b !=null
 
 Observations:
 
 [Invariant]
-	width > 0
-	height > 0
-	depth > 0
-	nbBloc(T) = width*height*depth;
+    width > 0
+    height > 0
+    depth > 0
+    nbBloc(T) = width*height*depth;
 
 [Init]
-	width(init(w,h,d)) = w;
-	height(init(w,h,d)) = h;
-	depth(init(w,h,d)) = d;
-	nbBloc(init(w,h,d)) = width*height*depth
-	BlocCoord(init(w,h,d),0 <= i < w, 0 <= j < h ,0 <= k <d) = Bloc::init(b,Object::Init(s,t,i)) //random
+    width(init(w,h,d)) = w;
+    height(init(w,h,d)) = h;
+    depth(init(w,h,d)) = d;
+    nbBloc(init(w,h,d)) = width*height*depth
+    BlocCoord(init(w,h,d),0 <= i < w, 0 <= j < h ,0 <= k <d) = Bloc::init(b,Object::Init(s,t,i)) //random
 
 [setBlocCoord]
-	BlocCoord(setBlocCoord(w,h,d),i,j,k,B) = B
+    BlocCoord(setBlocCoord(w,h,d),i,j,k,B) = B
 
 
 
