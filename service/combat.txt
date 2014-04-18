@@ -1,36 +1,22 @@
 Service: GestionCombat
-uses: Personnage , Terrain , Gangster
+uses: Personnage , Terrain , Gangster, StatusWrapper
 types: boolean , int , String , enum COMMAND{UP,DOWN,LEFT,RIGHT, JUMP_UP,JUMP_DOWN,JUMP_LEFT,JUMP_RIGHT,KICK,THROW, PICKUP}
 
 observators:
 
 	const length: [GestionCombat] -> int
-	const depth : [GestionCombat] -> int
+	const height : [GestionCombat] -> int
 	const width : [GestionCombat] -> int
 	const nbGangsters: [GestionCombat] -> int
 
 	const Terrain: [GestionCombat] -> Terrain
 
-	alex: [GestionCombat] -> Personnage
-	ryan: [GestionCombat] -> Personnage
-	slick: [GestionCombat] -> Gangster
-	gangsters: [GestionCombat] -> Gangster[]
+	alex: [GestionCombat] -> StatusWrapper
+	ryan: [GestionCombat] -> StatusWrapper
+	slick: [GestionCombat] -> StatusWrapper
+	gangsters: [GestionCombat] -> StatusWrapper[]
 
-	lastCommand: [GestionCombat] * [Personnage] -> COMMAND
-		pre: lastCommand(C,p) require p is ryan(C) or p is alex(C);
-
-	recupPersonnage: [GestionCombat] * String -> [Personnage]
-		pre: recupPersonnage(C,s) require s in  {"Alex","Ryan","Slick" "Gangster_i"} WHERE i is String::int} AND 0<i<nbGangsters-1
-
-		//on peut faire union entre le deux liste ? does this language support union ??
-
-	position: [GestionCombat] * [Personnage] * string -> int
-		pre: position(C,p,s) require s in {"x","y","z"} AND  
-			p in {Alex,Ryan,Slick} ou  Personnage in gangsters
-	
-	freeze: [GestionCombat] * [Personnage] -> int
-		pre: freeze(c,p) require  p in {"Alex","Ryan","Slick"} ou  Personnage in gangsters
-	inRange: [GestionCombat] * [Personnage] * [Personnage] -> boolean
+	inRange: [GestionCombat] * [StatusWrapper] * [StatusWrapper] -> boolean
 		pre: inRange(C,p1,p2) require p1 != p2 =! NULL
 			AND p1 is {slick,alex,ryan, gangster[0:nbGangsters-1]}
 			AND p2 is {slick,alex,ryan, gangster[0:nbGangsters-1]}
@@ -47,20 +33,6 @@ Operators:
 Observations:
 
 [Invariant] 
-	
-	Freeze(C,p) >= 0;
-	Position(C,p,s) >=0;
-	Position(C,p,"x") < l;
-	Position(C,p,"y") < w;
-	Position(C,p,"z") < d;
-
-	recupPersonnage(C,p) =min= 
-		alex(C) SI p is "alex"
-		ryan(C) SI p is "ryan"
-		slick(C) SI p is "slick"
-		gangsters[i](C): SI p is "Gangster_i"
-
-
 	inRange(C,p1,p2) =min=  
 	DIM:["x","y","z"]: AND{ 
 		Position(C,recupPersonnage(C,p),DIM) = Position(C,recupPersonnage(C,p2),DIM)+1

@@ -2,6 +2,8 @@ package gestionCombat;
 
 import java.util.ArrayList;
 
+import org.omg.CORBA.INTERNAL;
+
 import object.Type;
 
 import gangster.GangsterImpl;
@@ -14,6 +16,7 @@ import terrain.TerrainImpl;
 
 public class CombatImpl implements CombatI {
 
+	private static int step = 0;
 	private int length;
 	private int height;
 	private int width;
@@ -106,7 +109,7 @@ public class CombatImpl implements CombatI {
 			
 		}
 
-		if(!alex.isFrozen()){
+		if(!alex.isFrozen() && !alex.getPerso().youDeadMan()){
 			switch (ca) {
 				case LEFT:
 						if(slickRange || scumRange){
@@ -114,7 +117,6 @@ public class CombatImpl implements CombatI {
 						}
 						else{
 							alex.setX(Math.max(alex.getX()-1, 0));
-							System.out.println("Move");
 						}
 					break;
 
@@ -194,8 +196,8 @@ public class CombatImpl implements CombatI {
 			scum = gang.get(i);
 		}
 
-		if(!ryan.isFrozen()){
-			switch (ca) {
+		if(!ryan.isFrozen() && !ryan.getPerso().youDeadMan()){
+			switch (cr) {
 				case LEFT:
 						if(slickRange || scumRange){
 							getKicked(ryan,((slickRange)?slick:scum));
@@ -281,19 +283,40 @@ public class CombatImpl implements CombatI {
 		for(int i=0;i<gang.size();i++)
 			gang.get(i).decFreeze();
 
-
-
+		/*Check for pit*/
+		if(!alex.getPerso().youDeadMan() && terrain.getBlocCoord(alex.getX(), alex.getY(), alex.getZ()).isPit()){
+			alex.getPerso().retraitHP(Integer.MAX_VALUE); 
+			System.out.println("Alex fell in a pit and died miserabily");
+		}
+		if(!ryan.getPerso().youDeadMan() && terrain.getBlocCoord(ryan.getX(), ryan.getY(), ryan.getZ()).isPit()){
+			ryan.getPerso().retraitHP(Integer.MAX_VALUE); 
+			System.out.println("ryan fell in a pit and died miserabily");
+		}
+		if(!slick.getPerso().youDeadMan() && terrain.getBlocCoord(slick.getX(), slick.getY(), slick.getZ()).isPit()){
+			slick.getPerso().retraitHP(Integer.MAX_VALUE); 
+			System.out.println("slick fell in a pit and died miserabily");
+		}
+		
+		for(int i=0;i<gang.size();i++){
+			if(!gang.get(i).getPerso().youDeadMan() && terrain.getBlocCoord(gang.get(i).getX(), gang.get(i).getY(), gang.get(i).getZ()).isPit()){
+				gang.get(i).getPerso().retraitHP(Integer.MAX_VALUE); 
+				System.out.println("A Scumbag fell in a pit and died miserabily");
+			}
+		}
+		step++;
 	}
 
 	private void printStep(Commande ca,Commande cr) {
 		
-		System.out.println(ca);
+		System.out.println("========-"+step+"-=======");
+		
 		System.out.println("Alex: X:"+alex.getX()+" Y:"+alex.getY()+" Z:"+alex.getZ() + " HP:"+alex.getPerso().getHp());
-		
-		System.out.println(cr);
 		System.out.println("Ryan: X:"+ryan.getX()+" Y:"+ryan.getY()+" Z:"+ryan.getZ()+" HP:"+ryan.getPerso().getHp());
-		
 		System.out.println("Slick: X:"+slick.getX()+" Y:"+slick.getY()+" Z:"+slick.getZ());
+		System.out.println("========-COMMANDS-========");
+		System.out.println("Alex does: "+ca);
+		System.out.println("Ryan does: "+cr);
+		System.out.println("==========--Stuff Happening:==========");
 		
 	}
 
