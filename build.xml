@@ -1,4 +1,4 @@
-<project name=“RiverCityRansom” default="dist" basedir=".">
+<project name="RiverCityRansom" default="dist" basedir=".">
   <description>
     The build file for the cps project
   </description>
