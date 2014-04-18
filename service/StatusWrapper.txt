@@ -1,0 +1,60 @@
+service: StatusWrapper
+use : Personnage
+types: int, enum COMMAND{NONE,UP,DOWN,LEFT,RIGHT, JUMP_UP,JUMP_DOWN,JUMP_LEFT,JUMP_RIGHT,KICK,THROW, PICKUP}
+
+observators:
+	x: [StatusWrapper] -> int
+	y: [StatusWrapper] -> int
+	z: [StatusWrapper] -> int
+	freeze: [StatusWrapper] -> int
+	direction: [StatusWrapper] -> COMMAND
+	personnage: [StatusWrapper] -> Personnage
+	isFrozen: [StatusWrapper] -> boolean
+
+Constructors:
+	init: int * int * int * COMMAND * Personnage -> [StatusWrapper]
+	
+Operators:
+	setX: [StatusWrapper] * int -> [StatusWrapper]
+	setY: [StatusWrapper] * int -> [StatusWrapper]
+	setZ: [StatusWrapper] * int -> [StatusWrapper]
+	setFreeze: [StatusWrapper] * int -> [StatusWrapper]
+	setDirection: [StatusWrapper] * int -> [StatusWrapper]
+	decFreeze: [StatusWrapper] -> [StatusWrapper]
+
+Observations:
+	[invariants]
+		0>=x<=y<=z
+		0>=freeze
+		isFrozen(S) =min= (freeze==0)
+
+	[init]
+		x(S,init(x,y,z,c,p)) = x
+		y(S,init(x,y,z,c,p)) = y
+		z(S,init(x,y,z,c,p)) = z
+		freeze(S,init(x,y,z,c,p)) = 0
+		direction(S,init(x,y,z,c,p)) = c
+		personnage(S,init(x,y,z,c,p)) = p
+		
+	[setX]
+		x(setX(S,n)) = n
+
+	[setY]
+		y(setY(S,n)) = n 
+
+	[setZ]
+		z(setZ(S,n)) = n
+
+	[setFreeze]
+		freeze(setFreeze(S,n)) = n   
+
+	[setDirection]
+		direction(setDirection(S,n)) = n 
+
+	[decFreeze]
+		freeze(decFreeze(S,n)) = freeze(S)-1; 
+
+		
+		
+	
+	

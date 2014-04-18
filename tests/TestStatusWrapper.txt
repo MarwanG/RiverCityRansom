@@ -1,0 +1,9 @@
+TestStatusWrapper.txt
+
+test invariants:
+	init: c=init(1,1,1,C,P)
+	Oracle: 
+		x(c)>=0 & y(c)>=0 & y(c)>=0
+		freeze(c) >= 0
+
+	test setX
