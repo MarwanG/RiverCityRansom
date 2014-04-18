@@ -82,6 +82,11 @@ public class StatusWrapperImpl implements StatusWrapperI {
 		this.direction = c;
 	}
 
+	@Override
+	public int freeze() {
+		return freeze;
+	}
+
 
 
 

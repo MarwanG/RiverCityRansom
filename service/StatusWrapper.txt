@@ -13,13 +13,19 @@ observators:
 
 Constructors:
 	init: int * int * int * COMMAND * Personnage -> [StatusWrapper]
+		pre: init(x,y,z,c,p) require x>=y>=z>=0 AND c IN {UP,DOWN,LEFT,RIGHT} AND p != null
 	
 Operators:
 	setX: [StatusWrapper] * int -> [StatusWrapper]
+		pre: setX(S,x) require x>=0
 	setY: [StatusWrapper] * int -> [StatusWrapper]
+		pre: setX(S,x) require x>=0
 	setZ: [StatusWrapper] * int -> [StatusWrapper]
+		pre: setX(S,x) require x>=0
 	setFreeze: [StatusWrapper] * int -> [StatusWrapper]
+		pre: setX(S,x) require x>=0
 	setDirection: [StatusWrapper] * int -> [StatusWrapper]
+		pre: setX(S,c) require c IN {UP,DOWN,LEFT,RIGHT}
 	decFreeze: [StatusWrapper] -> [StatusWrapper]
 
 Observations:
