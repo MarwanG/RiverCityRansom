@@ -1,0 +1,88 @@
+TestStatusWrapper.txt
+
+test invariants:
+		c is a statusWrapper
+		Oracle: 
+			x(c)>=0 & y(c)>=0 & z(c)>=0
+			freeze(c) >= 0
+			getDirection(c) in {UP,DOWN,LEFT,RIGHT}
+
+test init:
+	
+	testOK:
+		c = init(1,1,1,UP,{JACK});
+		oracle: CheckInvariants
+			x(c)=y(c)=z(c) = 1
+			getPerso(c) = {JACK}
+			getDirection(c) = UP
+			getFreeze(c) = 0
+
+	testPre1:
+		c = init(-1,1,1,LEFT,{JACK});
+		oracle: c = precondition error
+
+	testPre2:
+		c = init(1,-1,1,LEFT,{JACK});
+		oracle: c = precondition error
+	
+	testPre3:
+		c = init(1,1,-1,LEFT,{JACK});
+		oracle: c = precondition error
+	
+	testPre4:
+		c = init(1,1,1,JUMP_LEFT,{JACK});
+		oracle: c = precondition error
+	
+	testPre5:
+		c = init(1,1,1,LEFT,NULL);
+		oracle: c = precondition error
+
+	+ toutes les combinaisons
+
+test setX/Y/Z/Freeze:
+
+	testOK:
+		c = init(1,1,1,UP,{JACK});
+		c2 = setX(c,2)
+		oracle: getX(c2) = 2;
+		c3 = setY(c2,3)
+		oracle: getY(c3) = 3;
+		c4 = setZ(c3,4)
+		oracle: getZ(c4) = 4;
+		c5 = setFreeze(c4,5)
+		oracle: freeze(c5) = 5;
+	
+	testKO:
+		c = init(1,1,1,UP,{JACK});
+		c2 = setX(c,-1)
+		oracle: precondition error
+		c3 = setY(c2,-1)
+		oracle: precondition error
+		c4 = setZ(c3,-3)
+		oracle: precondition error
+		c5 = setFreeze(c4,-5)
+		oracle: precondition error
+
+test setDirection:
+	
+	testOK:
+		c = init(1,1,1,UP,{JACK});
+		c2 = setDirection(c,DOWN);
+		oracle: getDirection(c2) = DOWN;
+	testKO:
+		c = init(1,1,1,UP,{JACK});
+		c2 = setDirection(c,PICKUP)
+		oracle: precondition error
+
+test decFreeze
+	
+	testOK:
+		c = init(1,1,1,UP,{JACK});
+		c2 = setFreeze(c,1)
+		c3 = decFreeze(c2)
+		oracle: freeze(c3) = 0
+		c4 = decFreeze(c3)
+		oracle: freeze(c4) = 0
+		
+		
+	
