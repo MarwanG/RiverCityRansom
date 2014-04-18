@@ -44,7 +44,7 @@ public class CombatImpl implements CombatI {
 		width = z;
 		this.terrain = new TerrainImpl(length, height, width);
 	
-		nbGangsters = (int) (x * z * 0.3); //30% du territoire est peuple de vil méchants
+		nbGangsters = (int) (x * z * 0.3); //30% du territoire est peuple de vil mechants
 
 		alex = new StatusWrapperImpl(new PersonnageImpl("alex",5,6,5,50),0,0,0,Commande.RIGHT);
 		ryan = new StatusWrapperImpl(new PersonnageImpl("ryan",5,6,5,50),0,0,1,Commande.RIGHT);
