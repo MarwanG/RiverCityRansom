@@ -1,0 +1,11 @@
+Testsuite: personnage.PersonnageImplTest
+Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0,025 sec
+
+Testcase: addHp2 took 0,002 sec
+Testcase: initPositive took 0 sec
+Testcase: retraitMoney took 0 sec
+Testcase: removeHp took 0 sec
+Testcase: addHp took 0 sec
+Testcase: jeter took 0,001 sec
+Testcase: ramasser took 0 sec
+Testcase: depotMoney took 0 sec

@@ -147,7 +147,7 @@ public class PersonnageContratTest {
 		p.ramasser(new ObjectImpl(null, null, 0));
 		p.jeter();
 		assertTrue(p.getObject() == null);
-		assertTrue(p.equiped());
+		assertFalse(p.equiped());
 	}
 	
 	

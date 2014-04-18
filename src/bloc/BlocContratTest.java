@@ -23,7 +23,6 @@ public class BlocContratTest {
 		assertTrue(b.isEmpty());
 		assertFalse(b.isPit());
 		assertFalse(b.hasTreasure());
-		assertTrue(b.getTreasure() == null);
 	}
 	
 	@Test
@@ -32,7 +31,6 @@ public class BlocContratTest {
 		assertFalse(b.isEmpty());
 		assertTrue(b.isPit());
 		assertFalse(b.hasTreasure());
-		assertTrue(b.getTreasure() == null);
 	}
 	
 	@Test
