@@ -8,6 +8,7 @@ public class StatusWrapperContrat extends StatusWrapperDecorator {
 
 	public StatusWrapperContrat(StatusWrapperI delegate) {
 		super(delegate);
+		init(delegate.getPerso(),delegate.getX(),delegate.getY(),delegate.getZ(),delegate.getDirection());
 	}
 	
 	private void checkInvariants(){

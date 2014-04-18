@@ -31,10 +31,13 @@ public class TerrainImpl implements TerrainI {
 			for(int j=0;j<height;j++){
 				for(int k=0;k<width;k++){
 					if(i<=5 || i >= height-5){
-						world[i][j][k] = new BlocImpl(false,ObjectImpl.randomObjectCreator()); //cannot create starting/ending fosse
+						world[i][j][k] = new BlocImpl(true,ObjectImpl.randomObjectCreator()); //cannot create starting/ending fosse
 					}
 					else{
-						world[i][j][k] = new BlocImpl(rand.nextBoolean(),ObjectImpl.randomObjectCreator());
+						if(rand.nextDouble() > 0.2)
+							world[i][j][k] = new BlocImpl(true,ObjectImpl.randomObjectCreator());
+						else
+							world[i][j][k] = new BlocImpl(false,null);
 					}
 				}
 			}

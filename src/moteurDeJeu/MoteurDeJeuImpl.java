@@ -20,6 +20,7 @@ public class MoteurDeJeuImpl implements MoteurDeJeuI {
 	public void init(int x, int y, int z) {
 		gc = new CombatImpl(x,y,z);
 		finished = false;
+		
 	}
 
 	@Override

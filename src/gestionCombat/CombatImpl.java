@@ -1,11 +1,9 @@
 package gestionCombat;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 import object.Type;
 
-import gangster.GangsterI;
 import gangster.GangsterImpl;
 import personnage.PersonnageI;
 import personnage.PersonnageImpl;
@@ -36,12 +34,13 @@ public class CombatImpl implements CombatI {
 
 	@Override
 	public void init(int x, int y, int z) { //x-> length y-> height z->width
-
+		
 
 		length = x;
 		height = y;
 		width = z;
 		this.terrain = new TerrainImpl(length, height, width);
+	
 		nbGangsters = (int) (x * z * 0.3); //30% du territoire est peuplé de vil méchants
 
 		alex = new StatusWrapperImpl(new PersonnageImpl("alex",5,6,5,50),0,0,0,Commande.RIGHT);
@@ -49,25 +48,20 @@ public class CombatImpl implements CombatI {
 		slick =new StatusWrapperImpl(new GangsterImpl("slick"),x-1,0,0,Commande.LEFT);
 		gang = new ArrayList<StatusWrapperI>();
 
-		for(int i = 0 ; i < nbGangsters ; i++){
-			Random r = new Random();
-			int l,h,w;
-			l = r.nextInt(x);
-			h = r.nextInt(y);
-			w = r.nextInt(z);
-
-			while(l <= 5 || terrain.getBlocCoord(l, h, w).isPit()){ //probably better way to do this
-				l = r.nextInt(x);
-				h = r.nextInt(y);
-				w = r.nextInt(z);
+		
+		for(int i = 5; i<length-1;i++){
+			for(int j=width-1;j>=0;j--){
+				if(terrain.getBlocCoord(i, 0, j).isEmpty())
+					gang.add(new StatusWrapperImpl(new GangsterImpl("Scumbag"),i,0,j,Commande.LEFT));
+					
 			}
-			gang.add(new StatusWrapperImpl(new GangsterImpl("Scumbag"),l,h,w,Commande.LEFT));
-
 		}
+		
+
 	}
 
 	@Override
-	public boolean inRange(PersonnageI p1, PersonnageI p2) {
+	public boolean inRange(StatusWrapperI p1, StatusWrapperI p2) {
 		int x1 = 0;
 		int y1 = 0;
 		int z1 = 0;
@@ -76,66 +70,19 @@ public class CombatImpl implements CombatI {
 		int z2 = 0;
 
 
-		if(p1.getNom().equals("alex")){
-			x1 = alex.getX();
-			y1 = alex.getY();
-			z1 = alex.getZ();
+			x1 = p1.getX();
+			y1 = p1.getY();
+			z1 = p1.getZ();
 
-		}else if(p1.getNom().equals("ryan")){
-			x1 = ryan.getX();
-			y1 = ryan.getY();
-			z1 = ryan.getZ();
-
-		}else if(p1.getNom().equals("slick")){
-			x1 = slick.getX();
-			y1 = slick.getY();
-			z1 = slick.getZ();
-
-		}else if(p1.getNom().contains("Gangster_")){
-			int id = Integer.parseInt((p1.getNom().charAt((p1.getNom().length()-1))+""));
-			if(id > nbGangsters){
-				return false;
-			}else{
-				x1 = gang.get(id).getX();
-				y1 = gang.get(id).getY();
-				z1 = gang.get(id).getZ();
-			}
-		}
-
-		if(p2.getNom().equals("alex")){
-			x2 = alex.getX();
-			y2 = alex.getY();
-			z2 = alex.getZ();
-		}else if(p2.getNom().equals("ryan")){
-			x2= ryan.getX();
-			y2 = ryan.getY();
-			z2 = ryan.getZ();
-		}else if(p2.getNom().equals("slick")){
-			x2 = slick.getX();
-			y2 = slick.getY();
-			z2 = slick.getZ();
-		}else if(p2.getNom().contains("Gangster_")){
-			int id = Integer.parseInt((p2.getNom().charAt((p2.getNom().length()-1))+""));
-			if(id > nbGangsters){
-				return false;
-			}else{
-				x2 = gang.get(id).getX();
-				y2 = gang.get(id).getY();
-				z2 = gang.get(id).getZ();
-			}
-		}
+		
+			x2 = p2.getX();
+			y2 = p2.getY();
+			z2 = p2.getZ();
+			
 
 		if(x1 == x2 && y1 == y2 && ((z1 == z2+1) || (z1+1 == z2))){
 			return true;
-		}else if(x1 == x2 && z1 == z2 && ((y1 == y2+1) || (y1+1 == y2))){
-			return true;
 		}else if(z1 == z2 && y1 == y2 && ((x1 == x2+1) || (x1+1 == x2))){
-			return true;
-		}else if(z1 == z2 && ((x1 == x2+1) || (x1+1 == x2)) && ((y1 == y2+1) || (y1+1 == y2))){
-			return true;
-		}else if(x1 == x2 && ((z1 == z2+1) || (z1+1 == z2)) && ((y1 == y2+1) || (y1+1 == y2))){
-			return true;
-		}else if(y1 == y2 && ((x1 == x2+1) || (x1+1 == x2)) && ((z1 == z2+1) || (z1+1 == z2))){
 			return true;
 		}else{
 			return false;
@@ -148,41 +95,41 @@ public class CombatImpl implements CombatI {
 	public void step(Commande ca, Commande cr) {
 		printStep(ca,cr);
 		
-		boolean slickRange = inRange(alex.getPerso(), slick.getPerso());
+		boolean slickRange = inRange(alex, slick);
 		boolean scumRange = false;
-		PersonnageI scum= null;
+		StatusWrapperI scum= null;
+	
 
 		for(int i=0;i<nbGangsters && scumRange == false;i++){
-			scumRange = inRange(alex.getPerso(), gang.get(i).getPerso());
-			scum = gang.get(i).getPerso();
+			scumRange = inRange(alex, gang.get(i));
+			scum = gang.get(i);
+			
 		}
 
 		if(!alex.isFrozen()){
 			switch (ca) {
 				case LEFT:
 						if(slickRange || scumRange){
-							getKicked(alex);
-							alex.setFreeze(3);
+							getKicked(alex,((slickRange)?slick:scum));
 						}
 						else{
 							alex.setX(Math.max(alex.getX()-1, 0));
+							System.out.println("Move");
 						}
 					break;
 
 				case DOWN:
 						if(slickRange || scumRange){
-							getKicked(alex);
-							alex.setFreeze(3);
-						}
+							getKicked(alex,((slickRange)?slick:scum));
+													}
 						else{
 							alex.setZ(Math.max(alex.getZ()-1, 0));
 						}
 					break;
 				case UP:
 					if(slickRange || scumRange){
-						getKicked(alex);
-						alex.setFreeze(3);
-					}
+						getKicked(alex,((slickRange)?slick:scum));
+											}
 					else{
 						alex.setZ(Math.min(alex.getZ()+1, width-1));
 					}
@@ -190,8 +137,7 @@ public class CombatImpl implements CombatI {
 
 				case RIGHT:
 					if(slickRange || scumRange){
-						getKicked(alex);
-						alex.setFreeze(3);
+						getKicked(alex,((slickRange)?slick:scum));
 					}
 					else{
 						alex.setX(Math.min(alex.getX()+1, length-1));
@@ -211,13 +157,16 @@ public class CombatImpl implements CombatI {
 				case KICK:
 						if(slickRange)
 						{
-							slick.getPerso().retraitHP(alex.getPerso().getForce());
+							getKicked(slick, alex);
 							break;
 						}
 						if(scumRange)
 						{
-							scum.retraitHP(alex.getPerso().getForce());
+							getKicked(scum, alex);
+							break;
+						
 						}
+						System.out.println("Alex Kicked in the void, what a loser");
 					break;
 
 				case PICKUP:
@@ -234,26 +183,23 @@ public class CombatImpl implements CombatI {
 					this.alex.getPerso().jeter();
 					break;
 			}
-		} else
-		{
-			alex.decFreeze();
-		}
+		} 
 		
-		slickRange = inRange(ryan.getPerso(), slick.getPerso());
+		slickRange = inRange(ryan, slick);
 		scumRange = false;
 		scum=null;
 
 		for(int i=0;i<nbGangsters && scumRange == false;i++){
-			scumRange = inRange(ryan.getPerso(), gang.get(i).getPerso());
-			scum = gang.get(i).getPerso();
+			scumRange = inRange(ryan, gang.get(i));
+			scum = gang.get(i);
 		}
 
 		if(!ryan.isFrozen()){
 			switch (ca) {
 				case LEFT:
 						if(slickRange || scumRange){
-							getKicked(ryan);
-							ryan.setFreeze(3);
+							getKicked(ryan,((slickRange)?slick:scum));
+							
 						}
 						else{
 							ryan.setX(Math.max(ryan.getX()-1, 0));
@@ -262,8 +208,8 @@ public class CombatImpl implements CombatI {
 
 				case DOWN:
 						if(slickRange || scumRange){
-							getKicked(ryan);
-							ryan.setFreeze(3);
+							getKicked(ryan,((slickRange)?slick:scum));
+							
 						}
 						else{
 							ryan.setZ(Math.max(ryan.getZ()-1, 0));
@@ -271,8 +217,8 @@ public class CombatImpl implements CombatI {
 					break;
 				case UP:
 					if(slickRange || scumRange){
-						getKicked(ryan);
-						ryan.setFreeze(3);
+						getKicked(ryan,((slickRange)?slick:scum));
+						
 					}
 					else{
 						ryan.setZ(Math.min(ryan.getZ()+1, width-1));
@@ -281,8 +227,8 @@ public class CombatImpl implements CombatI {
 
 				case RIGHT:
 					if(slickRange || scumRange){
-						getKicked(ryan);
-						ryan.setFreeze(3);
+						getKicked(ryan,((slickRange)?slick:scum));
+						
 					}
 					else{
 						ryan.setX(Math.min(ryan.getX()+1, length-1));
@@ -299,15 +245,17 @@ public class CombatImpl implements CombatI {
 					break;
 
 				case KICK:
-						if(slickRange)
-						{
-							slick.getPerso().retraitHP(ryan.getPerso().getForce());
-							break;
-						}
-						if(scumRange)
-						{
-							scum.retraitHP(ryan.getPerso().getForce());
-						}
+					if(slickRange)
+					{
+						getKicked(slick, ryan);
+						break;
+					}
+					if(scumRange)
+					{
+						getKicked(scum, ryan);
+						break;
+					}
+					System.out.println("Ryan Kicked in the void, what a loser");
 					break;
 
 				case PICKUP:
@@ -324,10 +272,14 @@ public class CombatImpl implements CombatI {
 					this.ryan.getPerso().jeter();
 					break;
 			}
-		} else
-		{
-			ryan.decFreeze();
-		}
+		} 
+		
+		alex.decFreeze();
+		ryan.decFreeze();
+		slick.decFreeze();
+		
+		for(int i=0;i<gang.size();i++)
+			gang.get(i).decFreeze();
 
 
 
@@ -357,26 +309,36 @@ public class CombatImpl implements CombatI {
 		return slick.getPerso();
 	}
 
-	private void getKicked(StatusWrapperI perso) {
-		Commande dir = perso.getDirection();
-				
+	private void getKicked(StatusWrapperI kicked,StatusWrapperI kicking) {
+		
+		if(kicking.isFrozen())
+		{
+			System.out.println(kicking.getPerso().getNom()+" cannot kicked, he is frozen");
+			return;
+		}
+		
+		Commande dir = kicked.getDirection();
+		System.out.println(kicked.getPerso().getNom()+"  gets KICKED IN THE CROTCH by "+kicking.getPerso().getNom());
 		switch(dir){
 			case DOWN:
-				perso.setZ(Math.max(0,perso.getZ()-3));
+				kicked.setZ(Math.max(0,kicked.getZ()-3));
 				break;
 			case UP:
-				perso.setZ(Math.min(width-1,perso.getZ()+3));
+				kicked.setZ(Math.min(width-1,kicked.getZ()+3));
 				break;
 			case RIGHT:
-				perso.setX(Math.max(0, perso.getX()-3));
+				kicked.setX(Math.max(0, kicked.getX()-3));
 				break;
 			case LEFT:
-				perso.setX(Math.min(length-1,perso.getX()-3));
+				kicked.setX(Math.min(length-1,kicked.getX()-3));
 				break;
 			
 			default:
 				return;
 		}
+		kicked.getPerso().retraitHP(kicking.getPerso().getForce());
+		kicked.setFreeze(3);
+		
 		
 	}
 

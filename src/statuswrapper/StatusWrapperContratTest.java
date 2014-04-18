@@ -8,6 +8,9 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import contract.ContractError;
+
+import personnage.PersonnageI;
 import personnage.PersonnageImpl;
 
 public class StatusWrapperContratTest {
@@ -16,16 +19,25 @@ public class StatusWrapperContratTest {
     public ExpectedException exception = ExpectedException.none();
 	
 	StatusWrapperI c;
+	PersonnageI p;
 
 	@Before
 	public void setUp() throws Exception {
+		p = new PersonnageImpl("jack", 10, 10, 10, 10);
 		c = new StatusWrapperContrat(new StatusWrapperImpl(
-				new PersonnageImpl("jack", 10, 10, 10, 10), 1, 1, 1, Commande.DOWN));
+				p, 1, 1, 1, Commande.DOWN));
 	}
 
 	@Test
 	public void testInit() {
 		assertTrue(c != null); //test ok;
+		assertTrue(c.getX()==1);
+		assertTrue(c.getY()==1);
+		assertTrue(c.getZ()==1);
+		assertTrue(c.freeze()==0);
+		assertTrue(c.getDirection()==Commande.DOWN);
+		assertTrue(c.getPerso() == p);
+		
 	}
 
 	
@@ -56,6 +68,70 @@ public class StatusWrapperContratTest {
 		assertTrue(c.freeze()==0);
 		c.decFreeze();
 		assertTrue(c.freeze()==0);
+	}
+	
+	@Test
+	public void testSetXFalse(){
+		exception.expect(ContractError.class);
+		c.setX(-1);	
+	}
+	
+	@Test
+	public void testSetYFalse(){
+		exception.expect(ContractError.class);
+		c.setY(-1);	
+	}
+	
+	@Test
+	public void testSetZFalse(){
+		exception.expect(ContractError.class);
+		c.setZ(-1);	
+	}
+	
+	@Test
+	public void testSetFreezeFalse(){
+		exception.expect(ContractError.class);
+		c.setFreeze(-1);	
+	}
+	
+	@Test
+	public void testSetDirectionFalse(){
+		exception.expect(ContractError.class);
+		c.setDirection(Commande.JUMP_RIGHT);	
+	}
+	
+	@Test
+	public void testbadInit1(){
+		exception.expect(ContractError.class);
+		c = new StatusWrapperContrat(new StatusWrapperImpl(p, -1, 1, 1, Commande.DOWN));
+
+	}
+	
+	@Test
+	public void testbadInit2(){
+		exception.expect(ContractError.class);
+		c = new StatusWrapperContrat(new StatusWrapperImpl(p, 1, -1, 1, Commande.DOWN));
+
+	}
+	
+	@Test
+	public void testbadInit3(){
+		exception.expect(ContractError.class);
+		c = new StatusWrapperContrat(new StatusWrapperImpl(p, 1, 1, -1, Commande.DOWN));
+
+	}
+	
+	@Test
+	public void testbadInit4(){
+		exception.expect(ContractError.class);
+		c = new StatusWrapperContrat(new StatusWrapperImpl(p, 1, 1, 1, Commande.JUMP_DOWN));
+
+	}
+	
+	@Test
+	public void testbadInit5(){
+		exception.expect(ContractError.class);
+		c = new StatusWrapperContrat(new StatusWrapperImpl(null, 1, 1, 1, Commande.DOWN));
 	}
 	
 	
