@@ -21,4 +21,23 @@
     <javac debug="true" classpath="${jars}/junit.jar:${jars}/hamcrestCore.jar" srcdir="${src}" excludes="" destdir="${build}" />
   </target>
 
+ <target name="ctest" depends="compile"
+          description="test w/ contract">
+    <echo>================ Run test w/ contract ================</echo>
+    <mkdir dir="${report}"/>
+    <junit printsummary="yes">
+      <classpath>
+        <pathelement location="${build}"/>
+        <pathelement location="${jars}/junit.jar"/>
+        <pathelement location="${jars}/hamcrestCore.jar"/>
+      </classpath>
+
+    <formatter type="plain"/>
+
+
+      <test name="rivercityransom.bloc.BlocContratTest" outfile="${report}/BlocTestContract"/>
+
+    </junit>
+  </target>
+
 </project>
