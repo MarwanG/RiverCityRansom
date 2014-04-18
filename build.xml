@@ -5,7 +5,7 @@
 
   <property name="src" location="src"/>
   <property name="build" location="build"/>
-  <property name="jars" location=“lib”/>
+  <property name="jars" location="lib"/>
 
 <target name="init">
     <!-- Create the time stamp -->
