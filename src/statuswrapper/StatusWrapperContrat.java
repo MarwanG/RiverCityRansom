@@ -19,6 +19,12 @@ public class StatusWrapperContrat extends StatusWrapperDecorator {
 			Contractor.defaultContractor().invariantError("StatusWrapper", " z < 0");
 		if(delegate.freeze()<0)
 			Contractor.defaultContractor().invariantError("StatusWrapper", " freeze < 0");
+		if(delegate.getDirection() != Commande.DOWN && delegate.getDirection() != Commande.UP
+				&& delegate.getDirection() != Commande.LEFT && delegate.getDirection() != Commande.RIGHT)
+			Contractor.defaultContractor()
+			.invariantError("StatusWrapper", "direction not in {UP,DOWN,LEFT,RIGHT}");
+		
+		
 	}
 
 	@Override
@@ -40,11 +46,11 @@ public class StatusWrapperContrat extends StatusWrapperDecorator {
 		super.init(p, x, y, z, c);
 		
 		//post:
-		if(delegate.getX() != x)
+		if(delegate.getX() != x && x>=0)
 			Contractor.defaultContractor().postconditionError("StatusWrapper", "init", "getX != x");
-		if(delegate.getY() != y)
+		if(delegate.getY() != y && y>=0)
 			Contractor.defaultContractor().postconditionError("StatusWrapper", "init", "getY != y");
-		if(delegate.getZ() != z)
+		if(delegate.getZ() != z && z>=0)
 			Contractor.defaultContractor().postconditionError("StatusWrapper", "init", "getZ != z");
 		if(delegate.freeze() != 0)
 			Contractor.defaultContractor().postconditionError("StatusWrapper", "init", "freeze != 0");
@@ -65,7 +71,7 @@ public class StatusWrapperContrat extends StatusWrapperDecorator {
 		
 		super.setX(x);
 		
-		if(delegate.getX() != x)
+		if(delegate.getX() != x && x>=0)
 			Contractor.defaultContractor().postconditionError("StatusWrapper", "setX", "getX != x");
 		checkInvariants();
 	}
@@ -78,7 +84,7 @@ public class StatusWrapperContrat extends StatusWrapperDecorator {
 		
 		super.setY(y);
 		
-		if(delegate.getY() != y)
+		if(delegate.getY() != y && y>=0)
 			Contractor.defaultContractor().postconditionError("StatusWrapper", "setY", "getY != y");
 		checkInvariants();
 	}
@@ -91,7 +97,7 @@ public class StatusWrapperContrat extends StatusWrapperDecorator {
 		
 		super.setZ(z);
 		
-		if(delegate.getZ() != z)
+		if(delegate.getZ() != z && z>=0)
 			Contractor.defaultContractor().postconditionError("StatusWrapper", "getZ", "getZ != z");
 		checkInvariants();
 	}
@@ -102,7 +108,7 @@ public class StatusWrapperContrat extends StatusWrapperDecorator {
 		if(f<0)
 			Contractor.defaultContractor().preconditionError("StatusWrapper", "setFreeze", "arg f<0");
 		super.setFreeze(f);
-		if(delegate.freeze() != 0)
+		if(delegate.freeze() != f && f>=0)
 			Contractor.defaultContractor().postconditionError("StatusWrapper", "setFreeze", "freeze != f");
 		checkInvariants();
 	}
@@ -117,6 +123,18 @@ public class StatusWrapperContrat extends StatusWrapperDecorator {
 		
 		if(delegate.getDirection() != c)
 			Contractor.defaultContractor().postconditionError("StatusWrapper", "setDirection", "getDirection != c");
+		checkInvariants();
+	}
+
+	@Override
+	public void decFreeze() {
+		checkInvariants();
+		int f = delegate.freeze();
+		super.decFreeze();
+		
+		if(delegate.freeze() != Math.max(0, f-1))
+			Contractor.defaultContractor().postconditionError("StatusWrapper", "decFreeze", "decFreeze != Max(0,freeze-1)");
+		
 		checkInvariants();
 	}
 	

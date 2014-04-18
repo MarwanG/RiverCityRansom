@@ -3,10 +3,38 @@ package statuswrapper;
 import gestionCombat.Commande;
 import personnage.PersonnageI;
 
-public class StatusWrapperDecorator {
+public class StatusWrapperDecorator implements StatusWrapperI {
 
 	StatusWrapperI delegate;
 	
+	public Commande getDirection() {
+		return delegate.getDirection();
+	}
+
+	public PersonnageI getPerso() {
+		return delegate.getPerso();
+	}
+
+	public int getX() {
+		return delegate.getX();
+	}
+
+	public int getY() {
+		return delegate.getY();
+	}
+
+	public int getZ() {
+		return delegate.getZ();
+	}
+
+	public boolean isFrozen() {
+		return delegate.isFrozen();
+	}
+
+	public int freeze() {
+		return delegate.freeze();
+	}
+
 	public StatusWrapperDecorator(StatusWrapperI delegate){
 		this.delegate = delegate;
 	}
@@ -35,8 +63,8 @@ public class StatusWrapperDecorator {
 		delegate.setDirection(c);
 	}
 
-	public int freeze() {
-		return delegate.freeze();
+	public void decFreeze() {
+		delegate.decFreeze();
 	}
 	
 	

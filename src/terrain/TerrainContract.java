@@ -11,7 +11,7 @@ public class TerrainContract extends TerrainDecorator {
 	}
 
 	public void checkInvariants(){
-
+		
 		for(int i=0;i<getLength();i++){
 			for(int j=0;j<getHeight();j++){
 				for(int k=0;k<getWidth();k++){

@@ -19,20 +19,23 @@ Operators:
 	setX: [StatusWrapper] * int -> [StatusWrapper]
 		pre: setX(S,x) require x>=0
 	setY: [StatusWrapper] * int -> [StatusWrapper]
-		pre: setX(S,x) require x>=0
+		pre: setY(S,x) require x>=0
 	setZ: [StatusWrapper] * int -> [StatusWrapper]
-		pre: setX(S,x) require x>=0
+		pre: setZ(S,x) require x>=0
 	setFreeze: [StatusWrapper] * int -> [StatusWrapper]
-		pre: setX(S,x) require x>=0
+		pre: setFreeze(S,x) require x>=0
 	setDirection: [StatusWrapper] * int -> [StatusWrapper]
-		pre: setX(S,c) require c IN {UP,DOWN,LEFT,RIGHT}
+		pre: setDirections(S,c) require c IN {UP,DOWN,LEFT,RIGHT}
 	decFreeze: [StatusWrapper] -> [StatusWrapper]
 
 Observations:
 	[invariants]
-		0>=x<=y<=z
-		0>=freeze
+		0<=x(S)
+		0<=y(S)
+		0<=z(S)
+		0<=freeze(S)
 		isFrozen(S) =min= (freeze==0)
+ 		getDirection(c) IN {UP,DOWN,LEFT,RIGHT} 
 
 	[init]
 		x(S,init(x,y,z,c,p)) = x
@@ -58,7 +61,7 @@ Observations:
 		direction(setDirection(S,n)) = n 
 
 	[decFreeze]
-		freeze(decFreeze(S,n)) = freeze(S)-1; 
+		freeze(decFreeze(S,n)) = max(0,freeze(S)-1); 
 
 		
 		
