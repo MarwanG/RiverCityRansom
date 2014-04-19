@@ -43,15 +43,15 @@ Observations:
 
 [init]
   
-  width(init(w,l,d))=w  
-  length(init(w,l,d))=l
-  depth(init(w,l,d))=d
-  nbGangsters(init(w,l,d)) = w*l*0.30 //30 % du territoire est peuplé de vil méchants
+  width(init(x,y,z))=z  
+  length(init(x,y,z))=y
+  depth(init(x,y,z))=d
+  nbGangsters(init(x,y,z)) = x*y*0.30 //30 % du territoire est peuplé de vil méchants
 
   alex(init(w,l,d))) = Personnage::init("alex",5,5,5,50)
   ryan(init(w,l,d))) = Personnage::init("ryan",5,6,5,50)
   slick(init(w,l,d)) = Gangster::init("slick")
-  Terrain(init(w,l,d)) = Terrain::init(w,l,d)
+  Terrain(init(x,y,z)) = Terrain::init(x,y,z)
   lastCommand(init(w,l,d),P) = null;
 
 

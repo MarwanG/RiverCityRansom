@@ -361,8 +361,36 @@ public class CombatImpl implements CombatI {
 		}
 		kicked.getPerso().retraitHP(kicking.getPerso().getForce());
 		kicked.setFreeze(3);
-		
-		
 	}
+
+	public static int getStep() {
+		return step;
+	}
+
+	public int getLength() {
+		return length;
+	}
+
+	public int getHeight() {
+		return height;
+	}
+
+	public int getWidth() {
+		return width;
+	}
+
+	public int getNbGangsters() {
+		return nbGangsters;
+	}
+
+	public ArrayList<StatusWrapperI> getGang() {
+		return gang;
+	}
+
+	public TerrainI getTerrain() {
+		return terrain;
+	}
+	
+	
 
 }

@@ -1,11 +1,11 @@
 Test init
 
-    Test: p = init(5,5,5)
+    Test: p = init(50,50,50)
     Oracle: p != null
             length = 5
             depth = 5
             width = 5
-            nbGangsters = 3
+            nbGangsters = 30
             alex = Personnage::init("alex",5,5,5,50)
             ryan = Personnage::init("ryan",5,6,5,50)
             slick = Gangster::init("slick")
@@ -16,7 +16,7 @@ Test init
        
             position(C,"Ryan","x") = 0;
             position(C,"Alex","x") = 0;
-            position(C,"Slick","x") = 4;
+            position(C,"Slick","x") = 49;
             position(C,"Ryan","y") = 0;
             position(C,"Alex","y") = 1;
             position(C,"Slick","y") = 0;
@@ -25,19 +25,19 @@ Test init
             position(C,"Slick","z") = 0;
 
 
-    Test: p = init(5,0,5)
+    Test: p = init(50,0,50)
     Oracle: p = null
 
-    Test: p  = init(0,5,5)
+    Test: p  = init(0,50,50)
     Oracle: p =  null
 
-    Test: p = init(5,5,0)
+    Test: p = init(50,50,0)
     Oracle: p = null
 
-    Test: p = init(5,0,0)
+    Test: p = init(50,0,0)
     Oracle: p = null
 
-    Test: p = init(0,0,5)
+    Test: p = init(0,0,50)
     Oracle: p = null
 
 
