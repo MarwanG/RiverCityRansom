@@ -12,7 +12,7 @@ public class PersonnageImpl implements PersonnageI {
 	private int hp;
 	private int money;
 	private boolean alive;
-	private ObjectI object;				//TO be modified when service object is created;
+	private ObjectI object;
 	
 	
 	
@@ -150,8 +150,6 @@ public class PersonnageImpl implements PersonnageI {
 		return object;
 	}
 
-
-	@Override
 	public void ramasser(ObjectI o) {
 		this.object = o;
 		

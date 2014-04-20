@@ -8,14 +8,15 @@ public class TerrainContract extends TerrainDecorator {
 
 	public TerrainContract(TerrainI delegate) {
 		super(delegate);
+		this.init(delegate.getLength(),delegate.getHeight(),delegate.getWidth());
 	}
 
 	public void checkInvariants(){
-
+		
 		for(int i=0;i<getLength();i++){
 			for(int j=0;j<getHeight();j++){
 				for(int k=0;k<getWidth();k++){
-					if(getBlocCoord(i, j, k) == null)
+					if(delegate.getBlocCoord(i, j, k) == null)
 						Contractor.defaultContractor().invariantError("TerrainContract", "A bloc isn't defined");
 				}
 			}

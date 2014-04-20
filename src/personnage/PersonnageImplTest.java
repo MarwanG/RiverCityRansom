@@ -14,6 +14,7 @@ public class PersonnageImplTest {
 	@Before
 	public void setUp() throws Exception {
 		p = new PersonnageImpl("m",10,10,10,10);
+		
 	}
 
 	@Test
@@ -47,27 +48,11 @@ public class PersonnageImplTest {
 	}
 	
 	@Test
-	public void  addHpNeg(){
-		int hpAvant = p.getHp();
-		p.depotsHP(-5);
-		assertFalse(hpAvant+5 == p.getHp());
-	}
-	
-	@Test
 	public void  removeHp(){
 		int hpAvant = p.getHp();
 		p.retraitHP(5);
 		assertTrue(hpAvant == p.getHp()+5);
 	}
-	
-	@Test
-	public void  removeHpNeg(){
-		int hpAvant = p.getHp();
-		p.retraitHP(-5);
-		assertTrue(hpAvant == p.getHp());
-	}
-	
-	
 	
 	@Test
 	public 	void depotMoney(){
@@ -77,35 +62,21 @@ public class PersonnageImplTest {
 	}
 	
 	@Test
-	public 	void depotMoneyNeg(){
-		int money = p.getMoney();
-		p.depotsMoney(-5);
-		assertFalse(money+5 == p.getMoney());
-	}
-	
-	@Test
 	public 	void retraitMoney(){
+		p.depotsMoney(50);
 		int money = p.getMoney();
+		assertTrue(money>5);
 		p.retraitMoney(5);
-		assertTrue(money+5 == p.getMoney());
+		assertTrue(p.getMoney() == money-5);
 	}
-	
-	@Test
-	public 	void retraitMoneyNeg(){
-		int money = p.getMoney();
-		p.retraitMoney(-5);
-		assertFalse(money == p.getMoney());
-	}
-	
 	
 	@Test
 	public void jeter(){
 		p.ramasser(new ObjectImpl(null, null, 0));
 		p.jeter();
 		assertTrue(p.getObject() == null);
-		assertTrue(p.equiped());
+		assertFalse(p.equiped());
 	}
-	
 	
 	@Test
 	public void ramasser(){

@@ -1,5 +1,6 @@
 package gangster;
 
+import object.ObjectI;
 import contract.Contractor;
 
 public class GangsterContrat extends GangsterDecorator {
@@ -111,13 +112,17 @@ public class GangsterContrat extends GangsterDecorator {
 	}
 	
 	public void jeter() {
-		//NOT SURE WHAT TO PLACE.
+		checkInvariant();
+		super.jeter();
+		checkInvariant();
 	
 	}
 	
 
 	@Override
-	public void ramasser(Object o) {
-		//NOT SURE WHAT TO PLACE AS WELL.
+	public void ramasser(ObjectI o) {
+		checkInvariant();
+		super.ramasser(o);
+		checkInvariant();
 	}
 }

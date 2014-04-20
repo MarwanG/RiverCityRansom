@@ -2,79 +2,79 @@ service: Personnage
 use: Object
 types : String,int,boolean 
 observators:
-	const nom: [Personnage] -> String
-	const width: [Personnage] -> int
-	const height: [Personnage] -> int
-	const depth: [Personnage] -> int
-	const force: [Personnage] -> int
-	currentForce: [Personnage] -> int
-	hp:[Personnage] -> int
-	money:[Personnage] -> int
-	youDeadMan:[Personnage] -> boolean
-	isEquiped:[Personnage] -> boolean
-	getObject:[Personnage] -> Object
-	getCarried: [Personnage] -> Personnage
-	
+    const nom: [Personnage] -> String
+    const width: [Personnage] -> int
+    const height: [Personnage] -> int
+    const depth: [Personnage] -> int
+    const force: [Personnage] -> int
+    currentForce: [Personnage] -> int
+    hp:[Personnage] -> int
+    money:[Personnage] -> int
+    youDeadMan:[Personnage] -> boolean
+    isEquiped:[Personnage] -> boolean
+    getObject:[Personnage] -> Object
+    getCarried: [Personnage] -> Personnage
+
 Constructors:
-	init: String * int * int * int * int -> Personnage
-	 pre init(nom,width,height,depth,force) require nom != "" AND force > 0 AND width > 0 AND height > 0 AND depth > 0
+    init: String * int * int * int * int -> Personnage
+        pre init(nom,width,height,depth,force) require nom != "" AND force > 0 AND width > 0 AND height > 0 AND depth > 0
 
 Operators:
-	addHp: [Personnage] * int -> Personnage	
-		pre addHp(P,s) require s > 0 & !youDeadMan(P)
-	removeHp: [Personnage] * int -> Personnage
-		pre removeHp(P,s) require s> 0 & !youDeadMan(P)
-	addMoney: [Personnage] * int -> Personnage
-		pre addMoney(P,s) require s>0 & !youDeadMan(P)
-	removeMoney: [Personnage] * int -> Personnage
-		pre removeMoney(P,s) require s>0 & money(p)-s >= 0 & !youDeadMan(p)
-	throw: [Personnage] -> Personnage
-		pre throw(p) require isEquiped(p) & !youDeadMan(P)
-	pickUp: [Personnage] * Object -> Personnage
-		pre pickUp(p,o) require !youDeadMan(p)
-	pickUpPersonnage: [Personnage] * [Personnage] -> Personnage
-		pre pickUp(p,p1) require !youDeadMan(p)
+    addHp: [Personnage] * int -> Personnage	
+        pre addHp(P,s) require s > 0 & !youDeadMan(P)
+    removeHp: [Personnage] * int -> Personnage
+        pre removeHp(P,s) require s> 0 & !youDeadMan(P)
+    addMoney: [Personnage] * int -> Personnage
+        pre addMoney(P,s) require s>0 & !youDeadMan(P)
+    removeMoney: [Personnage] * int -> Personnage
+        pre removeMoney(P,s) require s>0 & money(p)-s >= 0 & !youDeadMan(p)
+    throw: [Personnage] -> Personnage
+        pre throw(p) require isEquiped(p) & !youDeadMan(P)
+    pickUp: [Personnage] * Object -> Personnage
+        pre pickUp(p,o) require !youDeadMan(p)
+    pickUpPersonnage: [Personnage] * [Personnage] -> Personnage
+        pre pickUp(p,p1) require !youDeadMan(p)
 
 Observation:
-	[invariant]
-		youDeadMan(p) min= hp(p) <= 0
-		isEquiped(p) min= getObject(p) != null OR getCarried(p) != null
-		currentForce(p) min= Force(p) + getObject(p)::power 
-	[init]
-		nom(init(n,l,h,p,f))=n
-		width(init(n,l,h,p,f))=l
-		height(init(n,l,h,p,f))=h
-		depth(init(n,l,h,p,f))=p
-		force(init(n,l,h,p,f))=f
-		hp(init(n,l,h,p,f))=100
-		money(init(n,l,h,p,f))=0
-		isEquiped(init(n,l,h,p,f))=false
-		getObject(init(n,l,h,p,f))=null
-		currentForce((init(n,l,h,p,f)) = f
-	[addHp]
-		hp(addHp(p,s))=hp(p)+s
-	[removeHp]
-		hp(removeHp(p,s))=min(hp(p)-s,0)
-		youDeadMan(remove(p,hp(p)))=true
-	[addMoney]
-		money(addMoney(p,s))=money(p)+s
-	[removeMoney]
-		money(removeMoney(p,s))=min(money(p)-s,0)
-	[throw]
-		isEquiped(throw(p))=false
-		getObject(throw(p))= false
-		getCarried(throw(p))=false
-		currentForce(throw(p))=force(p)
+[invariant]
+    youDeadMan(p) min= hp(p) <= 0
+    isEquiped(p) min= getObject(p) != null OR getCarried(p) != null
+    currentForce(p) min= Force(p) + getObject(p)::power 
+   
+[init]
+    nom(init(n,l,h,p,f))=n
+    width(init(n,l,h,p,f))=l
+    height(init(n,l,h,p,f))=h
+    depth(init(n,l,h,p,f))=p
+    force(init(n,l,h,p,f))=f
+    hp(init(n,l,h,p,f))=100
+    money(init(n,l,h,p,f))=0
+    isEquiped(init(n,l,h,p,f))=false
+    getObject(init(n,l,h,p,f))=null
+    currentForce((init(n,l,h,p,f)) = f
+[addHp]
+    hp(addHp(p,s))=hp(p)+s
+[removeHp]
+    hp(removeHp(p,s))=min(hp(p)-s,0)
+    youDeadMan(remove(p,hp(p)))=true
+[addMoney]
+    money(addMoney(p,s))=money(p)+s
+[removeMoney]
+    money(removeMoney(p,s))=min(money(p)-s,0)
+[throw]
+    isEquiped(throw(p))=false
+    getObject(throw(p))= false
+    getCarried(throw(p))=false
+    currentForce(throw(p))=force(p)
 
-	[pickUp]
-		isEquiped(pickUp(p,Object::init("o",usable,10)))=true
-		isEquiped(pickUp(p,Object::init("o",sellabe,10)))=false
-		getObject(pickUp(p,Object::init("o",usable,10))))=Object::init("o",usable,10))
-		money(pickUp(p,Object::init("o",sellable,10))))=money(p)+10
-		getCarried(pickUp(p,o)) = null
-		currentForce(pickUp(p,Object::init("o",usable,10))) = currentForce(p) +10
-	[pickUpPersonnage]
-		isEquiped(pickUpPersonnage(p,p1)) = true
-		getObject(pickUpPersonnage(p,p1)) = null
-		getCarried(pickUpPersonnage(p,p1)) = p1
-	
+[pickUp]
+    isEquiped(pickUp(p,Object::init("o",usable,10)))=true
+    isEquiped(pickUp(p,Object::init("o",sellabe,10)))=false
+    getObject(pickUp(p,Object::init("o",usable,10))))=Object::init("o",usable,10))
+    money(pickUp(p,Object::init("o",sellable,10))))=money(p)+10
+    getCarried(pickUp(p,o)) = null
+    currentForce(pickUp(p,Object::init("o",usable,10))) = currentForce(p) +10
+[pickUpPersonnage]
+    isEquiped(pickUpPersonnage(p,p1)) = true
+    getObject(pickUpPersonnage(p,p1)) = null
+    getCarried(pickUpPersonnage(p,p1)) = p1

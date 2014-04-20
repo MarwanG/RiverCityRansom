@@ -1,71 +1,71 @@
 Test init
 
-	Test: p = init(5,5,5)
-	Oracle: p != null
-			length = 5
-			depth = 5
-			width = 5
-			nbGangsters = 3
-			alex = Personnage::init("alex",5,5,5,50)
-			ryan = Personnage::init("ryan",5,6,5,50)
-			slick = Gangster::init("slick")
-			Terrain = Terrain::init(w,l,d)
-			lastCommand = null
-			//on peut pas teste les bloc pour les terrain
-			freeze(C,p) = 0 pour p appartient a {ryan,alex,slick} et gangsters
-	   
-	   		position(C,"Ryan","x") = 0;
-	  		position(C,"Alex","x") = 0;
-		    position(C,"Slick","x") = 4;
-		    position(C,"Ryan","y") = 0;
-		    position(C,"Alex","y") = 1;
-		    position(C,"Slick","y") = 0;
-		    position(C,"Ryan”,”z”) = 0;
-		    position(C,"Alex”,”z”) = 0;
-		    position(C,"Slick","z") = 0;
+    Test: p = init(5,5,5)
+    Oracle: p != null
+            length = 5
+            depth = 5
+            width = 5
+            nbGangsters = 3
+            alex = Personnage::init("alex",5,5,5,50)
+            ryan = Personnage::init("ryan",5,6,5,50)
+            slick = Gangster::init("slick")
+            Terrain = Terrain::init(w,l,d)
+            lastCommand = null
+            //on peut pas teste les bloc pour les terrain
+            freeze(C,p) = 0 pour p appartient a {ryan,alex,slick} et gangsters
+       
+            position(C,"Ryan","x") = 0;
+            position(C,"Alex","x") = 0;
+            position(C,"Slick","x") = 4;
+            position(C,"Ryan","y") = 0;
+            position(C,"Alex","y") = 1;
+            position(C,"Slick","y") = 0;
+            position(C,"Ryan”,”z”) = 0;
+            position(C,"Alex”,”z”) = 0;
+            position(C,"Slick","z") = 0;
 
 
-	Test: p = init(5,0,5)
-	Oracle: p = null
+    Test: p = init(5,0,5)
+    Oracle: p = null
 
-	Test: p  = init(0,5,5)
-	Oracle: p =  null
+    Test: p  = init(0,5,5)
+    Oracle: p =  null
 
-	Test: p = init(5,5,0)
-	Oracle: p = null
+    Test: p = init(5,5,0)
+    Oracle: p = null
 
-	Test: p = init(5,0,0)
-	Oracle: p = null
+    Test: p = init(5,0,0)
+    Oracle: p = null
 
-	Test: p = init(0,0,5)
-	Oracle: p = null
+    Test: p = init(0,0,5)
+    Oracle: p = null
 
 
 
 
 Test LastCommand 
 
-	initial: c = init(10,10,10)
-	Test:	 command = lastCommand(c,ryan(c))
-	Oracle: command = null
-	Test:	 command = lastCommand(c,alex(c))
-	Oracle: command = null
+    initial: c = init(10,10,10)
+    Test:    command = lastCommand(c,ryan(c))
+    Oracle: command = null
+    Test:    command = lastCommand(c,alex(c))
+    Oracle: command = null
 
-	initial: c = init(10,10,10)
-			 c = step(c,COMMAND.UP,COMMAND.UP)
-	Test:	 command = lastCommand(c,ryan(c))
-	Oracle:  command =  COMMAND.UP
-	Test:	 command = lastCommand(c,alex(c))
-	Oracle:  command =  COMMAND.UP
-	Test:	 command = lastCommand(c,batman(c))
-	Oracle:  command =  null
-			c2 = step(c,COMMAND.DOWN,COMMAND.LEFT);
-	Test:	 command = lastCommand(c2,ryan(c))
-	Oracle:  command =  COMMAND.DOWN
-	Test:	 command = lastCommand(c2,alex(c))
-	Oracle:  command =  COMMAND.LEFT
-	Test:	 command = lastCommand(c2,batman(c))
-	Oracle:  command =  null
+    initial: c = init(10,10,10)
+             c = step(c,COMMAND.UP,COMMAND.UP)
+    Test:    command = lastCommand(c,ryan(c))
+    Oracle:  command =  COMMAND.UP
+    Test:    command = lastCommand(c,alex(c))
+    Oracle:  command =  COMMAND.UP
+    Test:    command = lastCommand(c,batman(c))
+    Oracle:  command =  null
+            c2 = step(c,COMMAND.DOWN,COMMAND.LEFT);
+    Test:    command = lastCommand(c2,ryan(c))
+    Oracle:  command =  COMMAND.DOWN
+    Test:    command = lastCommand(c2,alex(c))
+    Oracle:  command =  COMMAND.LEFT
+    Test:    command = lastCommand(c2,batman(c))
+    Oracle:  command =  null
 
 
 
