@@ -24,19 +24,20 @@ public class TerrainContractTest {
 	
 	@Test
 	public void testInitFail() {
-		TerrainI t = new TerrainContract(new TerrainImpl(0, 0, 0));
 		exception.expect(ContractError.class);
+		TerrainI t = new TerrainContract(new TerrainImpl(0, 0, 0));
+		
 	}
 	@Test
 	public void testInitFail2() {
-		TerrainI t = new TerrainContract(new TerrainImpl(5, 0, 0));
 		exception.expect(ContractError.class);
+		TerrainI t = new TerrainContract(new TerrainImpl(5, 0, 0));
 	}
 	
 	@Test
 	public void testInitFail3() {
-		TerrainI t = new TerrainContract(new TerrainImpl(5, 5, 0));
 		exception.expect(ContractError.class);
+		TerrainI t = new TerrainContract(new TerrainImpl(5, 5, 0));
 	}
 
 }
