@@ -34,11 +34,8 @@ Observations:
 
 [Invariant] 
     inRange(C,p1,p2) =min=  
-    DIM:["x","y","z"]: AND{ 
-        Position(C,recupPersonnage(C,p),DIM) = Position(C,recupPersonnage(C,p2),DIM)+1
-        OR
-        Position(C,recupPersonnage(C,p),DIM) = Position(C,recupPersonnage(C,p2),DIM)-1
-    }
+    	(p1::z==p2::z) AND (p1::x(-1 OR +1))==p2::x) OR (p1::y(-1 OR +1))==p2::y)
+    
 
 
 [init]
@@ -48,195 +45,130 @@ Observations:
   depth(init(w,l,d))=d
   nbGangsters(init(w,l,d)) = w*l*0.30 //30 % du territoire est peuplé de vil méchants
 
-  alex(init(w,l,d))) = Personnage::init("alex",5,5,5,50)
-  ryan(init(w,l,d))) = Personnage::init("ryan",5,6,5,50)
-  slick(init(w,l,d)) = Gangster::init("slick")
+  alex(init(w,l,d))) = StatusWrapper::init(0,0,0,RIGHT,Personnage::init("alex",5,5,5,50))
+  ryan(init(w,l,d))) = StatusWrapper::init(0,0,1,RIGHT,Personnage::init("ryan",5,6,5,50))
+  slick(init(w,l,d)) = StatusWrapper::init(w-1,0,0,LEFT,Gangster::init("slick"))
   Terrain(init(w,l,d)) = Terrain::init(w,l,d)
-  lastCommand(init(w,l,d),P) = null;
 
 
-  [FOR ALL( i=[5:w-1] , j=[0:h-1] , k=[0,d-1])
-   WHERE Bloc::IsEmpty(Terrain::BlocCoord(i,j,k)
+  [FOR ALL( i=[5:w-1] , j=0 , k=[0,d-1])
+   WHERE Bloc::IsEmpty(Terrain::BlocCoord(i,j,k))
    AND Random::True
    AND Index < nbGangster
    ]:index 
-    ==> {
-        Gangster[index](init(w,l,d)) = Gangster::init("Scumbag");
-        position(C,"Gangster_"+index,"x") = i;
-        position(C,"Gangster_"+index,"y") = j;
-        position(C,"Gangster_"+index,"z") = k; 
-        }
-
-   freeze(C,p) = 0
-   position(C,"Ryan","x") = 0;
-   position(C,"Alex","x") = 0;
-   position(C,"Slick","x") = l-1;
-   position(C,"Ryan","y") = 0;
-   position(C,"Alex","y") = 1;
-   position(C,"Slick","y") = 0;
-   position(C,"Ryan”,”z”) = 0;
-   position(C,"Alex”,”z”) = 0;
-   position(C,"Slick","z") = 0;
+    ==> {Gangster[index](init(w,l,d)) = StatusWrapper::init(i,j,k,LEFT,Gangster::init("Scumbag"))}
 
 [step]
-    
-    lastCommand(step(C,CA,CR)) = (lastCommand(Alex(C)) == CA AND lastCommand(Ryan(c)) == CR)
+
+/* A. Getting Kicked: */
+REQUIRE: inRange(C,p1,p2) 
+         AND NOT Personnage::YouDeadMen((StatusWrapper::getPerso(p1)));
+              
+p1=alex AND p2 IN {Slick, Gangsters[i]}
+    alex(step(C,CR,CA)) =
+        Personnage::removeHP(StatusWrapper::getPerso(alex(c)))
+        AND
+        StatusWrapper::setFreeze(alex(c),3);
+        AND
+        {
+        max(0,StatusWrapper::x(p1)-3) if SW::direction(p1) = RIGHT
+        max(0,StatusWrapper::z(p1)-3) if SW::direction(p1) = DOWN
+        min(length-1,StatusWrapper::x(p1)+3) if SW::direction(p1) = LEFT
+        min(width-1,StatusWrapper::z(p1)+3) if SW::direction(p1) = UP
+        }
+       
+
+p1=ryan AND p2 IN {Slick, Gangsters[i]}     
+    ryan(step(C,CR,CA)) =
+        Personnage::removeHP(StatusWrapper::getPerso(ryan(c)))
+        AND
+        StatusWrapper::setFreeze(ryan(c),3);
+        AND
+        {
+        max(0,StatusWrapper::x(p1)-3) if SW::direction(p1) = RIGHT
+        max(0,StatusWrapper::z(p1)-3) if SW::direction(p1) = DOWN
+        min(length-1,StatusWrapper::x(p1)+3) if SW::direction(p1) = LEFT
+        min(width-1,StatusWrapper::z(p1)+3) if SW::direction(p1) = UP
+        }
+
+p1=slick AND p2 IN {alex, ryan} REQUIRE: CA = KICK OR CR = KICK
+    slick(step(C,CR,CA)) =
+        Personnage::removeHP(StatusWrapper::getPerso(slick(c)))
+        AND
+        StatusWrapper::setFreeze(slick(c),3);
+        AND
+        {
+        max(0,StatusWrapper::x(p1)-3) if SW::direction(p1) = RIGHT
+        max(0,StatusWrapper::z(p1)-3) if SW::direction(p1) = DOWN
+        min(length-1,StatusWrapper::x(p1)+3) if SW::direction(p1) = LEFT
+        min(width-1,StatusWrapper::z(p1)+3) if SW::direction(p1) = UP
+        }
+
+p1=gangster[i] AND p2 IN {alex, ryan}  REQUIRE: CA = KICK OR CR = KICK 
+    gangsters[i](step(C,CR,CA)) =
+        Personnage::removeHP(StatusWrapper::getPerso(gangsters[i](c)))
+        AND
+        StatusWrapper::setFreeze(gangsters[i](c),3);
+        AND
+        {
+        max(0,StatusWrapper::x(p1)-3) if SW::direction(p1) = RIGHT
+        max(0,StatusWrapper::z(p1)-3) if SW::direction(p1) = DOWN
+        min(length-1,StatusWrapper::x(p1)+3) if SW::direction(p1) = LEFT
+        min(width-1,StatusWrapper::z(p1)+3) if SW::direction(p1) = UP
+        }
+
+/*END GETTING KICKED*/
+        
+/*B. Move*/
+p1(step(C,CR,CA)) REQUIRE: p1.isFrozen = false
+ 
+alex(step(C,CR,CA)) = {
+        max(0,StatusWrapper::x(alex(C))-3) if CA = RIGHT
+        max(0,StatusWrapper::z(alex(C))-3) if CA = DOWN
+        min(length-1,StatusWrapper::x(alex(C))+3) if CA = LEFT
+        min(width-1,StatusWrapper::z(alex(C))+3) if CA = UP
+        }
+
+ryan(step(C,CR,CA)) = {
+        max(0,StatusWrapper::x(ryan(c))-3) if CA = RIGHT
+        max(0,StatusWrapper::z(ryan(c))-3) if CA = DOWN
+        min(length-1,StatusWrapper::x(ryan(c))+3) if CA = LEFT
+        min(width-1,StatusWrapper::z(ryan(c))+3) if CA = UP
+        }                
+
+/*END MOVE*/
+
+/* C. PICKUP */
+REQUIRE Bloc::hasTreasure(Terrain::GetBlocCoord(SW::x(p(c)),SW::y,SW::z)) p in {alex,ryan}
 
     alex(step(C,CR,CA)) = 
-        Personnage::removeHP(alex(C),Gangster::force(p))
-            SI: p is Gangster 
-                AND inRange(C,p, Alex(C))
-                AND CA != COMMAND.KICK
-                AND freeze(Alex(C)) != 0
-                AND freeze(p) = 0;
-
-        Personnage::addMoney(Alex(C),Object::Value(Bloc::RemoveTreasure(Terrain::GetBlocCoord(Position(C,"Alex","x"),y,z))));
-            SI: CA = COMMAND.PICKUP AND BLOC::HasTreasure And Terrain::isEmpty;
-
-    ryan(step(C,CR,CA)) = 
-        Personnage::removeHP(ryan(C),Gangster::force(p)
-            SI: p is Gangster 
-                AND inRange(C,p, ryan(C))
-                AND CR != COMMAND.KICK
-                AND freeze(ryan(C)) != 1
-                AND freeze(p) != 1;
-
-        Personnage::addMoney(Ryan(C),Object::Value(Bloc::RemoveTreasure(Terrain::GetBlocCoord(Position(C,"ryan","x"),y,z))));
-            SI: CA = COMMAND.PICKUP AND BLOC::HasTreasure And Terrain::isEmpty;s
-
-    slick(step(C,CR,CA)) =
-        Personnage::removeHP(slick(C),Personnage::force(p)
-            SI: p is Alex(C) AND CA == COMMAND.KICK OR p is Ryan(C) AND CR == COMMAND.KICK
-                AND inRange(C,p,slick(C))
-                AND freeze(p) = 0
-
-    gangsters[i](step(C,CR,CA))
-        Personnage::removeHP(Gangster[i](C),Personnage::force(p)
-            SI: p is Alex(C) AND CA == COMMAND.KICK OR p is Ryan(C) AND CR == COMMAND.KICK
-                AND inRange(C,p,Gangster[i](C))
-                AND freeze(p) = 0
-
-    
-    position(step(C,CR,CA),Alex(C)) = 
-        position(C,"alex","x")+1 SI CA = COMMAND.RIGHT AND COMMAND.JUMP_RIGHT;
-        position(C,"alex","y")+1 SI CA = COMMAND.UP AND COMMAND.JUMP_UP;
-        position(C,"alex","x")-1 SI CA = COMMAND.LEFT AND COMMAND.JUMP_LEFT;
-        position(C,"alex","y")-1 SI CA = COMMAND.DOWN AND COMMAND.JUMP_DOWN;
-
-
-
-    position(step(C,CR,CA),Ryan(C)) = 
-        position(C,"ryan","x")+1 SI CR = COMMAND.RIGHT AND COMMAND.JUMP_RIGHT;
-        position(C,"ryan","y")+1 SI CR = COMMAND.UP AND COMMAND.JUMP_UP;
-        position(C,"ryan","x")-1 SI CR = COMMAND.LEFT AND COMMAND.JUMP_LEFT;
-        position(C,"ryan","y")-1 SI CR = COMMAND.DOWN AND COMMAND.JUMP_DOWN;
-
-    position(step(C,CR,CA),Slick(C)) = 
-        min(position(C,"slick","x")+3,l)
-            SI: 
-            [freeze(C,Ryan(C)) = 0 AND inRange(C,Ryan(C),Slick(C))
-            AND lastCommand(C,Ryan(C)) = COMMAND.LEFT OR COMMAND.JUMP_LEFT;
-            AND CR = COMMAND.KICK]
-            OR 
-            [freeze(C,Alex(C)) = 0 AND inRange(C,Alex(C),Slick(C))
-            AND lastCommand(C,Alex(C)) = COMMAND.LEFT OR COMMAND.JUMP_LEFT;
-            AND CR = COMMAND.KICK]
-
-        min(position(C,"slick","y")+3,w)
-            SI: 
-            [freeze(C,Ryan(C)) = 0 AND inRange(C,Ryan(C),Slick(C))
-            AND lastCommand(C,Ryan(C)) = COMMAND.UP OR COMMAND.JUMP_UP;
-            AND CR = COMMAND.KICK]
-            OR 
-            [freeze(C,Alex(C)) = 0 AND inRange(C,Alex(C),Slick(C))
-            AND lastCommand(C,Alex(C)) = COMMAND.UP OR COMMAND.JUMP_UP;
-            AND CR = COMMAND.KICK]
-
-        max(position(C,"slick","x")-3,0)
-            SI: 
-            [freeze(C,Ryan(C)) = 0 AND inRange(C,Ryan(C),Slick(C))
-            AND lastCommand(C,Ryan(C)) = COMMAND.RIGHT OR COMMAND.JUMP_RIGHT;
-            AND CR = COMMAND.KICK]
-            OR 
-            [freeze(C,Alex(C)) = 0 AND inRange(C,Alex(C),Slick(C))
-            AND lastCommand(C,Alex(C)) = COMMAND.RIGHT OR COMMAND.JUMP_RIGHT;
-            AND CR = COMMAND.KICK]
-
-        max(position(C,"slick","y")-3,0)
-            SI: 
-            [freeze(C,Ryan(C)) = 0 AND inRange(C,Ryan(C),Slick(C))
-            AND lastCommand(C,Ryan(C)) = COMMAND.DOWN OR COMMAND.JUMP_DOWN;
-            AND CR = COMMAND.KICK]
-            OR 
-            [freeze(C,Alex(C)) = 0 AND inRange(C,Alex(C),Slick(C))
-            AND lastCommand(C,Alex(C)) = COMMAND.DOWN OR COMMAND.JUMP_DOWN;
-            AND CR = COMMAND.KICK]
+     	O := Bloc::getTreasure(Terrain::GetBlocCoord(SW::x(Alex(c)),SW::y,SW::z))
+    	O.Type = Sellable
+        Personnage::addMoney(StatusWrapper::getPerso(alex(C)),Object::getValue(O));
+        O.Type = Usable
+        Personnage::pickUp(StatusWrapper::getPerso(alex(C)),O);
         
+    ryan(step(C,CR,CA)) = 
+     	O := Bloc::getTreasure(Terrain::GetBlocCoord(SW::x(ryan(c)),SW::y,SW::z))
+    	O.Type = Sellable
+        Personnage::addMoney(StatusWrapper::getPerso(ryan(C)),Object::getValue(O));
+        O.Type = Usable
+        Personnage::pickUp(StatusWrapper::getPerso(ryan(C)),O);
 
-    position(step(C,CR,CA),Gangster[i](C)) =
-        min(position(C,"Gangster_i","x")+3,l)
-            SI: 
-            [freeze(C,Ryan(C)) = 0 AND inRange(C,Ryan(C),Gangster[i](C))
-            AND lastCommand(C,Ryan(C)) = COMMAND.LEFT OR COMMAND.JUMP_LEFT;
-            AND CR = COMMAND.KICK]
-            OR 
-            [freeze(C,Alex(C)) = 0 AND inRange(C,Alex(C),Gangster[i](C))
-            AND lastCommand(C,Alex(C)) = COMMAND.LEFT OR COMMAND.JUMP_LEFT;
-            AND CR = COMMAND.KICK]
+/*END PICKUP*/
 
-        min(position(C,"Gangster_i","y")+3,w)
-            SI: 
-            [freeze(C,Ryan(C)) = 0 AND inRange(C,Ryan(C),Gangster[i](C))
-            AND lastCommand(C,Ryan(C)) = COMMAND.UP OR COMMAND.JUMP_UP;
-            AND CR = COMMAND.KICK]
-            OR 
-            [freeze(C,Alex(C)) = 0 AND inRange(C,Alex(C),Gangster[i](C))
-            AND lastCommand(C,Alex(C)) = COMMAND.UP OR COMMAND.JUMP_UP;
-            AND CR = COMMAND.KICK]
-
-        max(position(C,"Gangster_i","x")-3,0)
-            SI: 
-            [freeze(C,Ryan(C)) = 0 AND inRange(C,Ryan(C),Gangster[i](C))
-            AND lastCommand(C,Ryan(C)) = COMMAND.RIGHT OR COMMAND.JUMP_RIGHT;
-            AND CR = COMMAND.KICK]
-            OR 
-            [freeze(C,Alex(C)) = 0 AND inRange(C,Alex(C),Gangster[i](C))
-            AND lastCommand(C,Alex(C)) = COMMAND.RIGHT OR COMMAND.JUMP_RIGHT;
-            AND CR = COMMAND.KICK]
-
-        max(position(C,"Gangster_i","y")-3,0)
-            SI: 
-            [freeze(C,Ryan(C)) = 0 AND inRange(C,Ryan(C),Gangster[i](C))
-            AND lastCommand(C,Ryan(C)) = COMMAND.DOWN OR COMMAND.JUMP_DOWN;
-            AND CR = COMMAND.KICK]
-            OR 
-            [freeze(C,Alex(C)) = 0 AND inRange(C,Alex(C),Gangster[i](C))
-            AND lastCommand(C,Alex(C)) = COMMAND.DOWN OR COMMAND.JUMP_DOWN;
-            AND CR = COMMAND.KICK]
-
-    freeze(step(C,CR,CA),Alex(C)) = 
-        freeze(C,Alex(C))+1
-            SI: freeze(C,Alex(C)) = 0 AND CA = COMMAND.KICK;
-
-    freeze(step(C,CR,CA),Ryan(C)) = 
-        freeze(C,Ryan(C))+1
-            SI: freeze(C,Ryan(C)) = 0 AND CR = COMMAND.KICK;
-
-    freeze(step(C,CR,CA),Slick(C)) = 
-        freeze(C,Slick(C)) = freeze(C,Slick(C))+3
-            SI: CR = COMMAND.KICK AND inRange(C,Slick(C), ryan(C)) AND freeze(ryan(c)) = 0
-                OR CA = COMMAND.KICK AND inRange(C,Slick(C), Alex(C)) AND freeze(alex(c)) = 0
-
-    freeze(step(C,CR,CA),Gangster[i](C)) =
-        freeze(C,Gangster[i](C)) = freeze(C,Gangster[i](C))+3
-            SI: CR = COMMAND.KICK AND inRange(C,Gangster[i](C), ryan(C)) AND freeze(ryan(c)) = 0
-                OR CA = COMMAND.KICK AND inRange(C,Gangster[i](C), Alex(C)) AND freeze(alex(c)) = 0
+/*D. UNFREEZE */
     
-    freeze(step(C,CR,CA),Gangster[i](C))=
-        freeze(C,Gangster[i](C)) = freeze(C,Gangster[i](C))+3
-            SI: CR = COMMAND.CARRY
-    freeze(step(C,CR,CA),Gangster[i](C))= !freeze(C,Gangster[i](C))
-                SI CR = COMMAND.THROW AND alex::getCarried=Gangster[i](C)
-     
+    alex(step(C,CR,CA)) = sw::decFreeze(alex(c));
+    ryan(step(C,CR,CA)) = sw::decFreeze(ryan(c));
+    slick(step(C,CR,CA)) = sw::decFreeze(slick(c));
+    gangsters[i](step(C,CR,CA)) = sw::decFreeze(slick(c));
+
+/*END UNFREEZE*/
+
+	
+       
+    
+
 
     

@@ -1,9 +1,6 @@
 package gestionCombat;
 
 import java.util.ArrayList;
-
-import org.omg.CORBA.INTERNAL;
-
 import object.Type;
 
 import gangster.GangsterImpl;
@@ -363,6 +360,36 @@ public class CombatImpl implements CombatI {
 		kicked.setFreeze(3);
 		
 		
+	}
+
+	@Override
+	public int getLength() {
+		return length;
+	}
+
+	@Override
+	public int getHeight() {
+		return height;
+	}
+
+	@Override
+	public int getWidth() {
+		return width;
+	}
+
+	@Override
+	public int nbGangsters() {
+		return nbGangsters;
+	}
+
+	@Override
+	public TerrainI getTerrain() {
+		return terrain;
+	}
+
+	@Override
+	public ArrayList<StatusWrapperI> getGansgters() {
+		return gang;
 	}
 
 }
