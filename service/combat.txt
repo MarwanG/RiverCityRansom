@@ -34,7 +34,7 @@ Observations:
 
 [Invariant] 
     inRange(C,p1,p2) =min=  
-    	(p1::z==p2::z) AND (p1::x(-1 OR +1))==p2::x) OR (p1::y(-1 OR +1))==p2::y)
+        (p1::z==p2::z) AND (p1::x(-1 OR +1))==p2::x) OR (p1::y(-1 OR +1))==p2::y)
     
 
 
@@ -142,15 +142,15 @@ ryan(step(C,CR,CA)) = {
 REQUIRE Bloc::hasTreasure(Terrain::GetBlocCoord(SW::x(p(c)),SW::y,SW::z)) p in {alex,ryan}
 
     alex(step(C,CR,CA)) = 
-     	O := Bloc::getTreasure(Terrain::GetBlocCoord(SW::x(Alex(c)),SW::y,SW::z))
-    	O.Type = Sellable
+        O := Bloc::getTreasure(Terrain::GetBlocCoord(SW::x(Alex(c)),SW::y,SW::z))
+        O.Type = Sellable
         Personnage::addMoney(StatusWrapper::getPerso(alex(C)),Object::getValue(O));
         O.Type = Usable
         Personnage::pickUp(StatusWrapper::getPerso(alex(C)),O);
         
     ryan(step(C,CR,CA)) = 
-     	O := Bloc::getTreasure(Terrain::GetBlocCoord(SW::x(ryan(c)),SW::y,SW::z))
-    	O.Type = Sellable
+        O := Bloc::getTreasure(Terrain::GetBlocCoord(SW::x(ryan(c)),SW::y,SW::z))
+        O.Type = Sellable
         Personnage::addMoney(StatusWrapper::getPerso(ryan(C)),Object::getValue(O));
         O.Type = Usable
         Personnage::pickUp(StatusWrapper::getPerso(ryan(C)),O);
@@ -166,7 +166,7 @@ REQUIRE Bloc::hasTreasure(Terrain::GetBlocCoord(SW::x(p(c)),SW::y,SW::z)) p in {
 
 /*END UNFREEZE*/
 
-	
+    
        
     
 

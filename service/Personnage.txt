@@ -20,7 +20,7 @@ Constructors:
         pre init(nom,width,height,depth,force) require nom != "" AND force > 0 AND width > 0 AND height > 0 AND depth > 0
 
 Operators:
-    addHp: [Personnage] * int -> Personnage	
+    addHp: [Personnage] * int -> Personnage 
         pre addHp(P,s) require s > 0 & !youDeadMan(P)
     removeHp: [Personnage] * int -> Personnage
         pre removeHp(P,s) require s> 0 & !youDeadMan(P)
